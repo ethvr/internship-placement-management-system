@@ -21,4 +21,10 @@ abstract class User {
     public void logout() {
         System.out.println(name + " logged out.");
     }
+    public String getName() {
+        return name;
+    }   
+    public String getUserId() {
+        return userId;
+    }
 }
