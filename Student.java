@@ -1,141 +1,147 @@
-import java.time.LocalDate;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Student extends User {
-    private final int yearOfStudy;
-    private final String major;
+    private int yearOfStudy;
+    private String major;
 
-    private final Map<String, Application> applicationsById = new LinkedHashMap<>();
-    private final Map<String, Application> applicationsByInternship = new HashMap<>();
-    private Application acceptedApplication;
-    private final List<WithdrawalRequest> withdrawalRequests = new ArrayList<>();
-
-    public Student(String userId, String name, String password, int yearOfStudy, String major) {
-        super(userId, name, password);
-        if (userId == null || !userId.matches("U\\d{7}[A-Z]")) throw new IllegalArgumentException();
-        if (yearOfStudy < 1 || yearOfStudy > 4) throw new IllegalArgumentException();
-        if (major == null || major.isBlank()) throw new IllegalArgumentException();
+    public Student(String id, String name, String password,
+                   int yearOfStudy, String major) {
+        super(id, name, password);
         this.yearOfStudy = yearOfStudy;
-        this.major = major.trim().toUpperCase(Locale.ROOT);
+        this.major = major;
     }
 
-    public int getYearOfStudy() { return yearOfStudy; }
-    public String getMajor() { return major; }
-
-
-    public List<Internship> getAppliedInternships(Map<String, Internship> lookup) {
-        return applicationsByInternship.keySet().stream()
-                .map(lookup::get)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+    public int getYearOfStudy() {
+        return yearOfStudy;
     }
 
-    public Application applyToInternship(Internship i, Function<Student, Application> factory) {
-        Objects.requireNonNull(i);
-        if (hasAcceptedPlacement()) throw new IllegalStateException();
-        if (applicationsByInternship.containsKey(i.getId())) throw new IllegalStateException();
-        if (!levelAllowed(i)) throw new IllegalStateException();
-        if (!majorMatches(i)) throw new IllegalStateException();
-        if (!"Approved".equalsIgnoreCase(i.getStatus())) throw new IllegalStateException();
-        if (isFilled(i)) throw new IllegalStateException();
-        LocalDate t = LocalDate.now();
-        LocalDate o = i.getOpenDate(), c = i.getCloseDate();
-        if ((o != null && t.isBefore(o)) || (c != null && t.isAfter(c))) throw new IllegalStateException();
-        if (getActiveApplications().size() >= 3) throw new IllegalStateException();
-
-        Application app = factory.apply(this);
-        applicationsById.put(app.getId(), app);
-        applicationsByInternship.put(i.getId(), app);
-        return app;
+    public void setYearOfStudy(int yearOfStudy) {
+        this.yearOfStudy = yearOfStudy;
     }
 
-    public void acceptPlacement(String applicationId) {
-        Application app = applicationsById.get(applicationId);
-        if (app == null) throw new NoSuchElementException();
-        if (hasAcceptedPlacement()) throw new IllegalStateException();
-        if (app.getStatus() != ApplicationStatus.SUCCESSFUL) throw new IllegalStateException();
-
-        app.setAcceptedByStudent(true);
-        acceptedApplication = app;
-
-        for (Application other : applicationsById.values()) {
-            if (other == app) continue;
-            if (isActive(other)) other.setStatus(ApplicationStatus.WITHDRAWN);
-        }
+    public String getMajor() {
+        return major;
     }
 
-    public WithdrawalRequest requestWithdrawal(String applicationId, String reason,
-                                               BiFunction<Student, Application, WithdrawalRequest> factory) {
-        Application app = applicationsById.get(applicationId);
-        if (app == null) throw new NoSuchElementException();
-        WithdrawalRequest req = factory.apply(this, app);
-        withdrawalRequests.add(req);
-        return req;
+    public void setMajor(String major) {
+        this.major = major;
     }
 
-    public void onWithdrawalDecision(String withdrawalRequestId, String decision) {
-        WithdrawalRequest req = withdrawalRequests.stream()
-                .filter(r -> r.getId().equals(withdrawalRequestId))
-                .findFirst().orElseThrow(NoSuchElementException::new);
-        if (!"Approved".equalsIgnoreCase(decision) && !"Rejected".equalsIgnoreCase(decision))
-            throw new IllegalArgumentException();
-        req.setDecision(decision);
-        if ("Approved".equalsIgnoreCase(decision)) {
-            Application app = applicationsById.get(req.getApplicationId());
-            if (app != null) {
-                if (acceptedApplication == app) acceptedApplication = null;
-                app.setAcceptedByStudent(false);
-                app.setStatus(ApplicationStatus.WITHDRAWN);
+    public List<Internship> getEligibleInternships(SystemData data) {
+        List<Internship> result = new ArrayList<>();
+        for (Internship i : data.internships) {
+            if (i.isVisibleTo(this)) {
+                result.add(i);
             }
         }
+        return result;
     }
 
-    public boolean hasAcceptedPlacement() {
-        return acceptedApplication != null && acceptedApplication.isAcceptedByStudent();
+    public void applyTo(String internshipId, SystemData data) {
+        Internship target = findInternshipById(internshipId, data);
+        if (target == null)
+            throw new IllegalArgumentException("No such internship");
+
+        // Check eligibility rules
+        if (!target.isVisibleTo(this))
+            throw new IllegalStateException("Internship not available for you");
+
+        if (countActiveApplications(data) >= 3)
+            throw new IllegalStateException("You already have 3 active applications");
+
+        if (yearOfStudy <= 2 && target.getLevel() != InternshipLevel.BASIC)
+            throw new IllegalStateException("Year 1–2 can only apply to BASIC internships");
+
+        // Create and register application
+        Application app = new Application(
+                IdGenerator.nextAppId(),
+                this.userId,
+                target.getId(),
+                ApplicationStatus.PENDING
+        );
+        data.applications.add(app);
+        target.addApplication(app.getId());
     }
 
-    public List<Application> getApplications() {
-        List<Application> list = new ArrayList<>(applicationsById.values());
-        Collections.reverse(list);
-        return list;
-    }
-
-    public List<Application> getActiveApplications() {
-        return applicationsById.values().stream().filter(this::isActive).collect(Collectors.toList());
-    }
-
-    private boolean isFilled(Internship i) {
-        return "Filled".equalsIgnoreCase(i.getStatus()) || i.getSlotsConfirmed() >= i.getSlotsTotal();
-    }
-
-    private boolean levelAllowed(Internship i) {
-        if (yearOfStudy <= 2) return i.getLevel() == InternshipLevel.BASIC;
-        return true;
-    }
-
-    private boolean majorMatches(Internship i) {
-        String pref = i.getPreferredMajor();
-        return pref == null || pref.isBlank() || pref.equalsIgnoreCase(major);
-    }
-
-    private boolean isActive(Application a) {
-        if (a.getStatus() == ApplicationStatus.PENDING) return true;
-        if (a.getStatus() == ApplicationStatus.SUCCESSFUL && !a.isAcceptedByStudent()) return true;
-        return false;
-    }
-
-    public void addExistingApplication(Application app) {
-        applicationsById.put(app.getId(), app);
-        applicationsByInternship.put(app.getInternshipId(), app);
-        if (app.isAcceptedByStudent() && app.getStatus() == ApplicationStatus.SUCCESSFUL) {
-            acceptedApplication = app;
+    /** Count active (non-withdrawn) applications */
+    public int countActiveApplications(SystemData data) {
+        int c = 0;
+        for (Application a : data.applications) {
+            if (a.getStudentId().equals(this.getUserId()) && a.isActive()) {
+                c++;
+            }
         }
+        return c;
     }
 
-    public List<WithdrawalRequest> getWithdrawalRequests() {
-        return Collections.unmodifiableList(withdrawalRequests);
+    public void acceptPlacement(String applicationId, SystemData data) {
+        Application chosen = findAppById(applicationId, data);
+        if (chosen == null)
+            throw new IllegalArgumentException("No such application");
+
+        if (chosen.getStatus() != ApplicationStatus.SUCCESSFUL)
+            throw new IllegalStateException("You can only accept a SUCCESSFUL offer");
+
+        chosen.setAcceptedByStudent(true);
+
+        for (Application a : data.applications) {
+            if (a.getStudentId().equals(this.userId) &&
+                !a.getId().equals(applicationId)) {
+                a.setStatus(ApplicationStatus.WITHDRAWN);
+            }
+        }
+
+        // Update internship filled status
+        Internship internship = findInternshipById(chosen.getInternshipId(), data);
+        if (internship != null)
+            internship.updateFilledStatus(data);
+    }
+
+    /** Request withdrawal (before or after placement confirmation) */
+    public void requestWithdrawal(String applicationId, SystemData data) {
+        Application target = findAppById(applicationId, data);
+        if (target == null)
+            throw new IllegalArgumentException("No such application");
+
+        // Don’t allow multiple withdrawal requests for same app
+        for (WithdrawalRequest wr : data.withdrawalRequests) {
+            if (wr.getApplicationId().equals(applicationId))
+                throw new IllegalStateException("Withdrawal already requested");
+        }
+
+        WithdrawalRequest wr = new WithdrawalRequest(
+                IdGenerator.nextWithdrawalId(),
+                applicationId,
+                this.userId,
+                WithdrawalStatus.PENDING
+        );
+        data.withdrawalRequests.add(wr);
+    }
+
+    public void withdrawApplication(String applicationId, SystemData data) {
+        Application target = findAppById(applicationId, data);
+        if (target == null)
+            throw new IllegalArgumentException("No such application");
+
+        if (target.getStatus() == ApplicationStatus.SUCCESSFUL && target.isAcceptedByStudent())
+            throw new IllegalStateException("Cannot withdraw after accepting placement");
+
+        target.setStatus(ApplicationStatus.WITHDRAWN);
+    }
+
+    private Application findAppById(String appId, SystemData data) {
+        for (Application a : data.applications) {
+            if (a.getId().equals(appId))
+                return a;
+        }
+        return null;
+    }
+
+    private Internship findInternshipById(String id, SystemData data) {
+        for (Internship i : data.internships) {
+            if (i.getId().equals(id))
+                return i;
+        }
+        return null;
     }
 }
