@@ -63,7 +63,6 @@ public class Student extends User {
         target.addApplication(app.getId());
     }
 
-    /** Count active (non-withdrawn) applications */
     public int countActiveApplications(SystemData data) {
         int c = 0;
         for (Application a : data.applications) {
@@ -91,13 +90,11 @@ public class Student extends User {
             }
         }
 
-        // Update internship filled status
         Internship internship = findInternshipById(chosen.getInternshipId(), data);
         if (internship != null)
             internship.updateFilledStatus(data);
     }
 
-    /** Request withdrawal (before or after placement confirmation) */
     public void requestWithdrawal(String applicationId, SystemData data) {
         Application target = findAppById(applicationId, data);
         if (target == null)
