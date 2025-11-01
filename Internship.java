@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,18 +5,18 @@ import java.util.List;
 public class Internship {
      private String title;
      private String description;
-     private String level;
+     private InternshipLevel level; //when you initialise it you initialise it as InternshipLevel.BASIC etc
      private String preferredMajor;
      private String openDate;
      private String closeDate;
-     private String status; // Pending, Approved, Rejected, Filled
+     private String status; // Pending, Approved, Rejected, Filled   by careercentrestaff
      private String companyName;
      private CompanyRepresentative compRep;
      private boolean visible;
      private int slots;
      private List<Application> applications;
 
-     public Internship(String title, String description, String level, String preferredMajor,
+     public Internship(String title, String description, InternshipLevel level, String preferredMajor,
                       String openDate, String closeDate, String companyName,
                       CompanyRepresentative compRep, int slots) {
           this.title = title;
@@ -54,6 +52,29 @@ public class Internship {
      public String getStatus() {
           return status; }
      
+     public InternshipLevel getLevel() {
+          return level;
+     }
+
+     public String getOpenDate() {
+          return openDate;
+     }
+     public String getCloseDate() {
+          return closeDate;
+     }
+     public boolean isVisibleTo(Student student) {
+          if (!visible) {
+               return false;
+          }
+          if (preferredMajor != null && !preferredMajor.isEmpty() &&
+              !preferredMajor.equalsIgnoreCase(student.getMajor())) {
+               return false;
+          }
+          return true;
+     }
+     public int getSlots() {
+          return slots;
+     }
+     
 }
 
->>>>>>> 7a1c595 (sd)
