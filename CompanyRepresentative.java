@@ -1,4 +1,3 @@
-package project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +5,12 @@ import java.util.List;
 public class CompanyRepresentative extends User {
 
      private String companyName;
-     private String department;
-     private String position;
-     private boolean isApproved;
+     private String department;//of the company rep
+     private String position;//of the company rep
+     private boolean isApproved;//account created approced by career centre
      private List<Internship> internshipsCreated;
 
+     //Constructor
      //Company Representatives ID is their company email address.
      public CompanyRepresentative(String email, String name, String companyName,
                                  String department, String position) {
@@ -21,13 +21,13 @@ public class CompanyRepresentative extends User {
           this.isApproved = false;
           this.internshipsCreated = new ArrayList<>();
      }
-
-
+     
+     ////////////
      public void requestRegistration(CareerCenter careerCenter) {
           careerCenter.addPendingCompany(this);
      }
 
-     public void createInternship(String title, String description, String level,
+     public void createInternship(String title, String description, InternshipLevel level,
                                  String preferredMajor, String openDate, String closeDate, int slots) {
           if (!isApproved) {
                System.out.println("Account not approved by Career Center yet!");
@@ -55,15 +55,17 @@ public class CompanyRepresentative extends User {
      }
 
      public void approveApplication(Application app) {
-        app.setStatus("Successful");
+        app.setStatus(ApplicationStatus.SUCCESSFUL);
      }
 
      public void rejectApplication(Application app) {
-        app.setStatus("Unsuccessful");
+        app.setStatus(ApplicationStatus.UNSUCCESSFUL);
      }
 
      // setters and getters
      public void setApproved(boolean approved) { this.isApproved = approved; }
-     public boolean isApproved() { return isApproved; }
+     public boolean isApproved() { //the comp rep's acc
+          return isApproved; 
+     }
 }
 
