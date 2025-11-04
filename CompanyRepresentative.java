@@ -28,7 +28,7 @@ public class CompanyRepresentative extends User {
      }
 
      public void createInternship(String title, String description, InternshipLevel level,
-                                 String preferredMajor, String openDate, String closeDate, int slots) {
+                                 String preferredMajor, String openDate, String closeDate, int slots, SystemData data) {
           if (!isApproved) {
                System.out.println("Account not approved by Career Center yet!");
                return;
@@ -40,7 +40,16 @@ public class CompanyRepresentative extends User {
           Internship internship = new Internship(title, description, level, preferredMajor,
                                                openDate, closeDate, companyName, this, slots);
           internshipsCreated.add(internship);
+          data.internships.add(internship);
           System.out.println("Internship created and awaiting Career Center approval.");
+     }
+
+     public void deleteInternship(Internship internship, SystemData data) {
+          internshipsCreated.remove(internship);
+          data.internships.remove(internship);
+     }
+     public List<Internship> getInternshipsCreated() {
+          return internshipsCreated;
      }
 
      public void toggleVisibility(Internship internship, boolean visible) {

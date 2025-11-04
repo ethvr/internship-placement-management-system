@@ -14,6 +14,7 @@ public class Internship {
      private CompanyRepresentative compRep;
      private boolean visible;
      private int slots;
+     private int internshipId;/////string or int 
      private List<Application> applications;
 
      public Internship(String title, String description, InternshipLevel level, String preferredMajor,
@@ -31,6 +32,7 @@ public class Internship {
           this.visible = false;
           this.slots = slots;
           this.applications = new ArrayList<>();
+          this.internshipId = IdGenerator.nextInternshipId();
      }
 
      //adds an application to this internship's list of applications
@@ -63,6 +65,9 @@ public class Internship {
           return closeDate;
      }
      public boolean isVisibleTo(Student student) {
+          if (slots<1){
+               return false;
+          }
           if (!visible) {
                return false;
           }
@@ -74,6 +79,12 @@ public class Internship {
      }
      public int getSlots() {
           return slots;
+     }
+     public void updateFilledStatusSlots() {////////////////////
+          this.slots-=1;
+     }
+     public int getId(){
+          return internshipId;
      }
      
 }
