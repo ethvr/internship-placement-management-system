@@ -85,7 +85,11 @@ public class Internship {
      public int getSlots() {
           return slots;
      }
+<<<<<<< HEAD
      public void updateFilledSlots() {////////////////////
+=======
+     public void updateFilledSlots() {
+>>>>>>> c54432a13f2a14df9979aeabdbdb025f010288c3
           this.slots-=1;
      }
      public String getId(){
