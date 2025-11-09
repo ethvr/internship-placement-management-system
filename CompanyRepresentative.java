@@ -8,7 +8,7 @@ public class CompanyRepresentative extends User {
      private String department;//of the company rep
      private String position;//of the company rep
      private boolean isApproved;//account created approced by career centre
-     private List<Internship> internshipsCreated;
+     private List<Internship> internshipsCreated; //for each comp rep to track their internships
 
      //Constructor
      //Company Representatives ID is their company email address.
@@ -40,13 +40,13 @@ public class CompanyRepresentative extends User {
           Internship internship = new Internship(title, description, level, preferredMajor,
                                                openDate, closeDate, companyName, this, slots);
           internshipsCreated.add(internship);
-          data.internships.add(internship);
+          data.internships.put(internship.getId(), internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
      public void deleteInternship(Internship internship, SystemData data) {
           internshipsCreated.remove(internship);
-          data.internships.remove(internship);
+          data.internships.remove(internship.getId());
      }
      public List<Internship> getInternshipsCreated() {
           return internshipsCreated;
@@ -56,9 +56,9 @@ public class CompanyRepresentative extends User {
           internship.setVisible(visible);
     }
 
-     public void viewApplications(Internship internship) {
+     public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
-          for (Application app : internship.getApplications()) {
+          for (Application app : internship.getApplications(data)) {
                System.out.println(app);
           }
      }

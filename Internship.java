@@ -15,7 +15,6 @@ public class Internship {
      private boolean visible;
      private int slots;
      private String internshipId;
-     private List<Application> applications;
 
      public Internship(String title, String description, InternshipLevel level, String preferredMajor,
                       String openDate, String closeDate, String companyName,
@@ -31,13 +30,12 @@ public class Internship {
           this.compRep = compRep;
           this.visible = false;
           this.slots = slots;
-          this.applications = new ArrayList<>();
           this.internshipId = IdGenerator.nextInternshipId();
      }
 
      //adds an application to this internship's list of applications
-     public void addApplication(Application app) {
-          applications.add(app);
+     public void addApplication(Application app, SystemData data) {
+          data.applications.put(app.getId(), app);
      }
      public void setVisible(boolean visible) {
           this.visible = visible;
@@ -45,9 +43,16 @@ public class Internship {
      public String getTitle(){
           return title;
      }
-     public List<Application> getApplications() {
-          return applications;
+     public List<Application> getApplications(SystemData data) {
+        List<Application> result = new ArrayList<>();
+        for (Application app : data.applications.values()) {
+            if (app.getInternshipId().equals(this.internshipId)) {
+                result.add(app);
+            }
+        }
+        return result;
      }
+     
      public String getCompanyName() {
           return companyName;
      }
@@ -80,7 +85,7 @@ public class Internship {
      public int getSlots() {
           return slots;
      }
-     public void updateFilledStatusSlots() {////////////////////
+     public void updateFilledSlots() {////////////////////
           this.slots-=1;
      }
      public String getId(){

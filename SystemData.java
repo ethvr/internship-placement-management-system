@@ -1,7 +1,6 @@
 // Additional class to handle all the data?
 // top class to allow all classes to access data instead of reading from csv file 
 // do not need sorting function --> built in is extremely fast and efficient 
-package sc2002project;
 
 import java.io.*;
 import java.util.*;
@@ -57,9 +56,10 @@ public class SystemData {
     private static HashMap<String, StudentCSVData> StudentMap = new HashMap<>();
     //private static List<StaffCSVData> StaffList = new ArrayList<>();
     private static HashMap<String, StaffCSVData> StaffMap = new HashMap<>();
-    //private static List<Internship> InternshipList = new ArrayList<>();
-    //private static List<Application> ApplicationList = new ArrayList<>();
-    //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
+    public Map<String, User> users = new HashMap<>();
+    public Map<String, Internship> internships = new HashMap<>();
+    public Map<String, Application> applications = new HashMap<>();
+    public Map<String, WithdrawalRequest> withdrawalRequests = new HashMap<>();
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
     // loads the data from the CSV files into the list to be accessed once logged in
@@ -159,7 +159,6 @@ public class SystemData {
             System.out.println("Error loading student csv: " + e);
         }
     }
-
     /*public static void loadStaffList() {
         // get path via directory
         // temp input
@@ -301,7 +300,7 @@ public class SystemData {
 
     // getter for data since private 
     public static HashMap<String, StudentCSVData> getStudentList(){
-        
+    
         return StudentMap;
 
     }
@@ -314,38 +313,10 @@ public class SystemData {
     }
 
     // getter for data since private 
-    public static List<Internship> getInternshipList(){
-        
-        return InternshipList;
-
-    }
-
-    // getter for data since private 
-    public static List<Application> getApplicationList(){
-        
-        return ApplicationList;
-
-    }
-
-    // getter for data since private 
-    public static List<WithdrawalRequest> GetWithdrawalRequestList(){
-        
-        return WithdrawalRequestList;
-
-    }
-
-    // getter for data since private 
     public static HashMap<String, Credentials> getLoginMap(){
         
         return LoginMap;
 
     }
-
-
-
-
-
-
-
 
 }
