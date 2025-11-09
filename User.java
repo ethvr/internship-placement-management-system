@@ -1,21 +1,79 @@
 package sc2002project;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
-abstract class User {
+abstract class User extends SystemData {
     private String userId;
     private String name;
+    //private String email;
+    //private String Username;
     private String password;
-    private boolean loggedIn;
+    private boolean Firsttimelogin = true;
 
+    /* 
+    private static String UsernameGenerator(String email){
+        
+        String username = email.substring(0,email.indexOf("@"));
+
+        return username;
+
+    }*/
+
+    //public User(String userId, String name, String email)
     public User(String userId, String name) {
         this.userId = userId;
         this.name = name;
+        //this.email = email;
         this.password = "password";
+        //this.Username = UsernameGenerator(email);
     }
 
-    public boolean login(String userID, String pw) {
-        return userID.equals(userID) && password.equals(pw);
+    public static void login() {
+
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Enter your Username:");
+        String NameInput = sc.nextLine();
+
+        HashMap<String, SystemData.Credentials> creds = SystemData.getCredentialsMap();
+
+        if(creds.containsKey(NameInput)) {
+            SystemData.Credentials c = creds.get(NameInput);  // ← this gets the credentials object
+
+            System.out.print("Enter your password: ");
+            String pwInput = sc.nextLine();
+
+            if(c.Password.equals(pwInput)) {
+
+                System.out.println("Login successful!");
+
+                if(c.Firsttimelogin) {
+                    
+                    ForcePasswordChange();
+                    
+                }
+
+            } 
+            
+            else {
+                    System.out.println("Wrong password.");
+            }
+        } 
+        
+        else {
+                System.out.println("Invalid username.");
+        }
+    }
+
+
+    private void ForcePasswordChange() {
+        if (password.equals("password")) {
+
+            System.out.println("First time login. Please change your password.");
+
+            this.changePassword();
+        }
     }
 
     public void changePassword() {
@@ -75,7 +133,13 @@ abstract class User {
             }
         }
 
+
+
         scanner.close();//dont close?
+    }
+
+    public void UpdatePassword(){
+
     }
 
     public void logout() {
