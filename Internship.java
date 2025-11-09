@@ -80,7 +80,7 @@ public class Internship {
      public int getSlots() {
           return slots;
      }
-     public void updateFilledStatusSlots() {////////////////////
+     public void updateFilledSlots() {
           this.slots-=1;
      }
      public String getId(){
