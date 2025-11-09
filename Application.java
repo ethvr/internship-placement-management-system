@@ -4,66 +4,53 @@ public class Application {
     private String internshipId;        
     private ApplicationStatus status;   
     private boolean acceptedByStudent;  
-
-    public Application(String id, String studentId, String internshipId, ApplicationStatus status) {
-        this.id = id;
+    
+    public Application(String studentId, String internshipId, ApplicationStatus status) {
+        this.id = IdGenerator.nextAppId();
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
         this.acceptedByStudent = false;
     }
-
+    //getters
     public String getId() {
-        return id;
-    }
+        return id;}
 
     public String getStudentId() {
-        return studentId;
-    }
+        return studentId;}
 
     public String getInternshipId() {
-        return internshipId;
-    }
+        return internshipId;}
 
     public ApplicationStatus getStatus() {
-        return status;
-    }
+        return status;}
 
     public boolean isAcceptedByStudent() {
-        return acceptedByStudent;
-    }
-
+        return acceptedByStudent;}
+    //setters
     public void setId(String id) {
-        this.id = id;
-    }
+        this.id = id;}
 
     public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
+        this.studentId = studentId;}
 
     public void setInternshipId(String internshipId) {
-        this.internshipId = internshipId;
-    }
+        this.internshipId = internshipId;}
 
     public void setStatus(ApplicationStatus status) {
-        this.status = status;
-    }
+        this.status = status;}
 
     public void setAcceptedByStudent(boolean acceptedByStudent) {
-        this.acceptedByStudent = acceptedByStudent;
-    }
+        this.acceptedByStudent = acceptedByStudent;}
 
     public boolean isActive() {
-        return status != ApplicationStatus.WITHDRAWN;
-    }
+        return status != ApplicationStatus.WITHDRAWN;}
 
     public boolean isConfirmedPlacement() {
-        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent;
-    }
+        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent;}
 
     public boolean isUnsuccessful() {
-        return status == ApplicationStatus.UNSUCCESSFUL;
-    }
+        return status == ApplicationStatus.UNSUCCESSFUL;}
 
     @Override
     public String toString() {

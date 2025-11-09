@@ -14,7 +14,7 @@ public class Internship {
      private CompanyRepresentative compRep;
      private boolean visible;
      private int slots;
-     private int internshipId;/////string or int 
+     private String internshipId;
      private List<Application> applications;
 
      public Internship(String title, String description, InternshipLevel level, String preferredMajor,
@@ -83,7 +83,7 @@ public class Internship {
      public void updateFilledStatusSlots() {////////////////////
           this.slots-=1;
      }
-     public int getId(){
+     public String getId(){
           return internshipId;
      }
      

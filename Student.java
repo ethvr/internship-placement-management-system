@@ -54,13 +54,12 @@ public class Student extends User {
 
         // Create and register application
         Application app = new Application(
-                IdGenerator.nextAppId(),
-                this.userId,
+                this.getUserId(),
                 target.getId(),
                 ApplicationStatus.PENDING
         );
         data.applications.add(app);
-        target.addApplication(app.getId());
+        target.addApplication(app);
     }
 
     public int countActiveApplications(SystemData data) {
@@ -107,7 +106,6 @@ public class Student extends User {
         }
 
         WithdrawalRequest wr = new WithdrawalRequest(
-                IdGenerator.nextWithdrawalId(),
                 applicationId,
                 this.userId,
                 WithdrawalStatus.PENDING

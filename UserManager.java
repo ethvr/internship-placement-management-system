@@ -6,7 +6,7 @@
 // creates new csv file that only has the userid and password 
 // handles login --> LoginMatch()
 // username --> name before @ in email 
-package sc2002project;
+
 import java.io.*;
 import java.util.*;
 

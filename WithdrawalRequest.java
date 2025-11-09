@@ -9,8 +9,8 @@ public class WithdrawalRequest {
     private String remarks;                
 
 
-    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status) {
-        this.id = id;
+    public WithdrawalRequest(String applicationId, String studentId, WithdrawalStatus status) {
+        this.id = IdGenerator.nextWithdrawalId();
         this.applicationId = applicationId;
         this.studentId = studentId;
         this.status = status;
