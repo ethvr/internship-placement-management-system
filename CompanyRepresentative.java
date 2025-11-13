@@ -76,5 +76,9 @@ public class CompanyRepresentative extends User {
      public boolean isApproved() { //the comp rep's acc
           return isApproved; 
      }
+
+     public String getCompanyName() {
+          return companyName;
+     }
 }
 

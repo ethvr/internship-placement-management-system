@@ -9,7 +9,7 @@ public class Internship {
      private String preferredMajor;
      private String openDate;
      private String closeDate;
-     private String status; // Pending, Approved, Rejected, Filled   by careercentrestaff
+     private InternshipStatus status; // Pending, Approved, Rejected, Filled   by careercentrestaff
      private String companyName;
      private CompanyRepresentative compRep;
      private boolean visible;
@@ -25,7 +25,7 @@ public class Internship {
           this.preferredMajor = preferredMajor;
           this.openDate = openDate;
           this.closeDate = closeDate;
-          this.status = "Pending";
+          this.status = InternshipStatus.PENDING;
           this.companyName = companyName;
           this.compRep = compRep;
           this.visible = false;
@@ -56,7 +56,7 @@ public class Internship {
      public String getCompanyName() {
           return companyName;
      }
-     public String getStatus() {
+     public InternshipStatus getStatus() {
           return status; }
      
      public InternshipLevel getLevel() {
@@ -82,14 +82,14 @@ public class Internship {
           }
           return true;
      }
+
+     public void setStatus(InternshipStatus status) {
+        this.status = status;
+    }
      public int getSlots() {
           return slots;
      }
-<<<<<<< HEAD
      public void updateFilledSlots() {////////////////////
-=======
-     public void updateFilledSlots() {
->>>>>>> c54432a13f2a14df9979aeabdbdb025f010288c3
           this.slots-=1;
      }
      public String getId(){
