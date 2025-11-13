@@ -2,106 +2,139 @@ package sc2002project;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import sc2002project.SystemData.*;
+import sc2002project.SystemApp.*;
 
-abstract class User extends SystemData {
+abstract class User {
     private String userId;
     private String name;
     //private String email;
     //private String Username;
-    private String password;
-    private boolean Firsttimelogin = true;
-
-    /* 
-    private static String UsernameGenerator(String email){
-        
-        String username = email.substring(0,email.indexOf("@"));
-
-        return username;
-
-    }*/
+    //private String password;
+    //private boolean Firsttimelogin = true; true --> not yet logged in for the first time 
 
     //public User(String userId, String name, String email)
     public User(String userId, String name) {
         this.userId = userId;
         this.name = name;
         //this.email = email;
-        this.password = "password";
+        //this.password = "password";
         //this.Username = UsernameGenerator(email);
     }
 
-    public static void login() {
+    // login succesfull --> retun username
+    // Username not found --> return NIL 
+    // exceed max number of tries --> return NIL 
+    // return name to search for correct object to instantiate
+    public static String login() {
 
         Scanner sc = new Scanner(System.in);
+        int PWTries = 5;
+        String nil = "NIL";
         
-        System.out.print("Enter your Username:");
+        System.out.println();
+        System.out.print("Enter your Username: ");
         String NameInput = sc.nextLine();
+        String pwInput = null;
 
-        HashMap<String, SystemData.Credentials> creds = SystemData.getCredentialsMap();
+        while (true) {
+            if(SystemData.checkUsername(NameInput)) {
+            SystemDataEntities.Credentials c = SystemData.getCredentials(NameInput);  // ← this gets the credentials object
 
-        if(creds.containsKey(NameInput)) {
-            SystemData.Credentials c = creds.get(NameInput);  // ← this gets the credentials object
+                while(PWTries > 0 || pwInput != "0") {
 
-            System.out.print("Enter your password: ");
-            String pwInput = sc.nextLine();
+                    System.out.println("You have " + PWTries + " tries left, type \"0\" to exit");
+                    System.out.print("Enter your password: ");
+                    pwInput = sc.nextLine();
 
-            if(c.Password.equals(pwInput)) {
-
-                System.out.println("Login successful!");
-
-                if(c.Firsttimelogin) {
+                    if(c.Password.equals(pwInput)) {
+                        System.out.println("Login successful!");
+                        if (c.Password.equals("password")) {
+                            System.out.println("First time login. Please change your password");
+                            changePassword(NameInput);
+                            //sc.close();
+                            pwInput = "0";
+                            SystemData.setFirsttimelogin(false, NameInput);
+                            SystemApp.login(NameInput);
+                            //System.out.println("exiting login");
+                            return NameInput;
+                        }
+                        
+                        else {
+                            //sc.close();
+                            System.out.println("Welcome back " + NameInput);
+                            return NameInput;
+                        }
+                    } 
                     
-                    ForcePasswordChange();
-                    
+                    else {
+                            System.out.println("Wrong password.");
+                            PWTries--;
+                    }
+
                 }
-
-            } 
+            System.out.println("Maximum number of tries attempted, please contact support for help");
+            //sc.close();
+            return nil;
             
+            } 
+
             else {
-                    System.out.println("Wrong password.");
+                    System.out.println("Invalid username. Please try again.");
+                    //sc.close();
+                    return nil;
             }
-        } 
+        }
         
-        else {
-                System.out.println("Invalid username.");
-        }
+
     }
 
+    public void logout() {
+        System.out.println("logging out...");
+        SystemApp.logout();
 
-    private void ForcePasswordChange() {
-        if (password.equals("password")) {
-
-            System.out.println("First time login. Please change your password.");
-
-            this.changePassword();
-        }
     }
 
-    public void changePassword() {
+    // takes in the username returned by the login() function
+    public static void changePassword(String username) {
+
+        // when login is unsuccessful --> returns NIL
+        // not necessary?
+        if (username.equals("NIL")) {
+            return;
+        }
+
         Scanner scanner = new Scanner(System.in);
-        int numberoftries = 0;
-        int pending = 1;
+        int numberoftries = 5;
+        boolean pending = true;
 
-        while (numberoftries < 5) {
-            System.out.println("Enter your current password: ");
+        while (numberoftries > 0) {
+
+            if (!pending) {
+                break;
+            }
+
+            System.out.println("You have " + numberoftries + " tries left");
+            System.out.print("Enter your current password: ");
             String oldPW = scanner.nextLine();
 
-            if (!oldPW.equals(password)) {
+            // checks if password match before changing based on hash map
+            if (!oldPW.equals(SystemData.getCredentials(username).Password)) {
                 System.out.println("Wrong password, please try again.");
                 numberoftries++;
                 continue;
             } else {
 
-                while (pending == 1) {
+                while (pending) {
 
                     System.out.println("Your password should contain at least 10 characters and a maximum of 20 characters");
                     System.out.println("Your password should contain at least 3 letters and 3 numbers");
                     System.out.println("Your password should contain at least 1 special character");
-                    System.out.println("Enter your new password:");
+                    System.out.print("Enter your new password: ");
                     String NewPW = scanner.nextLine();
 
                     if (NewPW.length() < 10 || NewPW.length() > 20) {
                         System.out.println("your password does not meet the length requirements");
-                        pending = 1;
                         continue;
                     }
 
@@ -122,28 +155,21 @@ abstract class User extends SystemData {
 
                     if (NumCount < 3 || SpecCount == 0 || CharCount < 3) {
                         System.out.println("Password requirements not met, try again.");
-                        pending = 1;
                         continue;
                     } else {
                         System.out.println("Password change successful.");
-                        this.password = NewPW;
-                        pending = 0;
+                        SystemData.setPassword(NewPW, username);
+                        pending = false;
+                        return;
                     }
                 }
             }
         }
+        if (numberoftries < 1){
+            System.out.println("Maximum number of tries reached. Contact support for help");
+        }
+        //System.out.println("exiting change password");
 
-
-
-        scanner.close();//dont close?
-    }
-
-    public void UpdatePassword(){
-
-    }
-
-    public void logout() {
-        System.out.println(name + " logged out.");
     }
 
     public String getName() {
