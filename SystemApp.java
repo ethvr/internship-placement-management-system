@@ -34,6 +34,7 @@ public class SystemApp {
             case 1 -> {
                 String username = User.login();
                 if (!username.equals("NIL")) {
+                    currentUser = username;
                     switch (SystemData.getCredentialsType(username).toLowerCase()) {
                         case "student" -> {
                             // load relevaent maps (code here)
@@ -44,7 +45,7 @@ public class SystemApp {
                             // student map
                             Map<String, StudentCSVData> studentmap = SystemData.getStudentMap();
                             // get users object
-                            StudentCSVData data = studentmap.get(username);
+                            StudentCSVData data = studentmap.get(currentuser);
 
                             Student studentObj = new Student(
                                     data.StudentID,
