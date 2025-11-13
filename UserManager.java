@@ -49,7 +49,7 @@ public class UserManager {
         }
 
         // 2) Collect input CSV files
-        File[] csvFiles = inputFolder.listFiles((dif (field) f (field.toLowerCase().endsWith(".csv"));
+        File[] csvFiles = inputFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
         if (csvFiles == null || csvFiles.length == 0) {
             System.out.println("No .csv files found in PeopleCSVFolder");
             return;
