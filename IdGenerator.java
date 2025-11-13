@@ -19,5 +19,10 @@ public class IdGenerator {
           withdrawalCounter++;
           return String.format("W%04d", withdrawalCounter);
      }
+
+     public static String nextCompanyId() {
+          CompanyRepID++;
+          return String.format("C%04d", withdrawalCounter);
+     }
      
 }
