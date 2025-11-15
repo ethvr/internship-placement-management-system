@@ -7,13 +7,16 @@
 // handles login --> LoginMatch()
 // username -f (field before @ in email 
 // what if new student file etc wants to be introduced on top of pre existing data?
-package sc2002project;
+package sc2002project.UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
-import sc2002project.SystemData.*;
-import sc2002project.SystemDataEntities.*;
+
+import sc2002project.System.SystemApp;
+import sc2002project.System.SystemData;
+import sc2002project.System.SystemDataEntities;
+import sc2002project.System.SystemDataEntities.*;
 
 public class UserManager {
     
@@ -118,15 +121,6 @@ public class UserManager {
     // make a function to store into map if new object is made during runtime?
     // eg internships withdrawal and application 
     public static void MapStore() {
-
-    }
-
-    // returns the user type which just logged in
-    // to know which hashmap to initialize
-    public static String getUserType(String username) {
-        SystemDataEntities.Credentials credentials = SystemData.getCredentials(username);
-        String type = credentials.Type;
-        return type;
 
     }
 
@@ -289,27 +283,57 @@ public class UserManager {
         
     }
 
-    /*// id generators 
-    public static String nextInternshipId() {
-        internshipCounter++;
-        return String.format("I%04d", internshipCounter);
+    public static int CompanyStatusCheck() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter your Email used for registration: ");
+        String email;
+
+        while (true) {
+            email = sc.nextLine().trim();
+
+            if (email.isEmpty()) {
+                System.out.println("Email cannot be empty. Please try again:");
+                continue;
+            }
+
+            if (!email.contains("@") 
+                || email.startsWith("@") 
+                || email.endsWith("@") 
+                || email.indexOf('@') != email.lastIndexOf('@')) {
+
+                System.out.println("Invalid email format. Please enter a valid email:");
+                continue;
+            }
+
+            break;
+        }
+
+        String username = email.substring(0, email.indexOf('@')).trim();
+
+        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
+
+        SystemDataEntities.CompanyCSVData data = map.get(username);
+
+        String status;
+
+        if (data == null) {
+            System.out.println("Error: Account does not exist.");
+            return 4;
+        } else {
+            // make getter method?
+            System.out.println("====== STATUS ======");
+            status = SystemData.getCompanyStatus(username); 
+            System.out.println("Account Approval Status: " + status);
+        }
+
+        if (status.equalsIgnoreCase("approved")) {
+            System.out.println("\n====== LOGIN DETAILS ======");
+            System.out.println("Your Username is: " + username);
+            System.out.println("Your Password is: password");
+        }
+        return 4;
+
     }
-
-    public static String nextAppId() {
-        applicationCounter++;
-        return String.format("A%04d", applicationCounter);
-    }
-
-    public static String nextWithdrawalId() {
-        withdrawalCounter++;
-        return String.format("W%04d", withdrawalCounter);
-    }
-
-    public static String nextCompanyId() {
-        CompanyRepID++;
-        return String.format("C%04d", CompanyRepID);
-    }*/
-
         
     
 
