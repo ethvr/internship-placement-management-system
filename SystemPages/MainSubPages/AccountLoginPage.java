@@ -1,13 +1,13 @@
-package sc2002project.SystemPages.MainSubPages;
+package IPMS.SystemPages.MainSubPages;
 
-import sc2002project.SystemPages.Page;
-import sc2002project.SystemPages.PageAction;
-import sc2002project.System.SystemDataEntities.*;
-import sc2002project.System.SystemData;
-import sc2002project.ObjectClasses.*;
-import sc2002project.SystemPages.StudentPages.*;
-import sc2002project.SystemPages.StaffPages.*;
-import sc2002project.SystemPages.CompanyPages.*;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.System.SystemDataEntities.*;
+import IPMS.System.SystemData;
+import IPMS.ObjectClasses.*;
+import IPMS.SystemPages.StudentPages.*;
+import IPMS.SystemPages.StaffPages.*;
+import IPMS.SystemPages.CompanyPages.*;
 
 public class AccountLoginPage implements Page{
 

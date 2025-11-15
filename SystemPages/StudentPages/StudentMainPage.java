@@ -1,13 +1,12 @@
-package sc2002project.SystemPages.StudentPages;
+package IPMS.SystemPages.StudentPages;
 
 import java.util.Map;
-import sc2002project.SystemPages.Page;
-import sc2002project.SystemPages.PageAction;
-import sc2002project.System.SystemDataEntities.*;
-import sc2002project.System.SystemData;
-import sc2002project.ObjectClasses.*;
-import sc2002project.SystemPages.UniversalFunctions;
-import sc2002project.ObjectClasses.*;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.System.SystemDataEntities.*;
+import IPMS.System.SystemData;
+import IPMS.ObjectClasses.*;
+import IPMS.SystemPages.UniversalFunctions;
 
 public class StudentMainPage implements Page{
     private final String username;

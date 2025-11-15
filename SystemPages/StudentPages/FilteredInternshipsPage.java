@@ -1,16 +1,15 @@
-package sc2002project.SystemPages.StudentPages;
+package IPMS.SystemPages.StudentPages;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import sc2002project.SystemPages.Page;
-import sc2002project.SystemPages.PageAction;
-import sc2002project.System.SystemDataEntities.*;
-import sc2002project.System.SystemData;
-import sc2002project.ObjectClasses.*;
-import sc2002project.SystemPages.UniversalFunctions;
-import sc2002project.ObjectClasses.*;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.System.SystemDataEntities.*;
+import IPMS.System.SystemData;
+import IPMS.ObjectClasses.*;
+import IPMS.SystemPages.UniversalFunctions;
 
 
 public class FilteredInternshipsPage implements Page {
