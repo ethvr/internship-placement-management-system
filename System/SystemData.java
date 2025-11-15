@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 
     
@@ -349,7 +350,7 @@ public class SystemData {
 
             if (!"visible".equalsIgnoreCase(i.Visibility)) continue;
 
-            InternshipLevel level = InternshipLevel.valueOf(i.InternshipLevel.toUpperCase());
+            InternshipLevel level = i.InternshipLevel;
 
             if (year <= 2) {
                 if (level == InternshipLevel.BASIC) {
@@ -364,11 +365,11 @@ public class SystemData {
     }
 
 
-    public static List<InternshipData> filterByMajor(String level) {
+    public static List<InternshipData> filterByMajor(String major) {
         List<InternshipData> results = new ArrayList<>();
 
         for (InternshipData i : getInternshipMap().values()) {
-            if (i.InternshipLevel.equalsIgnoreCase(level) && "visible".equalsIgnoreCase(i.Visibility)) {
+            if (i.PrefferedMajors.equalsIgnoreCase(major) && "visible".equalsIgnoreCase(i.Visibility)) {
                 results.add(i);
             }
         }
@@ -381,7 +382,7 @@ public class SystemData {
         List<InternshipData> results = new ArrayList<>();
 
         for (InternshipData i : getInternshipMap().values()) {
-            if (i.InternshipLevel.equalsIgnoreCase(level) && "visible".equalsIgnoreCase(i.Visibility)) {
+            if (i.InternshipLevel == level && "visible".equalsIgnoreCase(i.Visibility)) {
                 results.add(i);
             }
         }

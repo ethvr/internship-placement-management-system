@@ -2,6 +2,7 @@ package IPMS.ObjectClasses;
 
 import java.time.LocalDateTime;
 import IPMS.Enums.*;
+import IPMS.UserManagement.*;
 
 public class WithdrawalRequest {
     private String id;                      

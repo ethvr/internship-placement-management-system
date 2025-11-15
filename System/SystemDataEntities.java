@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 import java.util.spi.LocaleNameProvider;
+import IPMS.Enums.*;
 // import the enums 
 
 // class variables must have the EXACT SAME names as the headers for universal csv writeback
@@ -131,7 +132,7 @@ public class SystemDataEntities {
 
         InternshipData() {} // no arg com
 
-        InternshipData(String uniqueID, String internshipTitle, String description, String internshipLevel,
+        InternshipData(String uniqueID, String internshipTitle, String description, InternshipLevel internshipLevel,
                        String prefferedMajors, LocalDate openingDate, LocalDate closingDate,
                        String status, String companyName, String companyRepInCharge,
                        int numberofSlots) {

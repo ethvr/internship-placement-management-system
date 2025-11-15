@@ -2,12 +2,14 @@ package IPMS.SystemPages.StudentPages;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import IPMS.SystemPages.Page;
 import IPMS.SystemPages.PageAction;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
+import IPMS.Enums.InternshipLevel;
 import IPMS.ObjectClasses.*;
 import IPMS.SystemPages.UniversalFunctions;
 
@@ -33,7 +35,7 @@ public class FilteredInternshipsPage implements Page {
     public PageAction next() {
 
         int YearOfStudy = obj.getYearOfStudy();
-        List<InternshipData> InternshipList2;
+        List<InternshipData> InternshipList2 = new ArrayList<>();
 
         return switch (filter) {
             case "level" -> {
@@ -51,20 +53,23 @@ public class FilteredInternshipsPage implements Page {
                     System.out.print("Enter your choice: ");
                     switch (UniversalFunctions.readIntInRange(1, 3)) {
                         case 1 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.BASIC, InternshipList);
+                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.BASIC, list);
                         }
                         case 2 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.INTERMEDIATE, InternshipList);
+                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.INTERMEDIATE, list);
                         }
                         case 3 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.ADVANCED, InternshipList);
+                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.ADVANCED, list);
                         }
                     }
+                    System.out.println();
+                    UniversalFunctions.printInternshipList(InternshipList2);
                     yield PageAction.pop();
 
                 }
             }
             case "date" -> {
+                LocalDate date;
                 while (true) { 
                     System.out.println("Enter a year: ");
                     int year = UniversalFunctions.readIntInRange(2025, 9999);
@@ -76,7 +81,7 @@ public class FilteredInternshipsPage implements Page {
                     int day = UniversalFunctions.readIntInRange(1, 31);
 
                     try {
-                        LocalDate date = LocalDate.of(year, month, day); 
+                        date = LocalDate.of(year, month, day); 
                         // If this fails, the catch block runs
                         System.out.println("Valid date entered: " + date);
                         break; // Exit the loop because date is valid
@@ -100,7 +105,7 @@ public class FilteredInternshipsPage implements Page {
                 
             }
             case "slots" -> {
-                System.out.print("Enter the Company name: ");
+                System.out.print("Enter the number of slots left: ");
                 int slots = UniversalFunctions.readIntInRange(1, 10);
                 InternshipList2 = SystemData.filterBySlotsLeft(slots);
                 UniversalFunctions.printInternshipList(InternshipList2);
@@ -116,7 +121,7 @@ public class FilteredInternshipsPage implements Page {
             default -> {
                 yield PageAction.pop();
             }
-        }
+        };
     }
 
 }
