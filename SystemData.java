@@ -1,96 +1,306 @@
-// Additional class to handle all the data?
-// top class to allow all classes to access data instead of reading from csv file 
-// do not need sorting function --> built in is extremely fast and efficient 
-// create dynamic write back function (not done)
-// create dynamic read csv file function? (not done)
-// company, internship, application and withdrawl read function (not done)
-package sc2002project;
-
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
-import sc2002project.SystemDataEntities.*; // change for final 
-
     
 public class SystemData {
-    //private static List<Application> ApplicationList = new ArrayList<>();
-    //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
-    //private static List<Internship> InternshipList = new ArrayList<>();
-    //private static List<StaffCSVData> StaffList = new ArrayList<>();
-    //private static List<StudentCSVData> StudentList = new ArrayList<>();
-
-    // changed student and staff to hashmap for faster lookup when instantiating
     
-    // Key --> student ID --> change to username?
-    private static HashMap<String, StudentCSVData> StudentMap = new HashMap<>();
-    // Key --> staff ID --> change to username?
-    private static HashMap<String, StaffCSVData> StaffMap = new HashMap<>();
-    // Key --> Comp rep ID --> change to username?
-    private static HashMap<String, CompanyCSVData> RepresentativeMap = new HashMap<>();
-    // Key --> ID generator 
-    private static HashMap<String, InternshipData> InternshipMap = new HashMap<>();
-    // Key --> ID generator
-    private static HashMap<String, ApplicationData> ApplicationMap = new HashMap<>();
-    // Key --> ID generator
-    private static HashMap<String, WithdrawalData> WithdrawalMap = new HashMap<>();
-    // Key --> Username --> stirng before @ of email 
+    // PRIVATE HashMaps - proper encapsulation
+    private static HashMap<String, Student> students = new HashMap<>();
+    private static HashMap<String, CareerCenter> staff = new HashMap<>();
+    private static HashMap<String, CompanyRepresentative> representatives = new HashMap<>();
+    private static HashMap<String, Internship> internships = new HashMap<>();
+    private static HashMap<String, Application> applications = new HashMap<>();
+    private static HashMap<String, WithdrawalRequest> withdrawalRequests = new HashMap<>();
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
-    // try with hash map
-    public static void loadStudentMap() {
-
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
-        File[] files = folder.listFiles();
-        File targetFile = null;
-
-        for(File f : files) {
-            if(f.getName().contains("student")) {
-                targetFile = f;
-                break;
-            }
+    // ========== PUBLIC ACCESSOR METHODS ==========
+    
+    // Internship methods
+    public static void addInternship(Internship internship) {
+        if (internship != null && internship.getId() != null) {
+            internships.put(internship.getId(), internship);
         }
-
-        //reading from csv file and writing into hashmap
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(targetFile));
-            String line = br.readLine(); // skip header line
-            
-            while((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String studentID = parts[0];
-                String name = parts[1];
-                String role = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                String email = parts[4];
-                String username = email.split("@")[0];
-                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
-            }
-
-            br.close();
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + e);
+    }
+    
+    public static void removeInternship(String internshipId) {
+        internships.remove(internshipId);
+    }
+    
+    public static Internship getInternship(String internshipId) {
+        return internships.get(internshipId);
+    }
+    
+    public static Collection<Internship> getAllInternships() {
+        return internships.values();
+    }
+    
+    // Application methods
+    public static void addApplication(Application application) {
+        if (application != null && application.getId() != null) {
+            applications.put(application.getId(), application);
         }
-
+    }
+    
+    public static void removeApplication(String applicationId) {
+        applications.remove(applicationId);
+    }
+    
+    public static Application getApplication(String applicationId) {
+        return applications.get(applicationId);
+    }
+    
+    public static Collection<Application> getAllApplications() {
+        return applications.values();
+    }
+    
+    // Withdrawal methods
+    public static void addWithdrawal(WithdrawalRequest withdrawal) {
+        if (withdrawal != null && withdrawal.getId() != null) {
+            withdrawalRequests.put(withdrawal.getId(), withdrawal);
+        }
+    }
+    
+    public static void removeWithdrawal(String withdrawalId) {
+        withdrawalRequests.remove(withdrawalId);
+    }
+    
+    public static WithdrawalRequest getWithdrawal(String withdrawalId) {
+        return withdrawalRequests.get(withdrawalId);
+    }
+    
+    public static Collection<WithdrawalRequest> getAllWithdrawals() {
+        return withdrawalRequests.values();
+    }
+    
+    // Student methods
+    public static Student getStudent(String username) {
+        return students.get(username);
+    }
+    
+    public static Collection<Student> getAllStudents() {
+        return students.values();
+    }
+    
+    // Staff methods
+    public static CareerCenter getStaff(String username) {
+        return staff.get(username);
+    }
+    
+    public static Collection<CareerCenter> getAllStaff() {
+        return staff.values();
+    }
+    
+    // Company Representative methods
+    public static void addCompanyRep(String username, CompanyRepresentative rep) {
+        if (rep != null && username != null && !username.isEmpty()) {
+            representatives.put(username, rep);
+        }
+    }
+    
+    public static CompanyRepresentative getCompanyRep(String username) {
+        return representatives.get(username);
+    }
+    
+    public static Collection<CompanyRepresentative> getAllCompanyReps() {
+        return representatives.values();
     }
 
-    // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
-    public static <T> void loadIntoMap(String filename, Class<T> clazz) {
-        // Pick folder
-        // adjust folder path
+    // ========== LOADING METHODS ==========
 
-        //HashMap<String,T> map;
+    /**
+     * Load students from CSV and convert to Student objects
+     */
+    public static void loadStudents() {
+        HashMap<String, StudentCSVData> tempMap = new HashMap<>();
+        loadCSVIntoMap("student", StudentCSVData.class, tempMap);
+        
+        for (Map.Entry<String, StudentCSVData> entry : tempMap.entrySet()) {
+            StudentCSVData data = entry.getValue();
+            Student student = new Student(
+                data.StudentID,
+                data.Name,
+                "password",
+                data.Year,
+                data.Major
+            );
+            students.put(entry.getKey(), student);
+        }
+        System.out.println("Loaded " + students.size() + " students");
+    }
 
-        // file path for desktop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+    /**
+     * Load career center staff from CSV and convert to CareerCenter objects
+     */
+    public static void loadStaff() {
+        HashMap<String, StaffCSVData> tempMap = new HashMap<>();
+        loadCSVIntoMap("staff", StaffCSVData.class, tempMap);
+        
+        for (Map.Entry<String, StaffCSVData> entry : tempMap.entrySet()) {
+            StaffCSVData data = entry.getValue();
+            CareerCenter staffMember = new CareerCenter(
+                data.StaffID,
+                data.Name,
+                data.Department
+            );
+            staff.put(entry.getKey(), staffMember);
+        }
+        System.out.println("Loaded " + staff.size() + " staff members");
+    }
 
-        // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PeopleCSVFolder");
+    /**
+     * Load company representatives from CSV and convert to CompanyRepresentative objects
+     */
+    public static void loadCompanyRepresentatives() {
+        HashMap<String, CompanyCSVData> tempMap = new HashMap<>();
+        loadCSVIntoMap("company", CompanyCSVData.class, tempMap);
+        
+        for (Map.Entry<String, CompanyCSVData> entry : tempMap.entrySet()) {
+            CompanyCSVData data = entry.getValue();
+            CompanyRepresentative rep = new CompanyRepresentative(
+                data.Email,
+                data.Name,
+                data.CompanyName,
+                data.Department,
+                data.Position
+            );
+            rep.setApproved(data.Status.equalsIgnoreCase("Approved"));
+            representatives.put(entry.getKey(), rep);
+        }
+        System.out.println("Loaded " + representatives.size() + " company representatives");
+    }
+
+    /**
+     * Load internships from CSV and convert to Internship objects
+     */
+    public static void loadInternships() {
+        HashMap<String, InternshipData> tempMap = new HashMap<>();
+        loadCSVIntoMap("internship", InternshipData.class, tempMap);
+        
+        for (Map.Entry<String, InternshipData> entry : tempMap.entrySet()) {
+            InternshipData data = entry.getValue();
+            
+            String repUsername = data.CompanyRepInCharge;
+            CompanyRepresentative rep = representatives.get(repUsername);
+            
+            if (rep == null) {
+                System.out.println("Warning: Company rep not found for internship " + data.UniqueID);
+                continue;
+            }
+            
+            InternshipLevel level;
+            try {
+                level = InternshipLevel.valueOf(data.InternshipLevel.toUpperCase());
+            } catch (Exception e) {
+                System.out.println("Warning: Invalid internship level for " + data.UniqueID);
+                level = InternshipLevel.BASIC;
+            }
+            
+            Internship internship = new Internship(
+                data.InternshipTitle,
+                data.Description,
+                level,
+                data.PrefferedMajors,
+                String.valueOf(data.OpeningDate),
+                String.valueOf(data.ClosingDate),
+                data.CompanyName,
+                rep,
+                data.NumberofSlots
+            );
+            
+            internship.setId(data.UniqueID);
+            internship.setStatus(InternshipStatus.valueOf(data.Status));//////////////////////////////////////////////////
+            internship.setVisible(data.Visibility.equalsIgnoreCase("true") || data.Visibility.equalsIgnoreCase("visible"));
+            
+            internships.put(data.UniqueID, internship);
+        }
+        System.out.println("Loaded " + internships.size() + " internships");
+    }
+
+    /**
+     * Load applications from CSV and convert to Application objects
+     */
+    public static void loadApplications() {
+        HashMap<String, ApplicationData> tempMap = new HashMap<>();
+        loadCSVIntoMap("application", ApplicationData.class, tempMap);
+        
+        for (Map.Entry<String, ApplicationData> entry : tempMap.entrySet()) {
+            ApplicationData data = entry.getValue();
+            
+            Application app = new Application(
+                data.StudentID,
+                data.InternshipID,
+                data.Status
+            );
+            
+            app.setId(data.UniqueID);
+            app.setAcceptedByStudent(data.AcceptedByStudent);
+            
+            applications.put(data.UniqueID, app);
+        }
+        System.out.println("Loaded " + applications.size() + " applications");
+    }
+
+    /**
+     * Load withdrawal requests from CSV and convert to WithdrawalRequest objects
+     */
+    public static void loadWithdrawals() {
+        HashMap<String, WithdrawalData> tempMap = new HashMap<>();
+        loadCSVIntoMap("withdrawal", WithdrawalData.class, tempMap);
+        
+        for (Map.Entry<String, WithdrawalData> entry : tempMap.entrySet()) {
+            WithdrawalData data = entry.getValue();
+            
+            WithdrawalRequest wr = new WithdrawalRequest(
+                data.ApplicationID,
+                data.StudentID,
+                data.Status
+            );
+            
+            wr.setId(data.UniqueID);
+            if (data.RequestTime != null) {
+                wr.setRequestTime(data.RequestTime);
+            }
+            if (data.Remarks != null && !data.Remarks.isEmpty()) {
+                wr.setRemarks(data.Remarks);
+            }
+            
+            withdrawalRequests.put(data.UniqueID, wr);
+        }
+        System.out.println("Loaded " + withdrawalRequests.size() + " withdrawal requests");
+    }
+
+    /**
+     * Load credentials/passwords
+     */
+    public static void loadCredentials() {
+        loadCSVIntoMap("password", Credentials.class, LoginMap);
+        System.out.println("Loaded " + LoginMap.size() + " credentials");
+    }
+
+    /**
+     * Load ALL data - call this at application startup
+     */
+    public static void loadAllData() {
+        System.out.println("=== Loading all data from CSV ===");
+        loadCredentials();
+        loadStudents();
+        loadStaff();
+        loadCompanyRepresentatives();
+        loadInternships();
+        loadApplications();
+        loadWithdrawals();
+        System.out.println("=== All data loaded successfully ===");
+    }
+
+    /**
+     * Generic CSV loader - loads into temporary data objects
+     */
+    private static <T> void loadCSVIntoMap(String filename, Class<T> clazz, HashMap<String,T> map) {
+        File PasswordFolder = new File("data/PasswordCSVFolder");
+        File OtherFolder = new File("data/OtherCSVFolder");
+        File PeopleFolder = new File("data/PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -98,28 +308,6 @@ public class SystemData {
             case "password" -> PasswordFolder;
             default -> throw new IllegalArgumentException("invalid");
         };
-
-        @SuppressWarnings("unchecked")
-        HashMap<String,T> map = switch (filename.toLowerCase()) {
-            case "student" -> (HashMap<String,T>) StudentMap;
-            case "staff"   -> (HashMap<String,T>) StaffMap;
-            case "company" -> (HashMap<String,T>) RepresentativeMap;
-            case "internship" -> (HashMap<String,T>) InternshipMap;
-            case "application" -> (HashMap<String,T>) ApplicationMap;
-            case "withdrawal" -> (HashMap<String,T>) WithdrawalMap;
-            case "password" -> (HashMap<String,T>) LoginMap;
-            default -> throw new IllegalArgumentException("invalid");
-        };
-
-        /*if (filename.toLowerCase().contains("password")) {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
-        } else if (filename.toLowerCase().contains("application") 
-                || filename.toLowerCase().contains("withdrawal") 
-                || filename.toLowerCase().contains("internship")) {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
-        } else {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
-        }*/
 
         try {
             File targetFile = null;
@@ -136,19 +324,16 @@ public class SystemData {
                 if (headerLine == null) return;
                 String[] headers = headerLine.split(",");
 
-                // Map header -> index for stable lookup
                 Map<String,Integer> hIndex = new HashMap<>();
                 for (int i = 0; i < headers.length; i++) hIndex.put(headers[i], i);
 
                 String line;
                 while ((line = br.readLine()) != null) {
                     if (line.isEmpty()) continue;
-                    String[] parts = line.split(",", -1); // keep empty cells //why -1?
+                    String[] parts = line.split(",", -1);
 
-                    // more dynamic way rather than passing the class as a parameter?
                     T obj = clazz.getDeclaredConstructor().newInstance();
 
-                    // Populate fields by exact header names
                     for (String h : headers) {
                         try {
                             Field field = clazz.getDeclaredField(h);
@@ -169,29 +354,23 @@ public class SystemData {
                                 Class<? extends Enum> et = type.asSubclass(Enum.class);
                                 value = raw.isEmpty() ? null : Enum.valueOf(et, raw);
                             } else {
-                                // String or other reference types
                                 value = raw;
                             }
 
                             field.set(obj, value);
                         } catch (NoSuchFieldException ignore) {
-                            // Header exists in CSV but not in class → skip (or log if you prefer)
                         }
                     }
 
-                    // Decide the map key:
                     String key;
-                    // key decider for loginmap
                     if (hIndex.containsKey("Username")) {
                         key = parts[hIndex.get("Username")];
                     } 
-                    // key decider for application internship and withdrawal
                     else if (hIndex.containsKey("UniqueID")) {
                         Field f = clazz.getDeclaredField("UniqueID");
                         f.setAccessible(true);
                         key = String.valueOf(f.get(obj));
                     } 
-                    // key decider for student staff and companyrep
                     else if (hIndex.containsKey("Email")) {
                         Field f = clazz.getDeclaredField("Email");
                         f.setAccessible(true);
@@ -199,38 +378,133 @@ public class SystemData {
                         key = (email == null) ? "" : email.split("@")[0];
                     } 
                     else {
-                        // Fallback: first column
                         key = parts[0];
-                        System.out.println("fallback key for map utilised");
                     }
 
                     if (key == null || key.isEmpty()) {
-                        throw new IllegalStateException("Empty key when loading " + filename + " into map");
+                        throw new IllegalStateException("Empty key when loading " + filename);
                     }
                     map.put(key, obj);
                 }
             }
         } catch (Exception e) {
-            System.out.println("Load Error: " + e.getMessage());
+            System.out.println("Load Error for " + filename + ": " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    
+    // ========== SAVING METHODS ==========
 
+    /**
+     * Write all data back to CSV files
+     */
+    public static void saveAllData() {
+        System.out.println("=== Saving all data to CSV ===");
+        saveStudents();
+        saveStaff();
+        saveInternships();
+        saveApplications();
+        saveWithdrawals();
+        saveCredentials();
+        System.out.println("=== All data saved successfully ===");
+    }
 
-    // dynamic writeback only for hashmaps 
-    // map parameter --> pass using the get method (immutable map)
-    public static <T> void writeBackCSV(String filename, Map<String,T> map) {
+    private static void saveStudents() {
+        HashMap<String, StudentCSVData> tempMap = new HashMap<>();
+        for (Map.Entry<String, Student> entry : students.entrySet()) {
+            Student s = entry.getValue();
+            StudentCSVData data = new StudentCSVData(
+                s.getUserId(),
+                s.getName(),
+                s.getMajor(),
+                s.getYearOfStudy(),
+                entry.getKey() + "@student.ntu.edu.sg"
+            );
+            tempMap.put(entry.getKey(), data);
+        }
+        writeBackCSV("student", tempMap);
+    }
 
-        // file path for desktop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+    private static void saveStaff() {
+        HashMap<String, StaffCSVData> tempMap = new HashMap<>();
+        for (Map.Entry<String, CareerCenter> entry : staff.entrySet()) {
+            CareerCenter cc = entry.getValue();
+            StaffCSVData data = new StaffCSVData(
+                cc.getUserId(),
+                cc.getName(),
+                "CareerCenter",
+                cc.getStaffDepartment(),
+                entry.getKey() + "@ntu.edu.sg"
+            );
+            tempMap.put(entry.getKey(), data);
+        }
+        writeBackCSV("staff", tempMap);
+    }
 
-        // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PeopleCSVFolder");
+    private static void saveInternships() {
+        HashMap<String, InternshipData> tempMap = new HashMap<>();
+        for (Map.Entry<String, Internship> entry : internships.entrySet()) {
+            Internship i = entry.getValue();
+            InternshipData data = new InternshipData(
+                i.getId(),
+                i.getTitle(),
+                i.getDescription(),
+                i.getLevel().toString(),
+                i.getPreferredMajor(),
+                Integer.parseInt(i.getOpenDate()),
+                Integer.parseInt(i.getCloseDate()),
+                i.getStatus().toString(),//////////////////////////////////////////////////
+                i.getCompanyName(),
+                i.getCompRep().getUserId(),
+                i.getSlots()
+            );
+            data.Visibility = String.valueOf(i.isVisible());
+            tempMap.put(entry.getKey(), data);
+        }
+        writeBackCSV("internship", tempMap);
+    }
+
+    private static void saveApplications() {
+        HashMap<String, ApplicationData> tempMap = new HashMap<>();
+        for (Map.Entry<String, Application> entry : applications.entrySet()) {
+            Application app = entry.getValue();
+            ApplicationData data = new ApplicationData(
+                app.getId(),
+                app.getStudentId(),
+                app.getInternshipId(),
+                app.getStatus(),
+                app.isAcceptedByStudent()
+            );
+            tempMap.put(entry.getKey(), data);
+        }
+        writeBackCSV("application", tempMap);
+    }
+
+    private static void saveWithdrawals() {
+        HashMap<String, WithdrawalData> tempMap = new HashMap<>();
+        for (Map.Entry<String, WithdrawalRequest> entry : withdrawalRequests.entrySet()) {
+            WithdrawalRequest wr = entry.getValue();
+            WithdrawalData data = new WithdrawalData(
+                wr.getId(),
+                wr.getApplicationId(),
+                wr.getStudentId(),
+                wr.getStatus(),
+                wr.getRequestTime(),
+                wr.getRemarks()
+            );
+            tempMap.put(entry.getKey(), data);
+        }
+        writeBackCSV("withdrawal", tempMap);
+    }
+
+    private static void saveCredentials() {
+        writeBackCSV("password", LoginMap);
+    }
+
+    private static <T> void writeBackCSV(String filename, Map<String,T> map) {
+        File PasswordFolder = new File("\"data/PasswordCSVFolder\"");
+        File OtherFolder = new File("data/OtherCSVFolder");
+        File PeopleFolder = new File("data/PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -239,20 +513,7 @@ public class SystemData {
             default -> throw new IllegalArgumentException("invalid");
         };
 
-        // Pick folder
-        /*File folder;
-        if (filename.toLowerCase().contains("password")) {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder");
-        } else if (filename.toLowerCase().contains("application") 
-                || filename.toLowerCase().contains("withdrawal") 
-                || filename.toLowerCase().contains("internship")) {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\OtherCSVFolder");
-        } else {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PeopleCSVFolder");
-        }*/
-
         try {
-            // Find the file
             File targetFile = null;
             for (File f : Objects.requireNonNull(folder.listFiles())) {
                 if (f.getName().toLowerCase().contains(filename.toLowerCase())) {
@@ -261,7 +522,6 @@ public class SystemData {
             }
             if (targetFile == null) throw new FileNotFoundException("CSV not found for: " + filename);
 
-            // Read header to preserve column order
             String headerLine;
             try (BufferedReader br = new BufferedReader(new FileReader(targetFile))) {
                 headerLine = br.readLine();
@@ -293,7 +553,6 @@ public class SystemData {
                                 if (v == null) {
                                     cell = "";
                                 } else if (v instanceof LocalDateTime) {
-                                    //.toString() converts date to standard ISO format (2025-03-10T16:55:21)
                                     cell = ((LocalDateTime) v).toString();
                                 } else if (v instanceof Enum<?>) {
                                     cell = ((Enum<?>) v).name();
@@ -301,7 +560,6 @@ public class SystemData {
                                     cell = String.valueOf(v);
                                 }
                             } catch (NoSuchFieldException ignore) {
-                                // Header not present in class → write empty column
                                 cell = "";
                             }
                         }
@@ -319,106 +577,184 @@ public class SystemData {
         }
     }
 
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, StudentCSVData> getStudentMap(){
-        
-        return Collections.unmodifiableMap(StudentMap);
-
+    // ========== CREDENTIAL MANAGEMENT ==========
+    
+    public static Credentials getCredentials(String username) {
+        return LoginMap.get(username);
     }
 
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, StaffCSVData> getStaffMap(){
-        
-        return Collections.unmodifiableMap(StaffMap);
-
-    }
-
-    public static Map<String, CompanyCSVData> getCompanyMap() {
-
-        return Collections.unmodifiableMap(RepresentativeMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, InternshipData> getInternshipMap(){
-        
-        return Collections.unmodifiableMap(InternshipMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, ApplicationData> getApplicationMap(){
-        
-        return Collections.unmodifiableMap(ApplicationMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, WithdrawalData> getWithdrawalMap(){
-        
-        return Collections.unmodifiableMap(WithdrawalMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Credentials> getLoginMap(){
-        
-        return Collections.unmodifiableMap(LoginMap);
-
-    }
-
-    // gets password and firsttime login based on suername 
-    public static SystemDataEntities.Credentials getCredentials(String username) {
-        SystemDataEntities.Credentials c = LoginMap.get(username); 
-        return c;
-
-    }
-
-    // checks if username exists 
     public static boolean checkUsername(String username) {
         return LoginMap.containsKey(username);
     }
 
-    // changes the password based on new input passwrod and matches via username
     public static void setPassword(String Password, String username) {
-        LoginMap.get(username).Password = Password;
+        if (LoginMap.containsKey(username)) {
+            LoginMap.get(username).Password = Password;
+        }
     }
 
-    // checks for first time login, match with username 
     public static void setFirsttimelogin(boolean flag, String username) {
-        LoginMap.get(username).Firsttimelogin = flag;
+        if (LoginMap.containsKey(username)) {
+            LoginMap.get(username).Firsttimelogin = flag;
+        }
     }
 
     public static String getCredentialsType(String username) {
-        String type = LoginMap.get(username).Type;
-        return type;
+        Credentials c = LoginMap.get(username);
+        return c != null ? c.Type : null;
     }
 
-    public static void setCompanyKeyValue(String username, SystemDataEntities.CompanyCSVData obj) {
-        RepresentativeMap.put(username, obj);
+    public static Map<String, Credentials> getCredentialsMap() {
+        return Collections.unmodifiableMap(LoginMap);
     }
 
-    // load the map into a list for sorting and filtering 
-    public static void MaptoList() {
-
+    // ========== INNER CLASSES FOR CSV DATA ==========
+    
+    static class Credentials {
+        String Password;
+        boolean Firsttimelogin;
+        String Type;
+        
+        Credentials() {}
+        
+        Credentials(String password, boolean firsttimelogin, String type) {
+            this.Password = password;
+            this.Firsttimelogin = firsttimelogin;
+            this.Type = type;
+        }
     }
 
+    static class StudentCSVData {
+        String StudentID;
+        String Name;
+        String Major;
+        int Year;
+        String Email;
+        
+        StudentCSVData() {}
+        
+        StudentCSVData(String studentID, String name, String major, int year, String email) {
+            this.StudentID = studentID;
+            this.Name = name;
+            this.Major = major;
+            this.Year = year;
+            this.Email = email;
+        }
+    }
 
+    static class StaffCSVData {
+        String StaffID;
+        String Name;
+        String Role;
+        String Department;
+        String Email;
+        
+        StaffCSVData() {}
+        
+        StaffCSVData(String staffID, String name, String role, String department, String email) {
+            this.StaffID = staffID;
+            this.Name = name;
+            this.Role = role;
+            this.Department = department;
+            this.Email = email;
+        }
+    }
 
+    static class CompanyCSVData {
+        String CompanyRepID;
+        String Name;
+        String CompanyName;
+        String Department;
+        String Position;
+        String Email;
+        String Status;
+        
+        CompanyCSVData() {}
+        
+        CompanyCSVData(String companyRepID, String name, String companyName, String department, 
+                      String position, String email, String status) {
+            this.CompanyRepID = companyRepID;
+            this.Name = name;
+            this.CompanyName = companyName;
+            this.Department = department;
+            this.Position = position;
+            this.Email = email;
+            this.Status = status;
+        }
+    }
 
+    static class InternshipData {
+        String UniqueID;
+        String InternshipTitle;
+        String Description;
+        String InternshipLevel;
+        String PrefferedMajors;
+        int OpeningDate;
+        int ClosingDate;
+        String Status;
+        String CompanyName;
+        String CompanyRepInCharge;
+        int NumberofSlots;
+        String Visibility;
+        
+        InternshipData() {}
+        
+        InternshipData(String uniqueID, String internshipTitle, String description, 
+                      String internshipLevel, String prefferedMajors, int openingDate, 
+                      int closingDate, String status, String companyName, 
+                      String companyRepInCharge, int numberofSlots) {
+            this.UniqueID = uniqueID;
+            this.InternshipTitle = internshipTitle;
+            this.Description = description;
+            this.InternshipLevel = internshipLevel;
+            this.PrefferedMajors = prefferedMajors;
+            this.OpeningDate = openingDate;
+            this.ClosingDate = closingDate;
+            this.Status = status;
+            this.CompanyName = companyName;
+            this.CompanyRepInCharge = companyRepInCharge;
+            this.NumberofSlots = numberofSlots;
+        }
+    }
 
+    static class ApplicationData {
+        String UniqueID;
+        String StudentID;
+        String InternshipID;
+        ApplicationStatus Status;
+        boolean AcceptedByStudent;
+        
+        ApplicationData() {}
+        
+        ApplicationData(String uniqueID, String studentID, String internshipID, 
+                       ApplicationStatus status, boolean acceptedByStudent) {
+            this.UniqueID = uniqueID;
+            this.StudentID = studentID;
+            this.InternshipID = internshipID;
+            this.Status = status;
+            this.AcceptedByStudent = acceptedByStudent;
+        }
+    }
 
+    static class WithdrawalData {
+        String UniqueID;
+        String ApplicationID;
+        String StudentID;
+        WithdrawalStatus Status;
+        LocalDateTime RequestTime;
+        String Remarks;
+        
+        WithdrawalData() {}
+        
+        WithdrawalData(String uniqueID, String applicationID, String studentID, 
+                      WithdrawalStatus status, LocalDateTime requestTime, String remarks) {
+            this.UniqueID = uniqueID;
+            this.ApplicationID = applicationID;
+            this.StudentID = studentID;
+            this.Status = status;
+            this.RequestTime = requestTime;
+            this.Remarks = remarks;
+        }
+    }
 }
+

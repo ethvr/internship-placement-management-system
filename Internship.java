@@ -9,7 +9,7 @@ public class Internship {
      private String preferredMajor;
      private String openDate;
      private String closeDate;
-     private InternshipStatus status; // Pending, Approved, Rejected, Filled   by careercentrestaff
+     private InternshipStatus status; // Pending, Approved, Rejected, Filled  by careercentrestaff
      private String companyName;
      private CompanyRepresentative compRep;
      private boolean visible;
@@ -33,31 +33,39 @@ public class Internship {
           this.internshipId = IdGenerator.nextInternshipId();
      }
 
-     //adds an application to this internship's list of applications
-     public void addApplication(Application app, SystemData data) {
-          data.applications.put(app.getId(), app);
+     public void addApplication(Application app) {
+          SystemData.addApplication(app);
      }
+     
      public void setVisible(boolean visible) {
           this.visible = visible;
      }
-     public String getTitle(){
+     
+     public String getTitle() {
           return title;
      }
-     public List<Application> getApplications(SystemData data) {
-        List<Application> result = new ArrayList<>();
-        for (Application app : data.applications.values()) {
-            if (app.getInternshipId().equals(this.internshipId)) {
-                result.add(app);
-            }
-        }
-        return result;
-     }
      
+     public List<Application> getApplications() {
+          List<Application> result = new ArrayList<>();
+          for (Application app : SystemData.getAllApplications()) {
+               if (app.getInternshipId().equals(this.internshipId)) {
+                    result.add(app);
+               }
+          }
+          return result;
+     }
+
      public String getCompanyName() {
           return companyName;
      }
+     
      public InternshipStatus getStatus() {
-          return status; }
+          return status; 
+     }
+     
+     public void setStatus(InternshipStatus status) {
+          this.status = status;
+     }
      
      public InternshipLevel getLevel() {
           return level;
@@ -66,11 +74,29 @@ public class Internship {
      public String getOpenDate() {
           return openDate;
      }
+     
      public String getCloseDate() {
           return closeDate;
      }
+     
+     public String getPreferredMajor() {
+          return preferredMajor;
+     }
+     
+     public String getDescription() {
+          return description;
+     }
+     
+     public CompanyRepresentative getCompRep() {
+          return compRep;
+     }
+     
+     public boolean isVisible() {
+          return visible;
+     }
+     
      public boolean isVisibleTo(Student student) {
-          if (slots<1){
+          if (slots < 1) {
                return false;
           }
           if (!visible) {
@@ -82,19 +108,20 @@ public class Internship {
           }
           return true;
      }
-
-     public void setStatus(InternshipStatus status) {
-        this.status = status;
-    }
+     
      public int getSlots() {
           return slots;
      }
-     public void updateFilledSlots() {////////////////////
-          this.slots-=1;
+     
+     public void updateFilledSlots() {
+          this.slots -= 1;
      }
-     public String getId(){
+     
+     public String getId() {
           return internshipId;
      }
      
+     public void setId(String id) {
+          this.internshipId = id;
+     }
 }
-

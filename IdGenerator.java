@@ -3,6 +3,7 @@ public class IdGenerator {
      private static int internshipCounter = 0;
      private static int applicationCounter = 0;
      private static int withdrawalCounter = 0; 
+     private static int CompanyRepID = 0;
 
      
      public static String nextInternshipId() {

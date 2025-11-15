@@ -27,9 +27,9 @@ public class Student extends User {
         this.major = major;
     }
 
-    public List<Internship> getEligibleInternships(SystemData data) {
+    public List<Internship> getEligibleInternships() {
         List<Internship> result = new ArrayList<>();
-        for (Internship i : data.internships) {
+        for (Internship i : SystemData.getAllInternships()) {
             if (i.isVisibleTo(this)) {
                 result.add(i);
             }
@@ -37,8 +37,8 @@ public class Student extends User {
         return result;
     }
 
-    public void applyTo(String internshipId, SystemData data) {
-        Internship target = findInternshipById(internshipId, data);
+    public void applyTo(String internshipId) {
+        Internship target = SystemData.getInternship(internshipId);
         if (target == null)
             throw new IllegalArgumentException("No such internship");
 
@@ -46,7 +46,7 @@ public class Student extends User {
         if (!target.isVisibleTo(this))
             throw new IllegalStateException("Internship not available for you");
 
-        if (countActiveApplications(data) >= 3)
+        if (countActiveApplications() >= 3)
             throw new IllegalStateException("You already have 3 active applications");
 
         if (yearOfStudy <= 2 && target.getLevel() != InternshipLevel.BASIC)
@@ -58,13 +58,13 @@ public class Student extends User {
                 target.getId(),
                 ApplicationStatus.PENDING
         );
-        data.applications.add(app);
+        SystemData.addApplication(app);
         target.addApplication(app);
     }
 
-    public int countActiveApplications(SystemData data) {
+    public int countActiveApplications() {
         int c = 0;
-        for (Application a : data.applications) {
+        for (Application a : SystemData.getAllApplications()) {
             if (a.getStudentId().equals(this.getUserId()) && a.isActive()) {
                 c++;
             }
@@ -72,8 +72,8 @@ public class Student extends User {
         return c;
     }
 
-    public void acceptPlacement(String applicationId, SystemData data) {
-        Application chosen = findAppById(applicationId, data);
+    public void acceptPlacement(String applicationId) {
+        Application chosen = SystemData.getApplication(applicationId);
         if (chosen == null)
             throw new IllegalArgumentException("No such application");
 
@@ -82,39 +82,40 @@ public class Student extends User {
 
         chosen.setAcceptedByStudent(true);
 
-        for (Application a : data.applications) {
-            if (a.getStudentId().equals(this.userId) &&
+        // Withdraw all other applications
+        for (Application a : SystemData.getAllApplications()) {
+            if (a.getStudentId().equals(this.getUserId()) &&
                 !a.getId().equals(applicationId)) {
                 a.setStatus(ApplicationStatus.WITHDRAWN);
             }
         }
 
-        Internship internship = findInternshipById(chosen.getInternshipId(), data);
+        Internship internship = SystemData.getInternship(chosen.getInternshipId());
         if (internship != null)
-            internship.updateFilledStatus(data);
+            internship.updateFilledSlots();
     }
 
-    public void requestWithdrawal(String applicationId, SystemData data) {
-        Application target = findAppById(applicationId, data);
+    public void requestWithdrawal(String applicationId) {
+        Application target = SystemData.getApplication(applicationId);
         if (target == null)
             throw new IllegalArgumentException("No such application");
 
-        // Don’t allow multiple withdrawal requests for same app
-        for (WithdrawalRequest wr : data.withdrawalRequests) {
+        // Don't allow multiple withdrawal requests for same app
+        for (WithdrawalRequest wr : SystemData.getAllWithdrawals()) {
             if (wr.getApplicationId().equals(applicationId))
                 throw new IllegalStateException("Withdrawal already requested");
         }
 
         WithdrawalRequest wr = new WithdrawalRequest(
                 applicationId,
-                this.userId,
+                this.getUserId(),
                 WithdrawalStatus.PENDING
         );
-        data.withdrawalRequests.add(wr);
+        SystemData.addWithdrawal(wr);
     }
 
-    public void withdrawApplication(String applicationId, SystemData data) {
-        Application target = findAppById(applicationId, data);
+    public void withdrawApplication(String applicationId) {
+        Application target = SystemData.getApplication(applicationId);
         if (target == null)
             throw new IllegalArgumentException("No such application");
 
@@ -122,21 +123,5 @@ public class Student extends User {
             throw new IllegalStateException("Cannot withdraw after accepting placement");
 
         target.setStatus(ApplicationStatus.WITHDRAWN);
-    }
-
-    private Application findAppById(String appId, SystemData data) {
-        for (Application a : data.applications) {
-            if (a.getId().equals(appId))
-                return a;
-        }
-        return null;
-    }
-
-    private Internship findInternshipById(String id, SystemData data) {
-        for (Internship i : data.internships) {
-            if (i.getId().equals(id))
-                return i;
-        }
-        return null;
     }
 }

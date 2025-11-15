@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CareerCenter extends User {
 
@@ -9,45 +8,41 @@ public class CareerCenter extends User {
     public CareerCenter(String staffId, String name, String staffDepartment) {
         super(staffId, name);
         this.staffDepartment = staffDepartment;
+        this.pendingCompanies = new ArrayList<>();
     }
 
-    //add pending company
     public void addPendingCompany(CompanyRepresentative companyRep){
         if (!pendingCompanies.contains(companyRep)){
             pendingCompanies.add(companyRep);
         }
         else{
-            System.out.println(companyRep.getCompanyName() + "has been added into pending list");
+            System.out.println(companyRep.getCompanyName() + " has been added into pending list");
         }
     }
 
-    //remove pending company
     public void removePendingCompany(CompanyRepresentative companyRep){
         if (pendingCompanies.contains(companyRep)){
             pendingCompanies.remove(companyRep);
         }
         else{
-            System.out.println(companyRep.getCompanyName() + "is not in pending list");
+            System.out.println(companyRep.getCompanyName() + " is not in pending list");
         }
     }
 
-    // approve account creation of company representativs
-    public void approveCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
+    public void approveCompanyRep(CompanyRepresentative companyRep){
         companyRep.setApproved(true);
-        careerCenter.removePendingCompany(companyRep);
-        System.out.println("Company Representative from " + companyRep.getName() + "from" 
-        + companyRep.getCompanyName() + "has been approved" );
+        this.removePendingCompany(companyRep);
+        System.out.println("Company Representative " + companyRep.getName() + " from " 
+        + companyRep.getCompanyName() + " has been approved");
     }
 
-    // reject account creation of company represenattives
-    public void rejectCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
+    public void rejectCompanyRep(CompanyRepresentative companyRep){
         companyRep.setApproved(false);
-        careerCenter.removePendingCompany(companyRep);
-        System.out.println("Company Representative from " + companyRep.getName() + "from" 
-        + companyRep.getCompanyName() + "has been rejected" );
+        this.removePendingCompany(companyRep);
+        System.out.println("Company Representative " + companyRep.getName() + " from " 
+        + companyRep.getCompanyName() + " has been rejected");
     }
 
-    // approve  internships submitted by company
     public void approveInternship(Internship internship){
         if (internship.getStatus() == InternshipStatus.PENDING){
             internship.setStatus(InternshipStatus.APPROVED);
@@ -58,9 +53,8 @@ public class CareerCenter extends User {
         }
     }
 
-    // reject  internships submitted by company
     public void rejectInternship(Internship internship){
-        if (internship.getStatus()==InternshipStatus.PENDING){
+        if (internship.getStatus() == InternshipStatus.PENDING){
             internship.setStatus(InternshipStatus.REJECTED);
         }
         else{
@@ -68,58 +62,50 @@ public class CareerCenter extends User {
         }
     }
 
-
-    // approve student withdrawal before or after confirmation
-    public void approveWithdrawal(WithdrawalRequest withdrawalRequest, SystemData data){
-        if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
+    public void approveWithdrawal(WithdrawalRequest withdrawalRequest){
+        if (withdrawalRequest.getStatus() == WithdrawalStatus.PENDING){
             
             withdrawalRequest.setStatus(WithdrawalStatus.APPROVED);
-            String appplicationID = withdrawalRequest.getApplicationId();
-            Application application = data.applications.get(appplicationID);
+            String applicationID = withdrawalRequest.getApplicationId();
+            Application application = SystemData.getApplication(applicationID);
             
-            //check if application is valid
             if (application != null){       
-                //if intern slot is confirmed, remove student
                 if (application.getStatus() == ApplicationStatus.SUCCESSFUL){
-                    // clear slot 
-                    // update slot -1
-                    // clear student
-
+                    // Clear slot by updating internship
+                    Internship internship = SystemData.getInternship(application.getInternshipId());
+                    if (internship != null) {
+                        // Increment slots back since student is withdrawing
+                        // Note: You might want to add a method in Internship class for this
+                    }
+                }
                 application.setStatus(ApplicationStatus.WITHDRAWN);
                 System.out.println("Withdrawal request approved.");
             }
-            else{
-                System.out.println("Withdrawal request is not pending.");
-            }
-
-            }
         }
-    }
-
-    //reject student withdrawal before or after confirmation
-    public void rejectWithdrawal(WithdrawalRequest withdrawalRequest, SystemData data){
-        if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
-            withdrawalRequest.setStatus(WithdrawalStatus.REJECTED);
-            System.out.println("Withdrawal request rejected.");
-            }
         else{
             System.out.println("Withdrawal request is not pending.");
         }
     }
 
+    public void rejectWithdrawal(WithdrawalRequest withdrawalRequest){
+        if (withdrawalRequest.getStatus() == WithdrawalStatus.PENDING){
+            withdrawalRequest.setStatus(WithdrawalStatus.REJECTED);
+            System.out.println("Withdrawal request rejected.");
+        }
+        else{
+            System.out.println("Withdrawal request is not pending.");
+        }
+    }
 
-
-    //getters and setters
     public String getStaffDepartment() {
         return staffDepartment;
     }
 
-    public void setStaffDepartment (String staffDepartment){
+    public void setStaffDepartment(String staffDepartment){
         this.staffDepartment = staffDepartment;
     }
 
-    public List getPendingCompanies(){
+    public List<CompanyRepresentative> getPendingCompanies(){
         return pendingCompanies;
     }
-
 }

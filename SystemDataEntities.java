@@ -1,4 +1,4 @@
-package sc2002project;
+
 
 import java.time.LocalDateTime;
 import java.util.spi.LocaleNameProvider;
@@ -67,7 +67,8 @@ public class SystemDataEntities {
             this.Email = email;
         }
     }
-
+    
+    ///i dont want this
     /*private String companyName;✅ 
      private String department;//of the company rep✅ 
      private String position;//of the company rep✅ 
@@ -97,7 +98,7 @@ public class SystemDataEntities {
         public String getCompanyStatus() {
             return Status;
         }
-    }
+    }////i dont want this
     // under company rep in assignment pdf
     // check object class for extra parameters that need to be stored 
     /*private String title;✅

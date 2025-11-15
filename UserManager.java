@@ -1,37 +1,19 @@
-// manages all users?
-// add any new users to the exisitng csv file?
-// able to read existing csv file to bulk enroll any type of users?
-// able to read csv file for login 
-// checks if someone is logged in?
-// creates new csv file that only has the userid and password 
-// handles login --> LoginMatch()
-// username -f (field before @ in email 
-// what if new student file etc wants to be introduced on top of pre existing data?
-package sc2002project;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
-import sc2002project.SystemData.*;
-import sc2002project.SystemDataEntities.*;
 
 public class UserManager {
     
-    //private String Username;
-    //private String UserPassword;
-    private static int internshipCounter = 0;
-    private static int applicationCounter = 0;
-    private static int withdrawalCounter = 0; 
-    private static int CompanyRepID = 0;
- 
     private static List<String> RegistrationInput = new ArrayList<>();
 
-    // creates username for all students and writes to Username_and_Password file 
-    // handles all 3 type files by looping and checking 
-
+    /**
+     * Creates username/password entries for all users in CSV files
+     * This should be called BEFORE SystemData.loadAllData()
+     */
     public static void UsernameCSVGenerator() {
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PeopleCSVFolder");
+        File outputFile  = new File("data/PasswordCSVFolder");
+        File inputFolder = new File("data/PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -103,7 +85,7 @@ public class UserManager {
                         bw.write(username + ",password,true," + type);
                         bw.newLine();
 
-                        // Track so later files don’t duplicate
+                        // Track so later files don't duplicate
                         existing.add(username);
                     }
                 } catch (IOException e) {
@@ -115,202 +97,177 @@ public class UserManager {
         }
     }
 
-    // make a function to store into map if new object is made during runtime?
-    // eg internships withdrawal and application 
-    public static void MapStore() {
-
-    }
-
-    // returns the user type which just logged in
-    // to know which hashmap to initialize
+    /**
+     * Returns the user type for a given username
+     */
     public static String getUserType(String username) {
-        SystemDataEntities.Credentials credentials = SystemData.getCredentials(username);
-        String type = credentials.Type;
-        return type;
-
+        SystemData.Credentials credentials = SystemData.getCredentials(username);
+        if (credentials == null) {
+            return null;
+        }
+        return credentials.Type;
     }
 
-    /*String CompanyRepID; // before @ of email
-    String Name;
-    String CompanyName;
-    String Department;
-    String Position;
-    String Email;
-    String Status; */
-    // account registration 
-    // return List<String> or return SystemDataEntities.CompanyCSVData
+    /**
+     * Company Representative Registration - Collect input
+     * Returns list of formatted strings for display, or empty list to exit
+     */
     public static List<String> CompanyRepRegistrationInput() {
-
-        SystemData.loadIntoMap("company", CompanyCSVData.class);
-        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
         RegistrationInput.clear();
         List<String> EmptyList = new ArrayList<>();
+        List<String> printer = new ArrayList<>();
 
         Scanner sc = new Scanner(System.in);
         String emailInput;
         String username;
 
-        // checks if email has already been registered 
+        // Check if email has already been registered
         while (true) {
             System.out.print("Enter your Email (or type EXIT to leave): ");
-            emailInput = sc.nextLine();
+            emailInput = sc.nextLine().trim();
+            
             if (emailInput.equalsIgnoreCase("exit")) {
                 return EmptyList;
             }
 
+            if (!emailInput.contains("@")) {
+                System.out.println("Invalid email format. Please try again.\n");
+                continue;
+            }
+
             username = emailInput.substring(0, emailInput.indexOf('@')).trim();
-            if (map.containsKey(username)) {
+            
+            // Check if company rep already exists
+            CompanyRepresentative existingRep = SystemData.getCompanyRep(username);
+            
+            if (existingRep != null) {
                 System.out.println("An Account with the Email " + emailInput + " already exists\n");
                 return EmptyList;
-            }
-            else {
-                System.out.println("Email does not exists");
+            } else {
+                System.out.println("Email does not exist in our system.");
                 System.out.println("Do you wish to proceed with registration?\n");
                 System.out.println("[1] Re-enter Email");
-                System.out.println("[2] Continue with this email\n");
-                System.out.println("[3] Exit");
+                System.out.println("[2] Continue with this email");
+                System.out.println("[3] Exit\n");
                 System.out.print("Enter an option: ");
                 
-                int option = SystemApp.readIntInRange(1,2);
+                int option = SystemApp.readIntInRange(1, 3);
 
                 if (option == 1) {
                     System.out.println("\nPlease re-enter your email.\n");
-                    continue; // goes back to start of the email loop
+                    continue;
                 }
 
                 if (option == 2) {
                     System.out.println("\nProceeding with registration.\n");
-                    break; // exit the email loop and continue registration
+                    break;
                 }
 
                 if (option == 3) {
                     return EmptyList;
                 }
-                            
             }
         }
-        
-        int option = 0;//?
-        Field[] fields = CompanyCSVData.class.getDeclaredFields();
-        List<String> printer = new ArrayList<>();      
 
         System.out.println("======= REGISTRATION ======");
 
-        for (Field f : fields) {
-            String field = f.getName();
+        // Collect fields
+        String companyRepId = IdGenerator.nextCompanyId();
+        RegistrationInput.add(companyRepId);
+        
+        System.out.print("Enter your Name: ");
+        String name = sc.nextLine().trim();
+        RegistrationInput.add(name);
+        printer.add("NAME: " + name);
 
-            if (field.equalsIgnoreCase("status")) {
-                RegistrationInput.add("pending");
-                continue;
-            }
-            else if (field.equalsIgnoreCase("email")) {
-                String answer2 = field.toUpperCase() + ": " + emailInput;
-                String answer3 = "USERNAME" + ": " + username;
-                printer.add(answer2);
-                printer.add(answer3);
-                RegistrationInput.add(emailInput);
-                continue;
+        System.out.print("Enter your Company Name: ");
+        String companyName = sc.nextLine().trim();
+        RegistrationInput.add(companyName);
+        printer.add("COMPANY NAME: " + companyName);
 
-            } // no need togenerate username?
-            else if (field.equalsIgnoreCase("CompanyRepID")) {
-                // use ID generator for company rep?
-                String answer = IdGenerator.nextCompanyId();
-                RegistrationInput.add(answer);
-                continue;
-            }
-            System.out.print("Enter your " + field + ": ");
-            String answer = sc.nextLine();
-            String answer2 = field.toUpperCase() + ": " + answer;
-            printer.add(answer2);
-            RegistrationInput.add(answer);
+        System.out.print("Enter your Department: ");
+        String department = sc.nextLine().trim();
+        RegistrationInput.add(department);
+        printer.add("DEPARTMENT: " + department);
 
-        }
+        System.out.print("Enter your Position: ");
+        String position = sc.nextLine().trim();
+        RegistrationInput.add(position);
+        printer.add("POSITION: " + position);
+
+        RegistrationInput.add(emailInput);
+        printer.add("EMAIL: " + emailInput);
+        printer.add("USERNAME: " + username);
+
+        String status = "Pending";
+        RegistrationInput.add(status);
+        printer.add("STATUS: " + status);
+
         return printer;
-
     }
 
+    /**
+     * Company Representative Registration - Confirmation
+     * Returns: 1 = redo, 2 = continue (should never return), 3 = cancel/complete
+     */
     public static int CompanyRegistrationConfirmation(List<String> printer) {
         Scanner sc = new Scanner(System.in);
         int option;
 
-        System.out.println("Please confirm your details,");
-        for (String a : printer) {
-            System.out.println(a);
+        System.out.println("\nPlease confirm your details:");
+        for (String detail : printer) {
+            System.out.println(detail);
         }
         System.out.println();
         System.out.println("[1] Redo details");
         System.out.println("[2] Continue");
         System.out.println("[3] Cancel registration\n");
+        System.out.print("Enter an option: ");
 
-        while (true) {
-            option = SystemApp.readIntInRange(1,3);
+        option = SystemApp.readIntInRange(1, 3);
 
-            switch (option) {
-                case 1 -> {
-                    return 1;
-                }
-
-                case 2 -> {
-                    String username = null;
-                    for (String line : printer) {
-                        if (line.toLowerCase().startsWith("email: ")) {
-                            username = line.split(":")[1].trim();
-                            break;
-                        }
-                    }
-                    CompanyCSVData obj = new CompanyCSVData();
-                    Field[] fields = CompanyCSVData.class.getDeclaredFields();
-
-                    try {
-                        for (int i = 0; i < fields.length; i++) {
-                            fields[i].setAccessible(true);
-                            fields[i].set(obj, RegistrationInput.get(i));
-                        }
-                    } 
-                    catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                        System.out.println("Reflection error: could not set field value.");
-                        //return 3; // or handle error
-                    }
-
-                    // setter method for company hashmap
-                    SystemData.setCompanyKeyValue(username, obj);
-                    System.out.println("Registration complete, please wait for your account to be approved");
-
-                    return 3; // return to main menu
-                }   
-
-                case 3 -> {
-                    return 3;
-                }
+        switch (option) {
+            case 1 -> {
+                return 1; // Redo
             }
 
+            case 2 -> {
+                // Extract username from email
+                String email = RegistrationInput.get(5); // Email is at index 5
+                String username = email.substring(0, email.indexOf('@')).trim();
+
+                // Create CompanyRepresentative object
+                // Order: companyRepId, name, companyName, department, position, email, status
+                CompanyRepresentative newRep = new CompanyRepresentative(
+                    RegistrationInput.get(5), // email
+                    RegistrationInput.get(1), // name
+                    RegistrationInput.get(2), // companyName
+                    RegistrationInput.get(3), // department
+                    RegistrationInput.get(4)  // position
+                );
+                
+                // Add to SystemData
+                SystemData.addCompanyRep(username, newRep);
+                
+                // Also add credentials for login
+                // Note: You may need to manually add to credentials CSV or use SystemData method
+                
+                // Save all data
+                SystemData.saveAllData();
+                
+                System.out.println("Registration complete. Please wait for your account to be approved.");
+
+                return 3; // Return to main menu
+            }
+
+            case 3 -> {
+                System.out.println("Registration cancelled.");
+                return 3;
+            }
+
+            default -> {
+                return 3;
+            }
         }
-        
     }
-
-    /*// id generators 
-    public static String nextInternshipId() {
-        internshipCounter++;
-        return String.format("I%04d", internshipCounter);
-    }
-
-    public static String nextAppId() {
-        applicationCounter++;
-        return String.format("A%04d", applicationCounter);
-    }
-
-    public static String nextWithdrawalId() {
-        withdrawalCounter++;
-        return String.format("W%04d", withdrawalCounter);
-    }
-
-    public static String nextCompanyId() {
-        CompanyRepID++;
-        return String.format("C%04d", CompanyRepID);
-    }*/
-
-        
-    
-
-} // class end bracket
+}
