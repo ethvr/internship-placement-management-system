@@ -4,14 +4,15 @@
 // create dynamic write back function (not done)
 // create dynamic read csv file function? (not done)
 // company, internship, application and withdrawl read function (not done)
-package sc2002project;
+package sc2002project.System;
 
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import sc2002project.SystemDataEntities.*; // change for final 
+import sc2002project.System.SystemDataEntities.*; // change for final 
 
     
 public class SystemData {
@@ -35,7 +36,7 @@ public class SystemData {
     private static HashMap<String, ApplicationData> ApplicationMap = new HashMap<>();
     // Key --> ID generator
     private static HashMap<String, WithdrawalData> WithdrawalMap = new HashMap<>();
-    // Key --> Username --> stirng before @ of email 
+    // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
     // try with hash map
@@ -318,7 +319,109 @@ public class SystemData {
             System.out.println("WriteBack Error: " + e.getMessage());
         }
     }
+    public static List<InternshipData> filterByKeyword(String word) {
+        List<InternshipData> results = new ArrayList<>();
 
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.Description.contains(word) && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+    //Returns a internship list filtered to a specific company
+    // used for students
+    public static List<InternshipData> filterByCompanyName(String companyName) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.CompanyName.equalsIgnoreCase(companyName) && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+
+    public static List<InternshipData> filterByYearOfStudy(int year) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+
+            if (!"visible".equalsIgnoreCase(i.Visibility)) continue;
+
+            InternshipLevel level = InternshipLevel.valueOf(i.InternshipLevel.toUpperCase());
+
+            if (year <= 2) {
+                if (level == InternshipLevel.BASIC) {
+                    results.add(i);
+                }
+            } else {
+                results.add(i);
+            }
+        }
+
+        return results;
+    }
+
+
+    public static List<InternshipData> filterByMajor(String level) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.InternshipLevel.equalsIgnoreCase(level) && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+
+
+    // used for students
+    public static List<InternshipData> filterByInternshipLevel(InternshipLevel level) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.InternshipLevel.equalsIgnoreCase(level) && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+
+    public static List<InternshipData> filterByInternshipLevel(InternshipLevel level, List<InternshipData> list) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : list) {
+            if (i.InternshipLevel == level && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+
+    // used for students
+    public static List<InternshipData> filterByClosingDate(LocalDate date) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.ClosingDate.isBefore(date) && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
+
+    // used for students
+    public static List<InternshipData> filterBySlotsLeft(int slots) {
+        List<InternshipData> results = new ArrayList<>();
+
+        for (InternshipData i : getInternshipMap().values()) {
+            if (i.NumberofSlots == slots && "visible".equalsIgnoreCase(i.Visibility)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
 
     // getter for data since private 
     // returns unmodifiable map --> encapsulation
@@ -381,15 +484,27 @@ public class SystemData {
     }
 
     // gets password and firsttime login based on suername 
-    public static SystemDataEntities.Credentials getCredentials(String username) {
+    /*public static SystemDataEntities.Credentials getCredentials(String username) {
         SystemDataEntities.Credentials c = LoginMap.get(username); 
         return c;
 
-    }
+    }*/
 
     // checks if username exists 
     public static boolean checkUsername(String username) {
         return LoginMap.containsKey(username);
+    }
+
+    public static boolean checkPassword(String username, String password) {
+        Credentials c = LoginMap.get(username);
+        String mapPassword = c.Password;
+        return mapPassword.equals(password);
+
+    }
+
+    public static boolean getFirsttimelogin(String username) {
+        Credentials c = LoginMap.get(username);
+        return c.Firsttimelogin;
     }
 
     // changes the password based on new input passwrod and matches via username
@@ -414,6 +529,11 @@ public class SystemData {
     // load the map into a list for sorting and filtering 
     public static void MaptoList() {
 
+    }
+
+    public static String getCompanyStatus(String username) {
+        CompanyCSVData data = RepresentativeMap.get(username);
+        return data.Status;
     }
 
 
