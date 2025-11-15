@@ -1,11 +1,13 @@
-package sc2002project;
+package sc2002project.ObjectClasses;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Scanner;
-import sc2002project.SystemData.*;
-import sc2002project.SystemApp.*;
+import sc2002project.System.SystemData;
+import sc2002project.System.SystemApp;
+import sc2002project.System.SystemDataEntities.*;
 
-abstract class User {
+public abstract class User {
     private String userId;
     private String name;
     //private String email;
@@ -39,23 +41,21 @@ abstract class User {
 
         while (true) {
             if(SystemData.checkUsername(NameInput)) {
-            SystemDataEntities.Credentials c = SystemData.getCredentials(NameInput);  // ← this gets the credentials object
 
-                while(PWTries > 0 || pwInput != "0") {
+                while(PWTries > 0 || !pwInput.equals("break")) {
 
                     System.out.println("You have " + PWTries + " tries left, type \"0\" to exit");
                     System.out.print("Enter your password: ");
                     pwInput = sc.nextLine();
 
-                    if(c.Password.equals(pwInput)) {
+                    if(SystemData.checkPassword(NameInput,pwInput)) {
                         System.out.println("Login successful!");
-                        if (c.Password.equals("password")) {
+                        if (SystemData.getFirsttimelogin(NameInput)) {
                             System.out.println("First time login. Please change your password");
                             changePassword(NameInput);
                             //sc.close();
-                            pwInput = "0";
+                            pwInput = "break";
                             SystemData.setFirsttimelogin(false, NameInput);
-                            SystemApp.login(NameInput);
                             //System.out.println("exiting login");
                             return NameInput;
                         }
@@ -89,10 +89,9 @@ abstract class User {
 
     }
 
-    public void logout() {
-        System.out.println("logging out...");
-        SystemApp.logout();
-
+    public static void logout() {
+        SystemApp.setCurrentUser(null);
+        System.out.println("Logging out...");
     }
 
     // takes in the username returned by the login() function
@@ -119,7 +118,8 @@ abstract class User {
             String oldPW = scanner.nextLine();
 
             // checks if password match before changing based on hash map
-            if (!oldPW.equals(SystemData.getCredentials(username).Password)) {
+            //if (!oldPW.equals(SystemData.getCredentials(username).Password))
+            if (!SystemData.checkPassword(username,oldPW)) {
                 System.out.println("Wrong password, please try again.");
                 numberoftries++;
                 continue;
