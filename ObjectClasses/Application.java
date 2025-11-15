@@ -1,3 +1,8 @@
+package IPMS.ObjectClasses;
+
+import IPMS.Enums.*;
+import IPMS.UserManagement.IdGenerator;
+
 public class Application {
     private String id;                  
     private String studentId;           

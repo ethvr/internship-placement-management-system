@@ -7,16 +7,16 @@
 // handles login --> LoginMatch()
 // username -f (field before @ in email 
 // what if new student file etc wants to be introduced on top of pre existing data?
-package sc2002project.UserManagement;
+package IPMS.UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import sc2002project.System.SystemApp;
-import sc2002project.System.SystemData;
-import sc2002project.System.SystemDataEntities;
-import sc2002project.System.SystemDataEntities.*;
+import IPMS.System.SystemApp;
+import IPMS.System.SystemData;
+import IPMS.System.SystemDataEntities;
+import IPMS.System.SystemDataEntities.*;
 
 public class UserManager {
     

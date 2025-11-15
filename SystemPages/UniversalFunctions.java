@@ -1,9 +1,9 @@
-package sc2002project.SystemPages;
+package IPMS.SystemPages;
 
 import java.util.List;
 import java.util.Scanner;
 
-import sc2002project.System.SystemDataEntities.InternshipData;
+import IPMS.System.SystemDataEntities.InternshipData;
 
 public class UniversalFunctions {
 

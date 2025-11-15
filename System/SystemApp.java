@@ -1,16 +1,16 @@
 // main app class 
 // runs main
 // include login and logout functions to dictate current user 
-package sc2002project.System;
+package IPMS.System;
 
 import java.util.*;
-import sc2002project.System.SystemDataEntities.*;
-import sc2002project.SystemPages.MainPage;
-import sc2002project.SystemPages.Page;
-import sc2002project.SystemPages.PageAction;
-import sc2002project.UserManagement.UserManager;
-import sc2002project.System.SystemData.*;
-import sc2002project.ObjectClasses.User;
+import IPMS.System.SystemDataEntities.*;
+import IPMS.SystemPages.MainPage;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.UserManagement.UserManager;
+import IPMS.System.SystemData.*;
+import IPMS.ObjectClasses.User;
 import java.io.*;
 
 public class SystemApp {

@@ -1,4 +1,4 @@
-package sc2002project.SystemPages;
+package IPMS.SystemPages;
 
 public class PageAction {
 

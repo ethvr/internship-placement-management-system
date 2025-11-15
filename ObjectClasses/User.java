@@ -1,12 +1,11 @@
-package sc2002project.ObjectClasses;
-dawdadwdadwada
+package IPMS.ObjectClasses;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Scanner;
-import sc2002project.System.SystemData;
-import sc2002project.System.SystemApp;
-import sc2002project.System.SystemDataEntities.*;
+import IPMS.System.SystemData;
+import IPMS.System.SystemApp;
+import IPMS.System.SystemDataEntities.*;
 
 public abstract class User {
     private String userId;

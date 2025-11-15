@@ -4,7 +4,7 @@
 // create dynamic write back function (not done)
 // create dynamic read csv file function? (not done)
 // company, internship, application and withdrawl read function (not done)
-package sc2002project.System;
+package IPMS.System;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import sc2002project.System.SystemDataEntities.*; // change for final 
+import IPMS.System.SystemDataEntities.*; // change for final 
 
     
 public class SystemData {
@@ -42,7 +42,7 @@ public class SystemData {
     // try with hash map
     public static void loadStudentMap() {
 
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
         File[] files = folder.listFiles();
         File targetFile = null;
 
@@ -84,14 +84,14 @@ public class SystemData {
         //HashMap<String,T> map;
 
         // file path for desktop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PasswordCSVFolder");
+        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\OtherCSVFolder");
+        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PeopleCSVFolder");
+        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
+        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
+        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -113,13 +113,13 @@ public class SystemData {
         };
 
         /*if (filename.toLowerCase().contains("password")) {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
+            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PasswordCSVFolder");
         } else if (filename.toLowerCase().contains("application") 
                 || filename.toLowerCase().contains("withdrawal") 
                 || filename.toLowerCase().contains("internship")) {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
+            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\OtherCSVFolder");
         } else {
-            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+            folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
         }*/
 
         try {
@@ -224,14 +224,14 @@ public class SystemData {
     public static <T> void writeBackCSV(String filename, Map<String,T> map) {
 
         // file path for desktop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\sc2002project\\PeopleCSVFolder");
+        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PasswordCSVFolder");
+        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\OtherCSVFolder");
+        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\sc2002project\\PeopleCSVFolder");
+        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
+        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
+        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;

@@ -1,6 +1,8 @@
+package IPMS.ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;
+import IPMS.Enums.*;
 
 public class Internship {
      private String title;
