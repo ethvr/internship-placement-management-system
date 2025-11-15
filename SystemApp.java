@@ -191,16 +191,68 @@ public class SystemApp {
     }   
 
 
-    public static int StudentMenu() {
-        System.out.println("======= STUDENT =======");
-        System.out.println("[1] View all available Internships");
-        System.out.println("[2] View your Internship Applications");
-        System.out.println("[3] View your Withdrawal Applications");
-        System.out.println("[4] Logout\n");
+    private void studentMenu(Student student) {
+        Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter an option (1-4): ");
-        return readIntInRange(1, 4);
+        while (true) {
+            System.out.println("\n===== Student Menu =====");
+            System.out.println("1. View Available Internships");
+            System.out.println("2. View My Applications");
+            System.out.println("3. Apply for Internship");
+            System.out.println("4. Accept Successful Internship");
+            System.out.println("5. Request Withdrawal");
+            System.out.println("6. Change Password");
+            System.out.println("7. Logout");
+            System.out.print("Enter option: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("=== Available Internships ===");
+                    List<Internship> list = student.getEligibleInternships(systemData);
+                    for (Internship i : list) {
+                        System.out.println(i.getInternshipId() + " - " + i.getTitle());
+                    }
+                    break;
+
+                case 2:
+                    student.viewApplications(systemData);
+                    break;
+
+                case 3:
+                    System.out.print("Enter Internship ID to apply: ");
+                    String iid = sc.nextLine();
+                    student.applyForInternship(iid, systemData);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Application ID to accept: ");
+                    String aid = sc.nextLine();
+                    student.acceptInternship(aid, systemData);
+                    break;
+
+                case 5:
+                    System.out.print("Enter Application ID to withdraw: ");
+                    String wid = sc.nextLine();
+                    student.requestWithdrawal(wid, systemData);
+                    break;
+
+                case 6:
+                    student.changePassword(student.name);
+                    break;
+
+                case 7:
+                    System.out.println("Logging out...");
+                    return;
+
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
     }
+
 
 
     public static int StaffMenu() {
