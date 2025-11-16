@@ -14,8 +14,11 @@ import java.time.LocalDateTime;
 
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
+import IPMS.ObjectClasses.*;
 
     
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -26,9 +29,11 @@ public class SystemData {
     // changed student and staff to hashmap for faster lookup when instantiating
     
     // Key --> student ID --> change to username?
-    private static HashMap<String, StudentCSVData> StudentMap = new HashMap<>();
+    private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
+    private static HashMap<String, Student> StudentMap = new HashMap<>();
     // Key --> staff ID --> change to username?
-    private static HashMap<String, StaffCSVData> StaffMap = new HashMap<>();
+    private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
+    private static HashMap<String, CarrerCenter> StaffMap = new HashMap<>();
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeMap = new HashMap<>();
     // Key --> ID generator 

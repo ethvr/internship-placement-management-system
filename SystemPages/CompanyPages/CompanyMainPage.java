@@ -4,12 +4,17 @@ import IPMS.SystemPages.Page;
 import IPMS.SystemPages.PageAction;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
+
+import java.util.Map;
+
 import IPMS.ObjectClasses.*;
+import IPMS.System.SystemConverter;
 import IPMS.SystemPages.UniversalFunctions;
 
 public class CompanyMainPage implements Page{
 
     private final String username;
+
 
     public CompanyMainPage(String username) {
         this.username = username;
@@ -29,12 +34,16 @@ public class CompanyMainPage implements Page{
     @Override
     public PageAction next() {
 
+        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
+        CompanyCSVData data = map.get(username);
+        Company obj = SystemConverter.toCompanyRep(data);
+
         int opt = UniversalFunctions.readIntInRange(1, 4);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new ViewListedInternsipsPage(username));
-            case 2 -> PageAction.push(new ViewPendingInternshipsPage(username));
-            case 3 -> PageAction.push(new ViewApplicationsPage(username));
+            case 1 -> PageAction.push(new ViewListedInternsipsPage(obj));
+            case 2 -> PageAction.push(new ViewPendingInternshipsPage(obj));
+            case 3 -> PageAction.push(new ViewApplicationsPage(obj));
             case 4 -> {
                 User.logout();
                 yield PageAction.pop();
