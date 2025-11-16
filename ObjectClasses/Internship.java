@@ -25,9 +25,7 @@ public class Internship {
      private int slots;
      private String internshipId;
 
-     public Internship(String title, String description, InternshipLevel level, String preferredMajor,
-                      LocalDate openDate, LocalDate closeDate, String companyName,
-                      String compRep, int slots) {
+     public Internship(String title, String description, InternshipLevel level, String preferredMajor, LocalDate openDate, LocalDate closeDate, String companyName, String compRep, int slots) {
           this.title = title;
           this.description = description;
           this.level = level;
@@ -41,6 +39,10 @@ public class Internship {
           this.slots = slots;
           this.internshipId = IdGenerator.nextInternshipId();
      }
+
+    Internship(String internshipTitle, String description, InternshipLevel internshipLevel, String prefferedMajors, LocalDate openingDate, LocalDate closingDate, String companyName, String companyRepInCharge, int numberofSlots) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
      //adds an application to this internship's list of applications
      public void addApplication(Application app, SystemData data) {

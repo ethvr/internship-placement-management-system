@@ -51,11 +51,11 @@ public class SystemDataEntities {
             this.Year = year;
         }
 
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
+        public String getStudentID() { return StudentID; }
+        public String getName() { return Name; }
+        public String getMajor() { return Major; }
+        public int getYear() { return Year; }
+        public String getEmail() { return Email; }
     }
 
     // unknown
@@ -77,11 +77,11 @@ public class SystemDataEntities {
             this.Email = email;
         }
 
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
-        public String get() { return ; }
+        public String getStaffID() { return StaffID; }
+        public String getName() { return Name; }
+        public String getRole() { return Role; }
+        public String getDepartment() { return Department; }
+        public String getEmail() { return Email; }
     }
 
     /*private String companyName;✅ 
@@ -248,7 +248,14 @@ public class SystemDataEntities {
             this.RequestTime = requestTime;
             this.Remarks = remarks;
 
-            }
+        }
+
+        public String getUniqueID() { return UniqueID; }
+        public String getApplicationID() { return ApplicationID; }
+        public String getStudentID() { return StudentID; }
+        public WithdrawalStatus getStatus() { return Status; }
+        public LocalDateTime getRequestTime() { return RequestTime; }
+        public String getRemarks() { return Remarks; }
 
     }
 

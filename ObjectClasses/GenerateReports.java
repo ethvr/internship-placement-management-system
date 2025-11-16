@@ -15,16 +15,47 @@ public class GenerateReports{
 
     static Map <String, SystemDataEntities.InternshipData> internshipmap = SystemData.getInternshipMap();
     static Map <String, SystemDataEntities.ApplicationData> applicationmap = SystemData.getApplicationMap();
-    static List<Internship> InternshipList = new ArrayList<>();
-    static List<Application> ApplicationList = new ArrayList<>();
-    static Map <String, Application> ApplicationMap = new HashMap<>();
 
+    public List<Internship> loadInternships(
+        InternshipStatus status,
+        String major,
+        InternshipLevel level,
+        String companyName
+        ) {
+        List<Internship> list = new ArrayList<>();
 
+        // Load all internships from the CSV data map
+        for (InternshipData data : internshipmap.values()) {
+            Internship internship = new Internship(
+                data.getInternshipTitle(),
+                data.getDescription(),
+                data.getInternshipLevel(),
+                data.getPrefferedMajors(),
+                data.getOpeningDate(),
+                data.getClosingDate(),
+                data.getCompanyName(),
+                data.getCompanyRepInCharge(),
+                data.getNumberofSlots()
+            );
+            list.add(internship);
+        }
+
+        // Apply filters (only if filters are not null)
+        return list.stream()
+            .filter(i -> status == null || i.getStatus() == status)
+            .filter(i -> major == null || 
+                        i.getPreferredMajor().equalsIgnoreCase(major) ||
+                        i.getPreferredMajor().equalsIgnoreCase("Any"))
+            .filter(i -> level == null || i.getLevel() == level)
+            .filter(i -> companyName == null || 
+                        i.getCompanyName().equalsIgnoreCase(companyName))
+            .collect(Collectors.toList());
+    }
 
     // generate reports with applicants?
     public void printApplicants(Internship internship) {
 
-        ApplicationList.clear();
+        List<Application> ApplicationList = new ArrayList<>();
 
         String internshipID = internship.getId();
 
@@ -50,7 +81,7 @@ public class GenerateReports{
                     count,
                     app.getStudentId(),
                     app.getId(),
-                    app.getStatus()   // enum prints nicely
+                    app.getStatus()   
                 );
                 count++;
             
@@ -67,7 +98,7 @@ public class GenerateReports{
     // generate comprehensive reports regarding internship opportunities created
     public void generateFullReport() {
 
-        InternshipList.clear();
+        List<Internship> InternshipList = new ArrayList<>();
 
         for (InternshipData data : internshipmap.values()) {
 
@@ -109,9 +140,87 @@ public class GenerateReports{
 
     }
 
+    public void generateReportByStatus(InternshipStatus status) {
+        List<Internship> filtered = loadInternships(status, null, null, null);
+
+        System.out.println("\n=== Internships with Status: " + status + " ===\n");
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships found with status: " + status);
+            return;
+        }
+
+        for (Internship internship : filtered) {
+            System.out.println("- " + internship.getTitle() + " (" + internship.getCompanyName() + ")");
+        }
+    }
+
+    public void generateReportByMajor(String major) {
+        List<Internship> filtered = loadInternships(null, major, null, null);
+
+        System.out.println("\n=== Internships for Major: " + major + " ===\n");
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships found for major: " + major);
+            return;
+        }
+
+        for (Internship internship : filtered) {
+            System.out.println("- " + internship.getTitle() + " (" + internship.getCompanyName() + ")");
+        }
+    }
+
+    public void generateReportByLevel(InternshipLevel level) {
+        List<Internship> filtered = loadInternships(null, null, level, null);
+
+        System.out.println("\n=== Internships at Level: " + level + " ===\n");
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships found at this level: " + level);
+            return;
+        }
+
+        for (Internship internship : filtered) {
+            System.out.println("- " + internship.getTitle() + " (" + internship.getCompanyName() + ")");
+        }
+    }
+
+    public void generateReportByCompany(String company) {
+        List<Internship> filtered = loadInternships(null, null, null, company);
+
+        System.out.println("\n=== Internships from Company: " + company + " ===\n");
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships found for company: " + company);
+            return;
+        }
+
+        for (Internship internship : filtered) {
+            System.out.println("- " + internship.getTitle() + " (Status: " + internship.getStatus() + ")");
+        }
+    }
+
+    public void generateCustomReport(InternshipStatus status, String major,
+                                 InternshipLevel level, String company) {
+
+        List<Internship> filtered = loadInternships(status, major, level, company);
+
+        System.out.println("\n=== Custom Filtered Report ===\n");
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships match these filters.");
+            return;
+        }
+
+        int count = 1;
+        for (Internship internship : filtered) {
+            System.out.println(count++ + ". " + internship.getTitle());
+        }
+    }
+
     //generate report by status
 
-    public void generateReportByStatus(InternshipStatus status) {
+    /*public void generateReportByStatus(InternshipStatus status) {
 
         InternshipList.clear();
 
@@ -247,8 +356,7 @@ public class GenerateReports{
             System.out.println();
             count++;
         }
-    }
-
+    }*/
 
     public void viewPendingCompanyReps(CareerCenter careerCenter) {
         System.out.println("\n=== Pending Company Representative Requests ===\n");

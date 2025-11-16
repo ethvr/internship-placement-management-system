@@ -1,7 +1,7 @@
 
 GIHUB copy and paste ✅
 git add .
-git commit -m "0228 16112025 (fully updated packages)"
+git commit -m "1510 16112025 (fully updated packages)"
 git push
 
 When main updates:
@@ -80,3 +80,13 @@ TO DO LIST (7/11/26 ONWARDS)
     - status checker --> make get methods --> where else should i make get methods 
     - where to make getter methods and who to make them for?
     - visibility for internship data?
+
+    16112025 changes 
+    - added printfunc in generatereport
+    - updated generateFullReport() in generatereport
+    - add acceptedByStudent to application constructor (remove?)
+    - general load in ugeneratereport 
+
+
+    16112025 qns 
+    - cannot have default in obj params?
