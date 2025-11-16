@@ -1,26 +1,33 @@
 package IPMS.ObjectClasses;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import IPMS.Enums.*;
+import IPMS.UserManagement.IdGenerator;
+import IPMS.System.*;import jdk.jfr.Description;
+import jdk.vm.ci.meta.Local;
+;
+
 
 public class Internship {
      private String title;
      private String description;
      private InternshipLevel level; //when you initialise it you initialise it as InternshipLevel.BASIC etc
      private String preferredMajor;
-     private String openDate;
-     private String closeDate;
+     private LocalDate openDate;
+     private LocalDate closeDate;
      private InternshipStatus status; // Pending, Approved, Rejected, Filled   by careercentrestaff
      private String companyName;
-     private CompanyRepresentative compRep;
+     //private CompanyRepresentative compRep; // change to string for now 
+     private String compRep;
      private boolean visible;
      private int slots;
      private String internshipId;
 
      public Internship(String title, String description, InternshipLevel level, String preferredMajor,
-                      String openDate, String closeDate, String companyName,
-                      CompanyRepresentative compRep, int slots) {
+                      LocalDate openDate, LocalDate closeDate, String companyName,
+                      String compRep, int slots) {
           this.title = title;
           this.description = description;
           this.level = level;
@@ -54,6 +61,14 @@ public class Internship {
         }
         return result;
      }
+
+     public String getDescription() {
+          return description;
+     }
+
+     public String getPreferredMajor() {
+          return preferredMajor;
+     }
      
      public String getCompanyName() {
           return companyName;
@@ -65,10 +80,10 @@ public class Internship {
           return level;
      }
 
-     public String getOpenDate() {
+     public LocalDate getOpenDate() {
           return openDate;
      }
-     public String getCloseDate() {
+     public LocalDate getCloseDate() {
           return closeDate;
      }
      public boolean isVisibleTo(Student student) {

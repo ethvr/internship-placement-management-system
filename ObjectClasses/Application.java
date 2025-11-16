@@ -8,14 +8,14 @@ public class Application {
     private String studentId;           
     private String internshipId;        
     private ApplicationStatus status;   
-    private boolean acceptedByStudent;  
+    private boolean acceptedByStudent;  // added to constructor (luther)
     
-    public Application(String studentId, String internshipId, ApplicationStatus status) {
+    public Application(String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
         this.id = IdGenerator.nextAppId();
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
-        this.acceptedByStudent = false;
+        this.acceptedByStudent = acceptedByStudent;
     }
     //getters
     public String getId() {

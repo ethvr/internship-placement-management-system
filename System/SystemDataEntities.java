@@ -50,6 +50,12 @@ public class SystemDataEntities {
             this.Email = email;
             this.Year = year;
         }
+
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
     }
 
     // unknown
@@ -70,6 +76,12 @@ public class SystemDataEntities {
             this.Department = department;
             this.Email = email;
         }
+
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
+        public String get() { return ; }
     }
 
     /*private String companyName;✅ 
@@ -98,6 +110,14 @@ public class SystemDataEntities {
             this.Email = Email;
             this.Status = Status;
         }
+
+        public String getCompanyRepID() { return CompanyRepID; }
+        public String getName() { return Name; }
+        public String getCompanyName() { return CompanyName; }
+        public String getDepartment() { return Department; }
+        public String getPosition() { return Position; }
+        public String getEmail() { return Email; }
+        public String getStatus() { return Status; }
 
     }
     // under company rep in assignment pdf
@@ -192,6 +212,13 @@ public class SystemDataEntities {
             //this.Withdraw = withdraw;
 
         }   
+
+        public String getUniqueID() { return UniqueID; }
+        public String getStudentID() { return StudentID; }
+        public String getInternshipID() { return InternshipID; }
+        public ApplicationStatus getStatus() { return Status; }
+        public boolean  getAcceptedByStudent() { return AcceptedByStudent; }
+        
     }
     // for staff 
     // check object class for extra parameters that need to be stored 
