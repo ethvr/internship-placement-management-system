@@ -1,4 +1,5 @@
 package Companypackage;
+//import SystemData;
 import java.util.Scanner;
 
 public class CompanyRegistrationManager { //or comp controller i didnt see that class at first so i replaced it with this class
@@ -111,7 +112,39 @@ public class CompanyRegistrationManager { //or comp controller i didnt see that 
         System.out.println("DEPARTMENT: " + compRep.getDepartment());
         System.out.println("POSITION: " + compRep.getPosition());
     }
+    public static void checkCompanyStatus(Scanner scanner) {
+        System.out.print("Enter your email: ");
+        String email = scanner.nextLine().trim();
     
+        if (!email.contains("@")) {
+            System.out.println("Invalid email format.\n");
+            return;
+        }
+    
+        String username = email.substring(0, email.indexOf('@'));
+    
+        // Look up in representatives map
+        CompanyRepresentative compRep = SystemData.representatives.get(username);
+    
+        if (compRep == null) {
+         System.out.println("No registration found for this email.\n");
+            return;
+        }
+    
+        // Display status
+        System.out.println("\n=== Account Status ===");
+        System.out.println("Email: " + compRep.getUserId());
+        System.out.println("Name: " + compRep.getName());
+        System.out.println("Company: " + compRep.getCompanyName());
+    
+        if (compRep.isApproved()) {
+           System.out.println("Status: ✓ APPROVED");
+          System.out.println("You can now login with your credentials.\n");
+        } else {
+          System.out.println("Status: ⏳ PENDING APPROVAL");
+          System.out.println("Your account is awaiting approval from Career Centre staff.\n");
+        }
+    }
     /**
      * Utility method to read integer in range
      */

@@ -1,6 +1,8 @@
-
+///controller class for internship entity objects
 import java.util.ArrayList;
 import java.util.List;
+
+import Companypackage.CompanyRepresentative;
 
 public class Internship {
      private String title;
@@ -28,8 +30,8 @@ public class Internship {
           this.status = InternshipStatus.PENDING;
           this.companyName = companyName;
           this.compRep = compRep;
-          this.visible = false;
-          this.slots = slots;
+          this.visible = false;      ///////////
+          this.slots = slots;        ///////////
           this.internshipId = IdGenerator.nextInternshipId();
      }
 

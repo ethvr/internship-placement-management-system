@@ -1,9 +1,9 @@
-package sc2002project.SystemPages;
+// package SystemPages;
 
 import java.util.List;
 import java.util.Scanner;
 
-import sc2002project.System.SystemDataEntities.InternshipData;
+//import sc2002project.System.SystemDataEntities.InternshipData;
 
 public class UniversalFunctions {
 
