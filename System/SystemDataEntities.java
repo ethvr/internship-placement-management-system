@@ -97,11 +97,12 @@ public class SystemDataEntities {
         String Department;
         String Position;
         String Email;
-        String Status;
+        CompanyApprovalStatus Status; // change to enumerators 
 
         public CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
 
-        CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, String Position, String Email, String Status) {
+        CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, 
+                       String Position, String Email, CompanyApprovalStatus Status) {
             this.CompanyRepID = CompanyRepID;
             this.Name = Name;
             this.CompanyName = CompanyName;

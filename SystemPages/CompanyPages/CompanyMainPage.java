@@ -36,7 +36,7 @@ public class CompanyMainPage implements Page{
 
         Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
         CompanyCSVData data = map.get(username);
-        Company obj = SystemConverter.toCompanyRep(data);
+        CompanyRepresentative obj = SystemConverter.toCompanyRep(data);
 
         int opt = UniversalFunctions.readIntInRange(1, 4);
 

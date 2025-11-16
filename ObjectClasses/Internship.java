@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
-import IPMS.System.*;import jdk.jfr.Description;
-import jdk.vm.ci.meta.Local;
-;
+import IPMS.System.*;
+import jdk.jfr.Description;
+
 
 
 public class Internship {
@@ -25,7 +25,8 @@ public class Internship {
      private int slots;
      private String internshipId;
 
-     public Internship(String title, String description, InternshipLevel level, String preferredMajor, LocalDate openDate, LocalDate closeDate, String companyName, String compRep, int slots) {
+     public Internship(String title, String description, InternshipLevel level, String preferredMajor, LocalDate openDate, LocalDate closeDate, 
+                       String companyName, String compRep, int slots) {
           this.title = title;
           this.description = description;
           this.level = level;
@@ -40,9 +41,25 @@ public class Internship {
           this.internshipId = IdGenerator.nextInternshipId();
      }
 
-    Internship(String internshipTitle, String description, InternshipLevel internshipLevel, String prefferedMajors, LocalDate openingDate, LocalDate closingDate, String companyName, String companyRepInCharge, int numberofSlots) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+     public Internship(String title, String description, InternshipLevel level, String preferredMajor, LocalDate openDate, LocalDate closeDate, 
+                       InternshipStatus status, String companyName, String compRep, boolean visible, int slots, String internshipId) {
+          this.title = title;
+          this.description = description;
+          this.level = level;
+          this.preferredMajor = preferredMajor;
+          this.openDate = openDate;
+          this.closeDate = closeDate;
+          this.status = status;
+          this.companyName = companyName;
+          this.compRep = compRep;
+          this.visible = visible;
+          this.slots = slots;
+          this.internshipId = internshipId;
+     }
+
+     /*Internship(String internshipTitle, String description, InternshipLevel internshipLevel, String prefferedMajors, LocalDate openingDate, LocalDate closingDate, String companyName, String companyRepInCharge, int numberofSlots) {
+          throw new UnsupportedOperationException("Not supported yet.");
+     }*/
 
      //adds an application to this internship's list of applications
      public void addApplication(Application app, SystemData data) {

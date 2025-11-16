@@ -5,23 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import IPMS.Enums.ApplicationStatus;
-import IPMS.Enums.InternshipLevel;
-import IPMS.Enums.WithdrawalStatus;
+import IPMS.Enums.*;
 import IPMS.System.SystemData;
 import IPMS.UserManagement.IdGenerator;
 
 public class Student extends User {
     private int yearOfStudy;
     private String major;
+    private String email;
 
-    public Student(String id, String name, String password,
+    public Student(String id, String name, //String password,
                    int yearOfStudy, String major) {
         super(id, name);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
     }
 
+    public Student(String id, String name, String email,
+                   int yearOfStudy, String major) {
+        super(id, name);
+        this.email = email;
+        this.yearOfStudy = yearOfStudy;
+        this.major = major;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    
     public int getYearOfStudy() {
         return yearOfStudy;
     }

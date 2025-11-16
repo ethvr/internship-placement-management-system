@@ -3,13 +3,14 @@ package IPMS.ObjectClasses;
 import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.UserManagement.*;
+import java.time.LocalDate;
 
 public class WithdrawalRequest {
     private String id;                      
     private String applicationId;           
     private String studentId;               
     private WithdrawalStatus status;        
-    private LocalDateTime requestTime;      
+    private LocalDate requestTime;      
     private String remarks;                
 
 
@@ -18,8 +19,17 @@ public class WithdrawalRequest {
         this.applicationId = applicationId;
         this.studentId = studentId;
         this.status = status;
-        this.requestTime = LocalDateTime.now();
+        this.requestTime = LocalDate.now();
         this.remarks = "";
+    }
+
+    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status, LocalDate requestTime, String remarks) {
+        this.id = id;
+        this.applicationId = applicationId;
+        this.studentId = studentId;
+        this.status = status;
+        this.requestTime = requestTime;
+        this.remarks = remarks;
     }
 
     public String getId() {

@@ -51,7 +51,7 @@ public class StudentMainPage implements Page{
             case 3 -> PageAction.push(new ViewWithdrawalsPage(studentObj));
             case 4 -> {
                 User.logout();
-                yield PageAction.pop();
+                yield PageAction.exit();
             }
             default -> PageAction.pop();
         };

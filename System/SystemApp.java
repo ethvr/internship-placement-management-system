@@ -42,6 +42,7 @@ public class SystemApp {
                 case EXIT -> nav.clear();  // Clear stack = exit program
             }
         }
+        
 
         //File OutputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder\\usernames_and_passwords.csv");
         //System.out.println(OutputFile.exists());

@@ -2,6 +2,7 @@ package IPMS.ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import IPMS.Enums.*;
 import IPMS.System.SystemData;
 
@@ -31,7 +32,7 @@ public class CompanyRepresentative extends User {
      }
 
      public void createInternship(String title, String description, InternshipLevel level,
-                                 String preferredMajor, String openDate, String closeDate, int slots, SystemData data) {
+                                 String preferredMajor, String openDate, String closeDate, int slots) {
           if (!isApproved()) {
                System.out.println("Account not approved by Career Center yet!");
                return;
@@ -57,7 +58,7 @@ public class CompanyRepresentative extends User {
 
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
-     }
+    }
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");

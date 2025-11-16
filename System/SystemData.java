@@ -33,15 +33,19 @@ public class SystemData {
     private static HashMap<String, Student> StudentMap = new HashMap<>();
     // Key --> staff ID --> change to username?
     private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
-    private static HashMap<String, CarrerCenter> StaffMap = new HashMap<>();
+    private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     // Key --> Comp rep ID --> change to username?
-    private static HashMap<String, CompanyCSVData> RepresentativeMap = new HashMap<>();
+    private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
+    private static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
     // Key --> ID generator 
-    private static HashMap<String, InternshipData> InternshipMap = new HashMap<>();
+    private static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
+    private static HashMap<String, Internship> InternshipMap = new HashMap<>();
     // Key --> ID generator
-    private static HashMap<String, ApplicationData> ApplicationMap = new HashMap<>();
+    private static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
+    private static HashMap<String, Application> ApplicationMap = new HashMap<>();
     // Key --> ID generator
-    private static HashMap<String, WithdrawalData> WithdrawalMap = new HashMap<>();
+    private static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
+    private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 

@@ -8,15 +8,26 @@ public class Application {
     private String studentId;           
     private String internshipId;        
     private ApplicationStatus status;   
-    private boolean acceptedByStudent;  // added to constructor (luther)
+    private boolean acceptedByStudent;
     
-    public Application(String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
+    // CONSTRUCTOR FOR CREATING THE OBJ AT THE START
+    public Application(String studentId, String internshipId) {
         this.id = IdGenerator.nextAppId();
+        this.studentId = studentId;
+        this.internshipId = internshipId;
+        this.status = ApplicationStatus.PENDING;
+        this.acceptedByStudent = false;
+    }
+    // constructor for creating obj from map 
+    public Application(String id, String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
+        this.id = id;
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
         this.acceptedByStudent = acceptedByStudent;
+
     }
+
     //getters
     public String getId() {
         return id;}

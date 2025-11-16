@@ -9,6 +9,7 @@ import IPMS.System.SystemData;
 import IPMS.System.SystemDataEntities;
 import IPMS.System.SystemDataEntities.InternshipData;
 import IPMS.ObjectClasses.Internship;
+import IPMS.System.SystemConverter;
 
 
 public class GenerateReports{

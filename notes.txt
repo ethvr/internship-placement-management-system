@@ -1,7 +1,7 @@
 
 GIHUB copy and paste ✅
 git add .
-git commit -m "1510 16112025 (fully updated packages)"
+git commit -m "1946 16112025"
 git push
 
 When main updates:
@@ -86,7 +86,8 @@ TO DO LIST (7/11/26 ONWARDS)
     - updated generateFullReport() in generatereport
     - add acceptedByStudent to application constructor (remove?)
     - general load in ugeneratereport 
+    - altered aplication constructors 
 
 
     16112025 qns 
-    - cannot have default in obj params?
+    - cannot have default in obj params? --> multiple constructors 
