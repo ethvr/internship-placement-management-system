@@ -1,11 +1,11 @@
-package IPMS.SystemPages.CompanyPages;
+package SystemPages.CompanyPages;
 
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
-import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import SystemPages.Page;
+import SystemPages.PageAction;
+import System.SystemDataEntities.*;
+import System.SystemData;
+import ObjectClasses.*;
+import SystemPages.UniversalFunctions;
 
 public class CompanyMainPage implements Page{
 

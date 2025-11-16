@@ -1,8 +1,8 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import IPMS.Enums.*;
+import Enums.*;
 
 public class CareerCenter extends User {
 

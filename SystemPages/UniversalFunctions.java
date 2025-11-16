@@ -1,4 +1,4 @@
-package IPMS.SystemPages;
+package SystemPages;
 
 import java.util.List;
 import java.util.Scanner;

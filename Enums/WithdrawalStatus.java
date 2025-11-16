@@ -1,4 +1,4 @@
-package IPMS.Enums;
+package Enums;
 
 public enum WithdrawalStatus {
     PENDING,        

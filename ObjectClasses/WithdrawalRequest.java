@@ -1,8 +1,8 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
 import java.time.LocalDateTime;
-import IPMS.Enums.*;
-import IPMS.UserManagement.*;
+import Enums.*;
+import UserManagement.*;
 
 public class WithdrawalRequest {
     private String id;                      

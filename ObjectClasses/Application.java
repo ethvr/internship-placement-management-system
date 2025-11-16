@@ -1,7 +1,7 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
-import IPMS.Enums.*;
-import IPMS.UserManagement.IdGenerator;
+import Enums.*;
+import UserManagement.IdGenerator;
 
 public class Application {
     private String id;                  

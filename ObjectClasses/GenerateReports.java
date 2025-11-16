@@ -1,14 +1,14 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import IPMS.Enums.InternshipLevel;
-import IPMS.Enums.InternshipStatus;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities;
-import IPMS.System.SystemDataEntities.InternshipData;
-import IPMS.ObjectClasses.Internship;
+import Enums.InternshipLevel;
+import Enums.InternshipStatus;
+import System.SystemData;
+import System.SystemDataEntities;
+import System.SystemDataEntities.InternshipData;
+import ObjectClasses.Internship;
 
 
 public class GenerateReports{

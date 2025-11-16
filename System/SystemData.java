@@ -4,7 +4,7 @@
 // create dynamic write back function (not done)
 // create dynamic read csv file function? (not done)
 // company, internship, application and withdrawl read function (not done)
-package IPMS.System;
+package System;
 
 import java.io.*;
 import java.util.*;
@@ -12,8 +12,8 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import IPMS.Enums.*;
-import IPMS.System.SystemDataEntities.*; // change for final 
+import Enums.*;
+import System.SystemDataEntities.*; // change for final 
 
     
 public class SystemData {
@@ -43,7 +43,7 @@ public class SystemData {
     // try with hash map
     public static void loadStudentMap() {
 
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
+        File folder = new File("/Users/auminove/Documents/GitHub/IPMS/data/sample_student_list.csv");
         File[] files = folder.listFiles();
         File targetFile = null;
 
@@ -90,9 +90,9 @@ public class SystemData {
         //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        File PasswordFolder = new File("/Users/auminove/Documents/GitHub/IPMS/PasswordCSVFolder");
+        File OtherFolder = new File("/Users/auminove/Documents/GitHub/IPMS/IPMS/OtherCSVFolder");
+        File PeopleFolder = new File("/Users/auminove/Documents/GitHub/IPMS/PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -230,9 +230,17 @@ public class SystemData {
         //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+
+        // use project-relative folders instead of hard-coded absolute paths
+        File base = new File(System.getProperty("/Users/auminove/Documents/GitHub/IPMS/"));
+        File PasswordFolder = new File(base, "PasswordCSVFolder");
+        File OtherFolder = new File(base, "OtherCSVFolder");
+        File PeopleFolder = new File(base, "PeopleCSVFolder");
+
+
+        // File PasswordFolder = new File("/Users/auminove/Documents/GitHub/IPMS/PasswordCSVFolder");
+        // File OtherFolder = new File("/Users/auminove/Documents/GitHub/IPMS/OtherCSVFolder");
+        // File PeopleFolder = new File("/Users/auminove/Documents/GitHub/IPMS/PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;

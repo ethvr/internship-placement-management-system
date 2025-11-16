@@ -1,15 +1,15 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import IPMS.Enums.ApplicationStatus;
-import IPMS.Enums.InternshipLevel;
-import IPMS.Enums.WithdrawalStatus;
-import IPMS.System.SystemData;
-import IPMS.UserManagement.IdGenerator;
+import Enums.ApplicationStatus;
+import Enums.InternshipLevel;
+import Enums.WithdrawalStatus;
+import System.SystemData;
+import UserManagement.IdGenerator;
 
 public class Student extends User {
     private int yearOfStudy;

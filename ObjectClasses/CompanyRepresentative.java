@@ -2,8 +2,8 @@ package IPMS.ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;
-import IPMS.Enums.*;
-import IPMS.System.SystemData;
+import Enums.*;
+import System.SystemData;
 
 public class CompanyRepresentative extends User {
 

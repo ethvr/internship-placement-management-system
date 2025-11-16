@@ -1,8 +1,8 @@
-package IPMS.SystemPages.MainSubPages;
+package SystemPages.MainSubPages;
 
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.UserManagement.UserManager;
+import SystemPages.Page;
+import SystemPages.PageAction;
+import UserManagement.UserManager;
 import java.util.List;
 
 public class CompanyRegisterPage implements Page {

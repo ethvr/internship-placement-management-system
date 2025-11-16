@@ -1,9 +1,9 @@
-package IPMS.SystemPages.MainSubPages;
+package SystemPages.MainSubPages;
 
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.SystemPages.UniversalFunctions;
-import IPMS.UserManagement.UserManager;
+import SystemPages.Page;
+import SystemPages.PageAction;
+import SystemPages.UniversalFunctions;
+import UserManagement.UserManager;
 
 public class CompanyStatusPage implements Page{
 

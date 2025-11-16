@@ -1,4 +1,4 @@
-package IPMS.UserManagement;
+package UserManagement;
 
 public class IdGenerator {
 

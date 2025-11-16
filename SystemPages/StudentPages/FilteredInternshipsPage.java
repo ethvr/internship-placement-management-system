@@ -1,17 +1,17 @@
-package IPMS.SystemPages.StudentPages;
+package SystemPages.StudentPages;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
-import IPMS.Enums.InternshipLevel;
-import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import SystemPages.Page;
+import SystemPages.PageAction;
+import System.SystemDataEntities.*;
+import System.SystemData;
+import Enums.InternshipLevel;
+import ObjectClasses.*;
+import SystemPages.UniversalFunctions;
 
 
 public class FilteredInternshipsPage implements Page {
