@@ -10,7 +10,7 @@ public class CompanyRepresentative extends User {
      private String companyName;
      private String department;//of the company rep
      private String position;//of the company rep
-     private boolean isApproved;//account created approced by career centre
+     private CompanyApprovalStatus status;
      private List<Internship> internshipsCreated; //for each comp rep to track their internships
 
      //Constructor
@@ -21,7 +21,7 @@ public class CompanyRepresentative extends User {
           this.companyName = companyName;
           this.department = department;
           this.position = position;
-          this.isApproved = false;
+          this.status = CompanyApprovalStatus.PENDING;
           this.internshipsCreated = new ArrayList<>();
      }
      
@@ -32,7 +32,7 @@ public class CompanyRepresentative extends User {
 
      public void createInternship(String title, String description, InternshipLevel level,
                                  String preferredMajor, String openDate, String closeDate, int slots, SystemData data) {
-          if (!isApproved) {
+          if (!isApproved()) {
                System.out.println("Account not approved by Career Center yet!");
                return;
          }
@@ -57,7 +57,7 @@ public class CompanyRepresentative extends User {
 
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
-    }
+     }
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
@@ -76,8 +76,9 @@ public class CompanyRepresentative extends User {
 
      // setters and getters
      public void setApproved(boolean approved) { this.isApproved = approved; }
-     public boolean isApproved() { //the comp rep's acc
-          return isApproved; 
+     
+     public boolean isApproved() { //the comp rep's account status
+          return this.status == CompanyApprovalStatus.APPROVED; 
      }
 
      public String getCompanyName() {
