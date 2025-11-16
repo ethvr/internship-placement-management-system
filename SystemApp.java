@@ -1,13 +1,16 @@
 // main app class 
 // runs main
 // include login and logout functions to dictate current user 
-package sc2002project;
+package sc2002project.System;
+
 import java.util.*;
-import java.lang.reflect.Field;
-
-import sc2002project.SystemDataEntities.*;
-import sc2002project.SystemData.*;
-
+import sc2002project.System.SystemDataEntities.*;
+import sc2002project.SystemPages.MainPage;
+import sc2002project.SystemPages.Page;
+import sc2002project.SystemPages.PageAction;
+import sc2002project.UserManagement.UserManager;
+import sc2002project.System.SystemData.*;
+import sc2002project.ObjectClasses.User;
 import java.io.*;
 
 public class SystemApp {
@@ -21,10 +24,29 @@ public class SystemApp {
         UserManager.UsernameCSVGenerator();
         SystemData.loadIntoMap("password", Credentials.class);
 
+        Stack<Page> nav = new Stack<>();
+        nav.push(new MainPage());   // Start at the main menu
+
+        // --- Main Loop ---
+        while (!nav.isEmpty()) {
+
+            Page current = nav.peek();   // Top of stack = current page
+
+            current.showMenu();          // Display page UI
+            PageAction action = current.next();  // Process user input
+
+            // Handle page navigation
+            switch (action.gettype()) {
+                case PUSH -> nav.push(action.getnextPage());
+                case POP  -> nav.pop();
+                case EXIT -> nav.clear();  // Clear stack = exit program
+            }
+        }
+
         //File OutputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder\\usernames_and_passwords.csv");
         //System.out.println(OutputFile.exists());
 
-        int option2;
+        /*int option2;
         int optionBack = 3;
         // optionback 3 or 4?
         while (optionBack == 3 || optionBack == 4){
@@ -34,25 +56,25 @@ public class SystemApp {
             case 1 -> {
                 String username = User.login();
                 if (!username.equals("NIL")) {
+                    SystemData.loadIntoMap("internship", InternshipData.class);
+                    SystemData.loadIntoMap("application", ApplicationData.class);
+                    SystemData.loadIntoMap("withdrawal", WithdrawalData.class);
                     currentUser = username;
                     switch (SystemData.getCredentialsType(username).toLowerCase()) {
                         case "student" -> {
                             // load relevaent maps (code here)
                             SystemData.loadIntoMap("student", StudentCSVData.class);
-                            SystemData.loadIntoMap("internship", InternshipData.class);
-                            SystemData.loadIntoMap("application", ApplicationData.class);
-                            SystemData.loadIntoMap("withdrawal", WithdrawalData.class);
                             // student map
                             Map<String, StudentCSVData> studentmap = SystemData.getStudentMap();
                             // get users object
-                            StudentCSVData data = studentmap.get(currentuser);
+                            StudentCSVData data = studentmap.get(currentUser);
 
                             Student studentObj = new Student(
                                     data.StudentID,
                                     data.Name,
                                     data.Year,
                                     data.Major
-                            );
+                                );
 
                             option2 = StudentMenu();
                             switch (option2) {
@@ -73,7 +95,18 @@ public class SystemApp {
 
                         case "staff" -> {
                             // load relevaent maps (code here)
+                            SystemData.loadIntoMap("staff", StudentCSVData.class);
                             // career staff map?
+                            Map<String, StaffCSVData> staffmap = SystemData.getStaffMap();
+                            // get users object
+                            StaffCSVData data = staffmap.get(currentUser);
+                            
+                            CareerCenter staffObj = new CareerCenter(
+                                    data.StaffID,
+                                    data.Name,
+                                    data.Department
+                                );
+
                             // application withdrawal and internship maps 
                             option2 = StaffMenu();
                             switch (option2) {
@@ -95,8 +128,20 @@ public class SystemApp {
 
                         case "company" -> {
                             // load relevaent maps (code here)
-                            // company map?
-                            // application withdrawal and internship maps 
+                            SystemData.loadIntoMap("staff", StudentCSVData.class);
+                            // career staff map?
+                            Map<String, CompanyCSVData> companymap = SystemData.getCompanyMap();
+                            // get users object
+                            CompanyCSVData data = companymap.get(currentUser);
+
+                            CompanyRepresentative companyObj = CompanyRepresentative(
+                                    data.Email,
+                                    data.Name,
+                                    data.CompanyName,
+                                    data.Department,
+                                    data.Position
+                                );
+                                
                             option2 = CompanyMenu();
                             switch (option2) {
                                 case 1 -> {
@@ -142,12 +187,11 @@ public class SystemApp {
                     }
 
                 }
-                
-                
+                                
             }
             
             case 3 -> {              
-                optionBack = CompanyStatusCheck();
+                optionBack = UserManager.CompanyStatusCheck();
                 
             }
 
@@ -159,21 +203,16 @@ public class SystemApp {
 
             } // switch end bracket
         
-        }
-    }
-        
+        }*/
+    }       
 
-    // clears username upon logout to change object for next login
-    // protected or public or private?
-    protected static void logout() {
-        currentUser = null;
-        System.out.println("logging out...");
-
-    }
+    public static void setCurrentUser(String user) {
+        currentUser = user;
+    }       
 
     //username from user login and creates object?
     // protected or public or private?
-    protected static void login(String username) {
+    public static void login(String username) {
         currentUser = username;
     }
 
@@ -265,59 +304,7 @@ public class SystemApp {
         }
     }
 
-    public static int CompanyStatusCheck() {
-        System.out.print("Enter your Email used for registration: ");
-        String email;
-
-        while (true) {
-            email = sc.nextLine().trim();
-
-            if (email.isEmpty()) {
-                System.out.println("Email cannot be empty. Please try again:");
-                continue;
-            }
-
-            if (!email.contains("@") 
-                || email.startsWith("@") 
-                || email.endsWith("@") 
-                || email.indexOf('@') != email.lastIndexOf('@')) {
-
-                System.out.println("Invalid email format. Please enter a valid email:");
-                continue;
-            }
-
-            break;
-        }
-
-        String username = email.substring(0, email.indexOf('@')).trim();
-
-        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
-
-        SystemDataEntities.CompanyCSVData data = map.get(username);
-
-        String status;
-
-        if (data == null) {
-            System.out.println("Error: Account does not exist.");
-            return 4;
-        } else {
-            // make getter method?
-            System.out.println("====== STATUS ======");
-            status = data.getCompanyStatus(); 
-            System.out.println("Account Approval Status: " + status);
-        }
-
-        if (status.equalsIgnoreCase("approved")) {
-            System.out.println("====== LOGIN DETAILS ======");
-            System.out.println("Your Username is: " + username);
-            System.out.println("Your Password is: password");
-        }
-        return 4;
-
-    }
-
-
-    //Returns a internship list filtered to a specific company
+    /*//Returns a internship list filtered to a specific company
     public static List<InternshipData> filterByCompanyName(String companyName) {
         List<InternshipData> results = new ArrayList<>();
 
@@ -338,7 +325,7 @@ public class SystemApp {
             }
         }
         return results;
-    }
+    }*/
 
     public static void printList()  {
         // universal print list func 

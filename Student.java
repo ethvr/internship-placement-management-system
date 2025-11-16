@@ -140,3 +140,96 @@ public class Student extends User {
         return null;
     }
 }
+
+public void viewApplications(SystemData data) {
+    Map<String, Application> apps = data.getApplications();
+
+    boolean found = false;
+    for (Application app : apps.values()) {
+        if (app.getStudentId().equals(this.getUserId())) {
+            found = true;
+            System.out.println("--------------------------------");
+            System.out.println("Application ID : " + app.getId());
+            System.out.println("Internship ID  : " + app.getInternshipId());
+            System.out.println("Status         : " + app.getStatus());
+            System.out.println("Accepted?      : " + app.isAcceptedByStudent());
+        }
+    }
+
+    if (!found) {
+        System.out.println("You have no internship applications.");
+    }
+}
+
+public List<Application> getAllMyApplications(SystemData data) {
+    List<Application> list = new ArrayList<>();
+    for (Application app : data.getApplications().values()) {
+        if (app.getStudentId().equals(this.getUserId())) {
+            list.add(app);
+        }
+    }
+    return list;
+}
+
+public void acceptInternship(String applicationId, SystemData data) {
+    Application app = data.getApplications().get(applicationId);
+
+    if (app == null) {
+        System.out.println("Invalid Application ID.");
+        return;
+    }
+
+    if (!app.getStudentId().equals(this.getUserId())) {
+        System.out.println("You cannot accept someone else's application.");
+        return;
+    }
+
+    if (app.getStatus() != ApplicationStatus.SUCCESSFUL) {
+        System.out.println("You can only accept a SUCCESSFUL application.");
+        return;
+    }
+
+    // Accept this internship
+    app.setAcceptedByStudent(true);
+    System.out.println("You have accepted the internship: " + app.getInternshipId());
+
+    // Withdraw all other applications
+    for (Application other : data.getApplications().values()) {
+        if (other.getStudentId().equals(this.getUserId()) &&
+                !other.getId().equals(applicationId)) {
+            this.requestWithdrawal(other.applicationID, data);
+            other.setStatus(ApplicationStatus.WITHDRAWN);
+            other.setAcceptedByStudent(false);
+        }
+    }
+}
+
+
+// REQUEST WITHDRAWAL
+public void requestWithdrawal(String applicationId, SystemData data) {
+    Application app = data.getApplications().get(applicationId);
+
+    if (app == null) {
+        System.out.println("Invalid Application ID.");
+        return;
+    }
+
+    if (!app.getStudentId().equals(this.getUserId())) {
+        System.out.println("This application does not belong to you.");
+        return;
+    }
+
+    // Create withdrawal request
+    String wid = IdGenerator.nextWithdrawalId();
+    WithdrawalRequest req = new WithdrawalRequest(
+            wid,
+            app.getId(),
+            this.getUserId(),
+            WithdrawalStatus.PENDING,
+            LocalDateTime.now(),
+            "Requested by student"
+    );
+
+    data.addWithdrawalRequest(req);
+    System.out.println("Withdrawal request created. Request ID: " + wid);
+}

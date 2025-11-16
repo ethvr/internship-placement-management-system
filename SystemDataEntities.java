@@ -1,6 +1,8 @@
-package sc2002project;
+package sc2002project.System;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.spi.LocaleNameProvider;
 // import the enums 
 
@@ -11,7 +13,7 @@ public class SystemDataEntities {
     // key for hash map is username 
     public static class Credentials {
         String Password;
-        boolean Firsttimelogin;
+        boolean Firsttimelogin; // true --> means have not logged iny et --> first time logging in 
         String Type;
         //boolean AccountActivated; // to check if alread enrolled into system?
 
@@ -22,7 +24,8 @@ public class SystemDataEntities {
             this.Firsttimelogin = Firsttimelogin;
             this.Type = Type;
             }
-        }   
+
+    }   
 
     /*String id✅ 
     String name✅ 
@@ -83,7 +86,7 @@ public class SystemDataEntities {
         String Email;
         String Status;
 
-        CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
+        public CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
 
         CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, String Position, String Email, String Status) {
             this.CompanyRepID = CompanyRepID;
@@ -94,9 +97,7 @@ public class SystemDataEntities {
             this.Email = Email;
             this.Status = Status;
         }
-        public String getCompanyStatus() {
-            return Status;
-        }
+
     }
     // under company rep in assignment pdf
     // check object class for extra parameters that need to be stored 
@@ -118,10 +119,10 @@ public class SystemDataEntities {
         String UniqueID;
         String InternshipTitle;
         String Description;
-        String InternshipLevel; // basic medium advanced 
+        InternshipLevel InternshipLevel; // basic medium advanced 
         String PrefferedMajors; //assume 1 will do
-        int OpeningDate;
-        int ClosingDate;
+        LocalDate OpeningDate;
+        LocalDate ClosingDate;
         String Status; //(“Pending”, “Approved”, “Rejected”, “Filled”) approved by staff 
         String CompanyName;
         String CompanyRepInCharge; //(automatically assigned)?
@@ -131,7 +132,7 @@ public class SystemDataEntities {
         InternshipData() {} // no arg com
 
         InternshipData(String uniqueID, String internshipTitle, String description, String internshipLevel,
-                       String prefferedMajors, int openingDate, int closingDate,
+                       String prefferedMajors, LocalDate openingDate, LocalDate closingDate,
                        String status, String companyName, String companyRepInCharge,
                        int numberofSlots) {
 
@@ -147,6 +148,19 @@ public class SystemDataEntities {
             this.CompanyRepInCharge = companyRepInCharge;
             this.NumberofSlots = numberofSlots;
         }
+
+        public String getUniqueID() { return UniqueID; }
+        public String getInternshipTitle() { return InternshipTitle; }
+        public String getDescription() { return Description; }
+        public InternshipLevel getInternshipLevel() { return InternshipLevel; }
+        public String getPrefferedMajors() { return PrefferedMajors; }
+        public LocalDate getOpeningDate() { return OpeningDate; }
+        public LocalDate getClosingDate() { return ClosingDate; }
+        public String getStatus() { return Status; }
+        public String getCompanyName() { return CompanyName; }
+        public String getCompanyRepInCharge() { return CompanyRepInCharge; }
+        public int getNumberofSlots() { return NumberofSlots; }
+        public String getVisibility() { return Visibility; }
         
     }
     // for student?
