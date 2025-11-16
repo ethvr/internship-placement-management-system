@@ -131,6 +131,9 @@ public class Internship {
      public String getId(){
           return internshipId;
      }
+     public String getCompRep() {
+          return compRep;
+     }
      
 }
 

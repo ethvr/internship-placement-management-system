@@ -5,6 +5,7 @@ import java.util.List;
 
 import IPMS.Enums.*;
 import IPMS.System.SystemData;
+import IPMS.UserManagement.IdGenerator;
 
 public class CompanyRepresentative extends User {
 
@@ -15,15 +16,25 @@ public class CompanyRepresentative extends User {
      private List<Internship> internshipsCreated; //for each comp rep to track their internships
 
      //Constructor
-     //Company Representatives ID is their company email address.
-     public CompanyRepresentative(String email, String name, String companyName,
+     //Company Representatives ID change to idgenerator?
+     public CompanyRepresentative(String name, String email, String companyName,
                                  String department, String position) {
-          super(email, name);
+          super(IdGenerator.nextCompanyId(), name, email);
           this.companyName = companyName;
           this.department = department;
           this.position = position;
           this.status = CompanyApprovalStatus.PENDING;
           this.internshipsCreated = new ArrayList<>();
+     }
+
+     // list part of constructor?
+     public CompanyRepresentative(String ID, String name, String email, String companyName,
+                                 String department, String position, CompanyApprovalStatus status) {
+          super(ID, name, email);
+          this.companyName = companyName;
+          this.department = department;
+          this.position = position;
+          this.status = status;
      }
      
      ////////////
@@ -84,6 +95,17 @@ public class CompanyRepresentative extends User {
 
      public String getCompanyName() {
           return companyName;
+     }
+     public String getDepartment() {
+          return department;
+     }
+
+     public String getPosition() {
+          return position;
+     }
+
+     public CompanyApprovalStatus getStatus() {
+          return status;
      }
 }
 

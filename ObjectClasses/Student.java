@@ -28,10 +28,6 @@ public class Student extends User {
         this.yearOfStudy = yearOfStudy;
         this.major = major;
     }
-
-    public String getEmail() {
-        return email;
-    }
     
     public int getYearOfStudy() {
         return yearOfStudy;

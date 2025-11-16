@@ -1,7 +1,7 @@
 
 GIHUB copy and paste ✅
 git add .
-git commit -m "1946 16112025"
+git commit -m "0250 16112025"
 git push
 
 When main updates:
@@ -90,4 +90,10 @@ TO DO LIST (7/11/26 ONWARDS)
 
 
     16112025 qns 
-    - cannot have default in obj params? --> multiple constructors 
+    - cannot have default in obj params? --> multiple constructors \
+    - Company Representatives ID change to idgenerator?
+
+
+    16112025 todo 
+    - continue to make changes to usermanagement company rep registration
+    - conversion 

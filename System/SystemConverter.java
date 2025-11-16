@@ -3,13 +3,12 @@ package IPMS.System;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
 import IPMS.Enums.*;
-import java.time.LocalDate;
 
 public class SystemConverter {
 
-    /* ============================================================
-       HELPER METHODS
-       ============================================================ */
+    /* ==============================
+       HELPER PARSERS
+       ============================== */
 
     private static InternshipStatus parseInternshipStatus(String status) {
         if (status == null) return InternshipStatus.PENDING;
@@ -22,20 +21,27 @@ public class SystemConverter {
 
     private static boolean parseVisibility(String v) {
         if (v == null) return false;
-        return v.equalsIgnoreCase("true") ||
-               v.equalsIgnoreCase("yes") ||
-               v.equalsIgnoreCase("visible");
+        return v.equalsIgnoreCase("true")
+            || v.equalsIgnoreCase("yes")
+            || v.equalsIgnoreCase("visible")
+            || v.equalsIgnoreCase("1");
     }
 
-    /* ============================================================
+    /*private static CompanyRepStatus parseCompanyRepStatus(String s) {
+        if (s == null) return CompanyRepStatus.PENDING;
+        try {
+            return CompanyRepStatus.valueOf(s.toUpperCase());
+        } catch (Exception e) {
+            return CompanyRepStatus.PENDING;
+        }
+    }*/
+
+    /* ==============================
        STUDENT
-       ============================================================ */
+       ============================== */
 
     public static Student toStudent(StudentCSVData data) {
         if (data == null) return null;
-
-        // Student constructor requires password → provide dummy (real password comes from Credentials)
-        String dummyPassword = "DEFAULT";
 
         return new Student(
                 data.getStudentID(),
@@ -57,23 +63,53 @@ public class SystemConverter {
                 s.getEmail()
         );
     }
+    /* ==============================
+       STAFF    
+       ============================== */
 
-    /* ============================================================
+    public static CareerCenter toStaff(StaffCSVData data) {
+        if (data == null) return null;
+
+        return new CareerCenter(
+                data.getStaffID(),
+                data.getName(),
+                data.getEmail(),
+                data.getDepartment(),
+                data.getRole()
+        );
+    }
+
+    public static StaffCSVData toStaffCSV(CareerCenter c) {
+        if (c == null) return null;
+
+        return new StaffCSVData(
+                c.getUserId(),
+                c.getName(),
+                c.getRole(),
+                c.getStaffDepartment(),
+                c.getEmail()
+        );
+    }
+
+    /* ==============================
        COMPANY REPRESENTATIVE
-       ============================================================ */
+       ============================== */
 
     public static CompanyRepresentative toCompanyRep(CompanyCSVData data) {
         if (data == null) return null;
+        String email = data.getEmail();
+        String username = email.substring(0, email.indexOf("@"));
 
         CompanyRepresentative rep = new CompanyRepresentative(
-                data.getEmail(),           // userId
-                data.getName(),            // name
+                data.getCompanyRepID(),// email as userId
+                data.getName(),           
+                data.getEmail(),
                 data.getCompanyName(),
                 data.getDepartment(),
-                data.getPosition()
+                data.getPosition(),
+                data.getStatus()
         );
 
-        rep.setApproved(data.getStatus().equalsIgnoreCase("APPROVED"));
         return rep;
     }
 
@@ -81,39 +117,37 @@ public class SystemConverter {
         if (rep == null) return null;
 
         return new CompanyCSVData(
-                rep.getUserId(),                 // CompanyRepID
+                rep.getUserId(),       // CompanyRepID should already exists when you run 
                 rep.getName(),
+                rep.getEmail(),        // Email
                 rep.getCompanyName(),
                 rep.getDepartment(),
                 rep.getPosition(),
-                rep.getUserId(),                 // Email
-                rep.isApproved() ? "APPROVED" : "PENDING"
+                rep.getStatus()
         );
     }
 
-    /* ============================================================
+
+    /* ==============================
        INTERNSHIP
-       ============================================================ */
+       ============================== */
 
     public static Internship toInternship(InternshipData data) {
         if (data == null) return null;
 
-        InternshipStatus status = parseInternshipStatus(data.getStatus());
-        boolean visible = parseVisibility(data.getVisibility());
-
         return new Internship(
-                data.getUniqueID(),             // id
                 data.getInternshipTitle(),
                 data.getDescription(),
                 data.getInternshipLevel(),
                 data.getPrefferedMajors(),
                 data.getOpeningDate(),
                 data.getClosingDate(),
-                status,
+                parseInternshipStatus(data.getStatus()),
                 data.getCompanyName(),
                 data.getCompanyRepInCharge(),
-                visible,
-                data.getNumberofSlots()
+                parseVisibility(data.getVisibility()),
+                data.getNumberofSlots(),
+                data.getUniqueID()
         );
     }
 
@@ -130,20 +164,20 @@ public class SystemConverter {
                 i.getCloseDate(),
                 i.getStatus().name(),
                 i.getCompanyName(),
-                i.getCompRep(),       // you might change this once compRep becomes an object
+                i.getCompRep(),     // for now this is a String
                 i.getSlots()
         );
     }
 
-    /* ============================================================
+    /* ==============================
        APPLICATION
-       ============================================================ */
+       ============================== */
 
     public static Application toApplication(ApplicationData data) {
         if (data == null) return null;
 
         return new Application(
-                data.getUniqueID(),          // id
+                data.getUniqueID(),
                 data.getStudentID(),
                 data.getInternshipID(),
                 data.getStatus(),
@@ -163,22 +197,9 @@ public class SystemConverter {
         );
     }
 
-    /* ============================================================
+    /* ==============================
        WITHDRAWAL
-       ============================================================ */
-
-    public static WithdrawalData toWithdrawalData(WithdrawalRequest wr) {
-        if (wr == null) return null;
-
-        return new WithdrawalData(
-                wr.getId(),
-                wr.getApplicationId(),
-                wr.getStudentId(),
-                wr.getStatus(),
-                wr.getRequestTime(),
-                wr.getRemarks()
-        );
-    }
+       ============================== */
 
     public static WithdrawalRequest toWithdrawal(WithdrawalData data) {
         if (data == null) return null;
@@ -192,6 +213,17 @@ public class SystemConverter {
                 data.getRemarks()
         );
     }
-}
 
+    public static WithdrawalData toWithdrawalData(WithdrawalRequest wr) {
+        if (wr == null) return null;
+
+        return new WithdrawalData(
+                wr.getId(),
+                wr.getApplicationId(),
+                wr.getStudentId(),
+                wr.getStatus(),
+                wr.getRequestTime(),
+                wr.getRemarks()
+        );
+    }
 }
