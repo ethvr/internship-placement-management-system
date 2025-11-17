@@ -26,42 +26,32 @@ public class CompanyMainPage implements Page{
             System.out.println("Welcome, " + compRep.getName() + " from " + compRep.getCompanyName());
         }
         System.out.println();
-        System.out.println("[1] Create Internship Opportunity");
-        System.out.println("[2] View My Internship Opportunities");
-        System.out.println("[3] Edit Internship Opportunity");
-        System.out.println("[4] Delete Internship Opportunity");
-        System.out.println("[5] Toggle Internship Visibility");
-        System.out.println("[6] View Pending Internships (Awaiting Staff Approval)");
-        System.out.println("[7] View Applications for My Internships");
-        System.out.println("[8] Approve/Reject Student Application");
-        System.out.println("[9] Change Password");
-        System.out.println("[10] Logout\n");
+        System.out.println("[1] Manage Internships (Create/Edit/Delete/Toggle Visibility)");
+        System.out.println("[2] View Internships Created");
+        System.out.println("[3] Manage Applications (View/Approve/Reject)");
+        System.out.println("[4] Change Password");
+        System.out.println("[5] Logout\n");
 
-        System.out.print("Enter an option (1-10): ");
+        System.out.print("Enter an option (1-5): ");
     }
 
     @Override
     public PageAction next() {
 
-        int opt = UniversalFunctions.readIntInRange(1, 10);
+        int opt = UniversalFunctions.readIntInRange(1, 5);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new CreateInternshipPage(username));
-            case 2 -> PageAction.push(new ViewMyInternshipsPage(username));
-            case 3 -> PageAction.push(new EditInternshipPage(username));
-            case 4 -> PageAction.push(new DeleteInternshipPage(username));
-            case 5 -> PageAction.push(new ToggleVisibilityPage(username));
-            case 6 -> PageAction.push(new ViewPendingInternshipsPage(username));
-            case 7 -> PageAction.push(new ViewApplicationsPage(username));
-            case 8 -> PageAction.push(new ReviewApplicationsPage(username));
-            case 9 -> {
+            case 1 -> PageAction.push(new ManageInternshipsPage(username));
+            case 2 -> PageAction.push(new ViewCreatedInternshipsPage(username));
+            case 3 -> PageAction.push(new ManageApplicationsPage(username));
+            case 4 -> {
                 CompanyRepresentative compRep = SystemData.representatives.get(username);
                 if (compRep != null) {
-                    compRep.changePassword();
+                    compRep.changePassword(username);
                 }
-                yield PageAction.push(this); // Stay on same page after password change
+                yield PageAction.push(this);
             }
-            case 10 -> {
+            case 5 -> {
                 User.logout();
                 yield PageAction.pop();
             }
