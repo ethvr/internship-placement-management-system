@@ -1,4 +1,4 @@
-package IPMS.Companypackage;
+package IPMS.ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class CompanyRepresentative extends User {
      //Company Representatives ID is their company email address.
      public CompanyRepresentative(String email, String name, String companyName,
                                  String department, String position) {
-          super(email, name);
+          super(email, name, email);
           this.companyName = companyName;
           this.department = department;
           this.position = position;

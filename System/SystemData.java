@@ -621,8 +621,6 @@ public class SystemData {
         return StudentMap.get(username);
     }
     
-    Student s = Systemdata.getStudentvalue(username)
-    
     public static CareerCenter getStaffValue(String username) {
         return StaffMap.get(username);
     }
