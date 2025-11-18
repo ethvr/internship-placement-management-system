@@ -3,14 +3,20 @@ package IPMS.ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 import IPMS.Enums.*;
+<<<<<<< HEAD
+=======
+import javax.management.relation.Role;
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 public class CareerCenter extends User {
 
+    private String role;
     private String staffDepartment;
     private List<CompanyRepresentative> pendingCompanies; 
 
-    public CareerCenter(String staffId, String name, String staffDepartment) {
-        super(staffId, name);
+    public CareerCenter(String staffId, String name, String email, String staffDepartment, String role) {
+        super(staffId, name, email);
+        this.role = role;
         this.staffDepartment = staffDepartment;
     }
 
@@ -110,9 +116,11 @@ public class CareerCenter extends User {
         }
     }
 
-
-
     //getters and setters
+    public String getRole() {
+        return role;
+    }
+
     public String getStaffDepartment() {
         return staffDepartment;
     }

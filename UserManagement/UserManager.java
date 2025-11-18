@@ -11,22 +11,27 @@ package IPMS.UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.*;
 
+<<<<<<< HEAD
 import IPMS.System.SystemApp;
 import IPMS.System.SystemData;
 import IPMS.System.SystemDataEntities;
 import IPMS.System.SystemDataEntities.*;
+=======
+import IPMS.Enums.CompanyApprovalStatus;
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.System.SystemApp;
+import IPMS.System.SystemConverter;
+import IPMS.System.SystemData;
+import IPMS.System.SystemDataEntities;
+import IPMS.System.SystemDataEntities.*;
+import java.awt.SystemColor;
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 public class UserManager {
     
-    //private String Username;
-    //private String UserPassword;
-    private static int internshipCounter = 0;
-    private static int applicationCounter = 0;
-    private static int withdrawalCounter = 0; 
-    private static int CompanyRepID = 0;
- 
     private static List<String> RegistrationInput = new ArrayList<>();
 
     // creates username for all students and writes to Username_and_Password file 
@@ -118,13 +123,7 @@ public class UserManager {
         }
     }
 
-    // make a function to store into map if new object is made during runtime?
-    // eg internships withdrawal and application 
-    public static void MapStore() {
-
-    }
-
-    /*String CompanyRepID; // before @ of email
+    /*String CompanyRepID; // before @ of email --> change to idgenerator 
     String Name;
     String CompanyName;
     String Department;
@@ -198,20 +197,20 @@ public class UserManager {
                 continue;
             }
             else if (field.equalsIgnoreCase("email")) {
-                String answer2 = field.toUpperCase() + ": " + emailInput;
-                String answer3 = "USERNAME" + ": " + username;
+                System.out.print("Enter your " + field + ": ");
+                String answer = sc.nextLine();
+                String answer2 = field.toUpperCase() + ": " + answer;
+                String answer3 = "USERNAME: " + username;
                 printer.add(answer2);
                 printer.add(answer3);
-                RegistrationInput.add(emailInput);
-                continue;
-
-            } // no need togenerate username?
-            else if (field.equalsIgnoreCase("CompanyRepID")) {
-                // use ID generator for company rep?
-                String answer = IdGenerator.nextCompanyId();
                 RegistrationInput.add(answer);
                 continue;
+
             }
+            else if (field.equalsIgnoreCase("companyrepid")) {
+                continue;
+            }
+
             System.out.print("Enter your " + field + ": ");
             String answer = sc.nextLine();
             String answer2 = field.toUpperCase() + ": " + answer;
@@ -224,7 +223,7 @@ public class UserManager {
     }
 
     public static int CompanyRegistrationConfirmation(List<String> printer) {
-        Scanner sc = new Scanner(System.in);
+        
         int option;
 
         System.out.println("Please confirm your details,");
@@ -252,23 +251,20 @@ public class UserManager {
                             break;
                         }
                     }
-                    CompanyCSVData obj = new CompanyCSVData();
-                    Field[] fields = CompanyCSVData.class.getDeclaredFields();
 
-                    try {
-                        for (int i = 0; i < fields.length; i++) {
-                            fields[i].setAccessible(true);
-                            fields[i].set(obj, RegistrationInput.get(i));
-                        }
-                    } 
-                    catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                        System.out.println("Reflection error: could not set field value.");
-                        //return 3; // or handle error
-                    }
+                    CompanyRepresentative rep = new CompanyRepresentative(
+                        //id self generated
+                        RegistrationInput.get(1),   // name
+                        RegistrationInput.get(2),   // email
+                        RegistrationInput.get(3),   // company
+                        RegistrationInput.get(4),   // department
+                        RegistrationInput.get(5)    // position
+                    );
 
-                    // setter method for company hashmap
-                    SystemData.setCompanyKeyValue(username, obj);
+                    //CompanyCSVData rep2 = SystemConverter.toCompanyCSV(rep);
+                    
+                    SystemData.setCompanyKeyValue(username, rep);
+
                     System.out.println("Registration complete, please wait for your account to be approved");
 
                     return 3; // return to main menu
@@ -334,6 +330,48 @@ public class UserManager {
         return 4;
 
     }
+
+    public static CompanyCSVData toCompanyCSVDynamic(List<String> input) {
+        try {
+            CompanyCSVData obj = new CompanyCSVData();
+            Field[] fields = CompanyCSVData.class.getDeclaredFields();
+
+            if (input.size() != fields.length) {
+                throw new IllegalArgumentException(
+                    "Input size does not match CompanyCSVData fields: " + input.size() + " vs " + fields.length
+                );
+            }
+
+            for (int i = 0; i < fields.length; i++) {
+                Field f = fields[i];
+                f.setAccessible(true);
+
+                String raw = input.get(i);
+                Class<?> type = f.getType();
+
+                Object value = switch (type.getSimpleName()) {
+                    case "int"       -> Integer.parseInt(raw);
+                    case "boolean"   -> Boolean.parseBoolean(raw);
+                    case "LocalDate" -> LocalDate.parse(raw);
+                    case "CompanyApprovalStatus" -> CompanyApprovalStatus.valueOf(raw.toUpperCase());
+                    default -> raw; // Strings or other types
+                };
+
+                f.set(obj, value);
+            }
+
+            return obj;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Reflection registration error: " + e.getMessage());
+        }
+    }
+    
+    public static CompanyRepresentative toCompanyRepDynamic(List<String> input) {
+        CompanyCSVData csv = toCompanyCSVDynamic(input);
+        return SystemConverter.toCompanyRep(csv); // Use your existing converter!
+    }
+
         
     
 

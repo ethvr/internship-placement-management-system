@@ -93,22 +93,31 @@ public class SystemDataEntities {
     public static class CompanyCSVData {
         String CompanyRepID; // before @ of email (any id?)
         String Name;
+        String Email;
         String CompanyName;
         String Department;
         String Position;
+<<<<<<< HEAD
         String Email;
+=======
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
         CompanyApprovalStatus Status; // change to enumerators 
 
         public CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
 
+<<<<<<< HEAD
         CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, 
                        String Position, String Email, CompanyApprovalStatus Status) {
+=======
+        CompanyCSVData(String CompanyRepID, String Name, String Email, String CompanyName, 
+                       String Department, String Position, CompanyApprovalStatus Status) {
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
             this.CompanyRepID = CompanyRepID;
             this.Name = Name;
+            this.Email = Email;
             this.CompanyName = CompanyName;
             this.Department = Department;
             this.Position = Position;
-            this.Email = Email;
             this.Status = Status;
         }
 
@@ -118,7 +127,11 @@ public class SystemDataEntities {
         public String getDepartment() { return Department; }
         public String getPosition() { return Position; }
         public String getEmail() { return Email; }
+<<<<<<< HEAD
         public String getStatus() { return Status; }
+=======
+        public CompanyApprovalStatus getStatus() { return Status; }
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
     }
     // under company rep in assignment pdf
@@ -235,13 +248,13 @@ public class SystemDataEntities {
         private String ApplicationID; // application ID uniqueID        
         private String StudentID;               
         private WithdrawalStatus Status; // enum WithdrawalStatus       
-        private LocalDateTime RequestTime;
+        private LocalDate RequestTime;
         private String Remarks; 
 
         WithdrawalData() {}  // no arg constructor
 
         WithdrawalData(String uniqueID, String applicationId, String studentId, 
-                       WithdrawalStatus status, LocalDateTime requestTime, String remarks) {
+                       WithdrawalStatus status, LocalDate requestTime, String remarks) {
             this.UniqueID = uniqueID;
             this.ApplicationID = applicationId;
             this.StudentID = studentId;
@@ -255,7 +268,11 @@ public class SystemDataEntities {
         public String getApplicationID() { return ApplicationID; }
         public String getStudentID() { return StudentID; }
         public WithdrawalStatus getStatus() { return Status; }
+<<<<<<< HEAD
         public LocalDateTime getRequestTime() { return RequestTime; }
+=======
+        public LocalDate getRequestTime() { return RequestTime; }
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
         public String getRemarks() { return Remarks; }
 
     }

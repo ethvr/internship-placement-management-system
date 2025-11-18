@@ -15,10 +15,15 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
+<<<<<<< HEAD
 
     
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
+=======
+import IPMS.Companypackage.*;
+
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -32,7 +37,11 @@ public class SystemData {
     private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
     private static HashMap<String, Student> StudentMap = new HashMap<>();
     // Key --> staff ID --> change to username?
+<<<<<<< HEAD
     private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
+=======
+    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
     private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
@@ -49,6 +58,7 @@ public class SystemData {
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
+<<<<<<< HEAD
     // try with hash map
     public static void loadStudentMap() {
 
@@ -86,6 +96,8 @@ public class SystemData {
 
     }
 
+=======
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
         // Pick folder
@@ -112,15 +124,16 @@ public class SystemData {
 
         @SuppressWarnings("unchecked")
         HashMap<String,T> map = switch (filename.toLowerCase()) {
-            case "student" -> (HashMap<String,T>) StudentMap;
-            case "staff"   -> (HashMap<String,T>) StaffMap;
-            case "company" -> (HashMap<String,T>) RepresentativeMap;
-            case "internship" -> (HashMap<String,T>) InternshipMap;
-            case "application" -> (HashMap<String,T>) ApplicationMap;
-            case "withdrawal" -> (HashMap<String,T>) WithdrawalMap;
-            case "password" -> (HashMap<String,T>) LoginMap;
+            case "student"    -> (HashMap<String,T>) StudentCSVMap;
+            case "staff"      -> (HashMap<String,T>) StaffCSVMap;
+            case "company"    -> (HashMap<String,T>) RepresentativeCSVMap;
+            case "internship" -> (HashMap<String,T>) InternshipCSVMap;
+            case "application"-> (HashMap<String,T>) ApplicationCSVMap;
+            case "withdrawal" -> (HashMap<String,T>) WithdrawalCSVMap;
+            case "password"   -> (HashMap<String,T>) LoginMap; // Credentials is already an entity
             default -> throw new IllegalArgumentException("invalid");
         };
+
 
         /*if (filename.toLowerCase().contains("password")) {
             folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PasswordCSVFolder");
@@ -329,6 +342,153 @@ public class SystemData {
             System.out.println("WriteBack Error: " + e.getMessage());
         }
     }
+
+    public static void buildObjectMapsFromEntities() {
+        StudentMap.clear();
+        StaffMap.clear();
+        RepresentativeMap.clear();
+        InternshipMap.clear();
+        ApplicationMap.clear();
+        WithdrawalMap.clear();
+
+        // Students
+        for (StudentCSVData data : StudentCSVMap.values()) {
+            Student s = SystemConverter.toStudent(data);
+            if (s != null) {
+                StudentMap.put(s.getUserId(), s);
+            }
+        }
+
+        // Staff → CareerCenter
+        for (StaffCSVData data : StaffCSVMap.values()) {
+            CareerCenter staff = new CareerCenter(
+                    data.getStaffID(),
+                    data.getName(),
+                    data.getDepartment()
+            );
+            StaffMap.put(staff.getUserId(), staff);
+        }
+
+        // Company reps
+        for (CompanyCSVData data : RepresentativeCSVMap.values()) {
+            CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+            if (rep != null) {
+                RepresentativeMap.put(rep.getUserId(), rep);
+            }
+        }
+
+        // Internships
+        for (InternshipData data : InternshipCSVMap.values()) {
+            Internship i = SystemConverter.toInternship(data);
+            if (i != null) {
+                InternshipMap.put(i.getId(), i);
+            }
+        }
+
+        // Applications
+        for (ApplicationData data : ApplicationCSVMap.values()) {
+            Application a = SystemConverter.toApplication(data);
+            if (a != null) {
+                ApplicationMap.put(a.getId(), a);
+            }
+        }
+
+        // Withdrawals
+        for (WithdrawalData data : WithdrawalCSVMap.values()) {
+            WithdrawalRequest wr = SystemConverter.toWithdrawal(data);
+            if (wr != null) {
+                WithdrawalMap.put(wr.getId(), wr);
+            }
+        }
+    }
+
+    public static void loadAll() {
+        // Load entities from CSV files
+        loadIntoMap("student",    StudentCSVData.class);
+        loadIntoMap("staff",      StaffCSVData.class);
+        loadIntoMap("company",    CompanyCSVData.class);
+        loadIntoMap("internship", InternshipData.class);
+        loadIntoMap("application",ApplicationData.class);
+        loadIntoMap("withdrawal", WithdrawalData.class);
+        loadIntoMap("password",   Credentials.class);
+
+        // Build runtime object maps
+        buildObjectMapsFromEntities();
+    }
+
+    public static void syncEntitiesFromObjects() {
+        StudentCSVMap.clear();
+        StaffCSVMap.clear();
+        RepresentativeCSVMap.clear();
+        InternshipCSVMap.clear();
+        ApplicationCSVMap.clear();
+        WithdrawalCSVMap.clear();
+
+        // Students
+        for (Student student : StudentMap.values()) {
+            StudentCSVData row = SystemConverter.toStudentCSV(student);
+            StudentCSVMap.put(student.getUserId(), row);
+        }
+
+        //staff
+        for (CareerCenter staff : StaffMap.values()) {
+            StaffCSVData row = SystemConverter.toStaffCSV(staff);
+                StaffCSVMap.put(staff.getUserId(), row);
+        }
+
+        // Staff????????????
+        for (CareerCenter staff : StaffMap.values()) {
+            StaffCSVData row = new StaffCSVData(
+                    staff.getUserId(),
+                    staff.getName(),
+                    "CareerCenter",           // Role if you need
+                    staff.getStaffDepartment(),
+                    ""                        // Email if you track it
+            );
+            StaffCSVMap.put(staff.getUserId(), row);
+        }
+
+        // Company reps
+        for (CompanyRepresentative rep : RepresentativeMap.values()) {
+            CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
+            RepresentativeCSVMap.put(rep.getUserId(), row);
+        }
+
+        // Internships
+        for (Internship i : InternshipMap.values()) {
+            InternshipData row = SystemConverter.toInternshipData(i);
+            InternshipCSVMap.put(i.getId(), row);
+        }
+
+        // Applications
+        for (Application app : ApplicationMap.values()) {
+            ApplicationData row = SystemConverter.toApplicationData(app);
+            ApplicationCSVMap.put(app.getId(), row);
+        }
+
+        // Withdrawals
+        for (WithdrawalRequest wr : WithdrawalMap.values()) {
+            WithdrawalData row = SystemConverter.toWithdrawalData(wr);
+            WithdrawalCSVMap.put(wr.getId(), row);
+        }
+
+        // LoginMap is already the CSV entity map (Credentials), and you’re already mutating it directly.
+    }
+
+    public static void saveAll() {
+        syncEntitiesFromObjects();
+
+        writeBackCSV("student",    StudentCSVMap);
+        writeBackCSV("staff",      StaffCSVMap);
+        writeBackCSV("company",    RepresentativeCSVMap);
+        writeBackCSV("internship", InternshipCSVMap);
+        writeBackCSV("application",ApplicationCSVMap);
+        writeBackCSV("withdrawal", WithdrawalCSVMap);
+        writeBackCSV("password",   LoginMap);
+    }
+
+
+
     public static List<InternshipData> filterByKeyword(String word) {
         List<InternshipData> results = new ArrayList<>();
 
@@ -436,57 +596,6 @@ public class SystemData {
     // getter for data since private 
     // returns unmodifiable map --> encapsulation
     // can only read cannot write
-    public static Map<String, StudentCSVData> getStudentMap(){
-        
-        return Collections.unmodifiableMap(StudentMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, StaffCSVData> getStaffMap(){
-        
-        return Collections.unmodifiableMap(StaffMap);
-
-    }
-
-    public static Map<String, CompanyCSVData> getCompanyMap() {
-
-        return Collections.unmodifiableMap(RepresentativeMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, InternshipData> getInternshipMap(){
-        
-        return Collections.unmodifiableMap(InternshipMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, ApplicationData> getApplicationMap(){
-        
-        return Collections.unmodifiableMap(ApplicationMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, WithdrawalData> getWithdrawalMap(){
-        
-        return Collections.unmodifiableMap(WithdrawalMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
     public static Map<String, Credentials> getLoginMap(){
         
         return Collections.unmodifiableMap(LoginMap);
@@ -532,13 +641,58 @@ public class SystemData {
         return type;
     }
 
-    public static void setCompanyKeyValue(String username, SystemDataEntities.CompanyCSVData obj) {
+    // SETTERS FOR THE MAPS 
+    public static void setStudentKeyValue(String username, Student obj) {
+        StudentMap.put(username, obj);
+    }
+
+    public static void setStaffKeyValue(String username, CareerCenter obj) {
+        StaffMap.put(username, obj);
+    }
+
+    //should only need this 
+    public static void setCompanyKeyValue(String username, CompanyRepresentative obj) {
         RepresentativeMap.put(username, obj);
     }
 
-    // load the map into a list for sorting and filtering 
-    public static void MaptoList() {
+    public static void setInternshipKeyValue(String username, Internship obj) {
+        InternshipMap.put(username, obj);
+    }
 
+    public static void setApplicationKeyValue(String username, Application obj) {
+        ApplicationMap.put(username, obj);
+    }
+    
+    public static void setWithdrawalKeyValue(String username, WithdrawalRequest obj) {
+        WithdrawalMap.put(username, obj);
+    }
+
+    //GETTERS FOR THE OBJECT MAPS 
+    public static Student getStudentValue(String username) {
+        return StudentMap.get(username);
+    }
+    
+    Student s = Systemdata.getStudentvalue(username)
+    
+    public static CareerCenter getStaffValue(String username) {
+        return StaffMap.get(username);
+    }
+
+    //should only need this 
+    public static CompanyRepresentative getCompanyValue(String username) {
+        return RepresentativeMap.get(username);
+    }
+
+    public static Internship getInternshipValue(String username) {
+        return InternshipMap.get(username);
+    }
+
+    public static Application getApplicationValue(String username) {
+        return ApplicationMap.get(username);
+    }
+    
+    public static WithdrawalRequest getWithdrawalValue(String username) {
+        return WithdrawalMap.get(username);
     }
 
     public static String getCompanyStatus(String username) {

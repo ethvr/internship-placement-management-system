@@ -1,7 +1,11 @@
 
 GIHUB copy and paste ✅
 git add .
+<<<<<<< HEAD
 git commit -m "1946 16112025"
+=======
+git commit -m "1037 18112025"
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 git push
 
 When main updates:
@@ -90,4 +94,17 @@ TO DO LIST (7/11/26 ONWARDS)
 
 
     16112025 qns 
+<<<<<<< HEAD
     - cannot have default in obj params? --> multiple constructors 
+=======
+    - cannot have default in obj params? --> multiple constructors \
+    - Company Representatives ID change to idgenerator?
+
+
+    16112025 todo 
+    - continue to make changes to usermanagement company rep registration
+    - conversion 
+    - upon completing password change (change password option on main page of each obj) where does it go?
+        - make new page for password?
+    - simple password encryption?
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744

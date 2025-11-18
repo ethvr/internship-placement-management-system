@@ -48,7 +48,7 @@ public class WithdrawalRequest {
         return status;
     }
 
-    public LocalDateTime getRequestTime() {
+    public LocalDate getRequestTime() {
         return requestTime;
     }
 

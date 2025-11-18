@@ -8,18 +8,18 @@ import IPMS.System.SystemApp;
 import IPMS.System.SystemDataEntities.*;
 
 public abstract class User {
-    private String userId;
+    private String userID;
     private String name;
-    //private String email;
+    private String email;
     //private String Username;
     //private String password;
     //private boolean Firsttimelogin = true; true --> not yet logged in for the first time 
 
     //public User(String userId, String name, String email)
-    public User(String userId, String name) {
-        this.userId = userId;
+    public User(String userID, String name, String email) {
+        this.userID = userID;
         this.name = name;
-        //this.email = email;
+        this.email = email;
         //this.password = "password";
         //this.Username = UsernameGenerator(email);
     }
@@ -177,6 +177,10 @@ public abstract class User {
     }
 
     public String getUserId() {
-        return userId;
+        return userID;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
