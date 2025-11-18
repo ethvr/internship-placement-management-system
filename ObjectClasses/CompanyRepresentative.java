@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 <<<<<<<< HEAD:ObjectClasses/CompanyRepresentative.java
 package IPMS.ObjectClasses;
 ========
 package IPMS.Companypackage;
 >>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744:Companypackage/CompanyRepresentative.java
+=======
+package IPMS.ObjectClasses;
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
 import java.util.ArrayList;
 import java.util.List;
+
+import IPMS.Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 
@@ -25,7 +31,7 @@ public class CompanyRepresentative extends User {
      //Company Representatives ID is their company email address.
      public CompanyRepresentative(String email, String name, String companyName,
                                  String department, String position) {
-          super(email, name);
+          super(email, name, email);
           this.companyName = companyName;
           this.department = department;
           this.position = position;
@@ -51,13 +57,13 @@ public class CompanyRepresentative extends User {
           Internship internship = new Internship(title, description, level, preferredMajor,
                                                openDate, closeDate, companyName, this, slots);
           internshipsCreated.add(internship);
-          data.internships.put(internship.getId(), internship);
+          data.InternshipMap.put(internship.getId(), internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
      public void deleteInternship(Internship internship, SystemData data) {
           internshipsCreated.remove(internship);
-          data.internships.remove(internship.getId());
+          data.InternshipMap.remove(internship.getId());
      }
      public List<Internship> getInternshipsCreated() {
           return internshipsCreated;
@@ -65,11 +71,11 @@ public class CompanyRepresentative extends User {
 
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
-    }
+     }
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
-          for (Application app : internship.getApplications(data)) {
+          for (Application app : InternshipMap.getApplications(data)) {
                System.out.println(app);
           }
      }
@@ -82,12 +88,21 @@ public class CompanyRepresentative extends User {
         app.setStatus(ApplicationStatus.UNSUCCESSFUL);
      }
 
+
      // setters and getters
-     public void setApproved(boolean approved) { this.isApproved = approved; }
-     
-     public boolean isApproved() { //the comp rep's account status
-          return this.status == CompanyApprovalStatus.APPROVED; 
+     public void setStatus(CompanyApprovalStatus status){
+          this.status = status;
      }
+
+     public CompanyApprovalStatus getStatus() {
+          return status;
+     }
+
+     // public void setApproved(boolean approved) { this.isApproved = approved; }
+     
+     // public boolean isApproved() { //the comp rep's account status
+     //      return this.status == CompanyApprovalStatus.APPROVED; 
+     // }
 
      public String getCompanyName() {
           return companyName;
@@ -100,3 +115,4 @@ public class CompanyRepresentative extends User {
 
      }
 }
+

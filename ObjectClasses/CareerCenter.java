@@ -2,11 +2,9 @@ package IPMS.ObjectClasses;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import IPMS.Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
-<<<<<<< HEAD
-=======
-import javax.management.relation.Role;
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 public class CareerCenter extends User {
 
@@ -42,7 +40,7 @@ public class CareerCenter extends User {
 
     // approve account creation of company representativs
     public void approveCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
-        companyRep.setApproved(true);
+        companyRep.setStatus(CompanyApprovalStatus.APPROVED);
         careerCenter.removePendingCompany(companyRep);
         System.out.println("Company Representative from " + companyRep.getName() + "from" 
         + companyRep.getCompanyName() + "has been approved" );
@@ -50,7 +48,7 @@ public class CareerCenter extends User {
 
     // reject account creation of company represenattives
     public void rejectCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
-        companyRep.setApproved(false);
+        companyRep.setStatus(CompanyApprovalStatus.REJECTED);
         careerCenter.removePendingCompany(companyRep);
         System.out.println("Company Representative from " + companyRep.getName() + "from" 
         + companyRep.getCompanyName() + "has been rejected" );

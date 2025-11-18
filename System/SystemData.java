@@ -15,6 +15,11 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
+<<<<<<< HEAD
+=======
+import IPMS.Companypackage.*;
+import IPMS.Companypackage.CompanyRepresentative;
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
     
 import IPMS.ObjectClasses.CompanyRepresentative;
@@ -660,8 +665,6 @@ public class SystemData {
         return StudentMap.get(username);
     }
     
-    Student s = Systemdata.getStudentvalue(username)
-    
     public static CareerCenter getStaffValue(String username) {
         return StaffMap.get(username);
     }
@@ -688,13 +691,57 @@ public class SystemData {
         return data.Status;
     }
 
+    public static void setApplication
 
+<<<<<<< HEAD
     // getter for data since private 
     // returns unmodifiable map --> encapsulation
     // can only read cannot write
     public static Map<String, Student> SystemDatagetStudentMap(){
         
         return StudentMap;
+=======
+    public static void removeinternship(String ID) {
+        InternshipMap.remove(ID);
+    }
+
+    //GETTER FOR THE MAP ITSELF 
+    public static Map<String, Student> SystemDatagetStudentMap(){
+        
+        return Collections.unmodifiableMap(StudentMap);
+
+    }
+
+    public static Map<String, CareerCenter> SystemDatagetStaffMap(){
+        
+        return Collections.unmodifiableMap(StaffMap);
+
+    }
+
+    public static Map<String, CompanyRepresentative> SystemDatagetCompanyMap() {
+
+        return Collections.unmodifiableMap(RepresentativeMap);
+
+    }
+
+    public static Map<String, Internship> SystemDatagetInternshipMap(){
+        
+        return Collections.unmodifiableMap(InternshipMap);
+
+    }
+
+    public static Map<String, Application> SystemDatagetApplicationMap(){
+        
+        return Collections.unmodifiableMap(ApplicationMap);
+
+    }
+
+    public static Map<String, WithdrawalRequest> getWithdrawalMap(){
+        
+        return Collections.unmodifiableMap(WithdrawalMap);
+
+    }
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
     }
 

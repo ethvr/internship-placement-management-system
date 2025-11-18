@@ -24,6 +24,7 @@ public abstract class User {
         //this.Username = UsernameGenerator(email);
     }
 
+
     // login succesfull --> retun username
     // Username not found --> return NIL 
     // exceed max number of tries --> return NIL 
