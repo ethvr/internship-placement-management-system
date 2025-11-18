@@ -1,7 +1,7 @@
 
 GIHUB copy and paste ✅
 git add .
-git commit -m "0250 16112025"
+git commit -m "1037 18112025"
 git push
 
 When main updates:
@@ -97,3 +97,6 @@ TO DO LIST (7/11/26 ONWARDS)
     16112025 todo 
     - continue to make changes to usermanagement company rep registration
     - conversion 
+    - upon completing password change (change password option on main page of each obj) where does it go?
+        - make new page for password?
+    - simple password encryption?

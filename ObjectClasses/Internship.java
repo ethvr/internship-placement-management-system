@@ -7,8 +7,7 @@ import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 import IPMS.System.*;
 import jdk.jfr.Description;
-
-
+import Companypackage.CompanyRepresentative;
 
 public class Internship {
      private String title;
@@ -36,8 +35,8 @@ public class Internship {
           this.status = InternshipStatus.PENDING;
           this.companyName = companyName;
           this.compRep = compRep;
-          this.visible = false;
-          this.slots = slots;
+          this.visible = false;      ///////////
+          this.slots = slots;        ///////////
           this.internshipId = IdGenerator.nextInternshipId();
      }
 

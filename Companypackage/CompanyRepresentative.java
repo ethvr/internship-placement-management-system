@@ -1,11 +1,10 @@
-package IPMS.ObjectClasses;
+package IPMS.Companypackage;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import IPMS.Enums.*;
-import IPMS.System.SystemData;
-import IPMS.UserManagement.IdGenerator;
+import IPMS.ObjectClasses.*;
+
 
 public class CompanyRepresentative extends User {
 
@@ -16,25 +15,15 @@ public class CompanyRepresentative extends User {
      private List<Internship> internshipsCreated; //for each comp rep to track their internships
 
      //Constructor
-     //Company Representatives ID change to idgenerator?
-     public CompanyRepresentative(String name, String email, String companyName,
+     //Company Representatives ID is their company email address.
+     public CompanyRepresentative(String email, String name, String companyName,
                                  String department, String position) {
-          super(IdGenerator.nextCompanyId(), name, email);
+          super(email, name);
           this.companyName = companyName;
           this.department = department;
           this.position = position;
           this.status = CompanyApprovalStatus.PENDING;
           this.internshipsCreated = new ArrayList<>();
-     }
-
-     // list part of constructor?
-     public CompanyRepresentative(String ID, String name, String email, String companyName,
-                                 String department, String position, CompanyApprovalStatus status) {
-          super(ID, name, email);
-          this.companyName = companyName;
-          this.department = department;
-          this.position = position;
-          this.status = status;
      }
      
      ////////////
@@ -43,7 +32,7 @@ public class CompanyRepresentative extends User {
      }
 
      public void createInternship(String title, String description, InternshipLevel level,
-                                 String preferredMajor, String openDate, String closeDate, int slots) {
+                                 String preferredMajor, String openDate, String closeDate, int slots, SystemData data) {
           if (!isApproved()) {
                System.out.println("Account not approved by Career Center yet!");
                return;
@@ -69,7 +58,7 @@ public class CompanyRepresentative extends User {
 
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
-    }
+     }
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
@@ -99,13 +88,8 @@ public class CompanyRepresentative extends User {
      public String getDepartment() {
           return department;
      }
-
      public String getPosition() {
-          return position;
-     }
+          return position;    
 
-     public CompanyApprovalStatus getStatus() {
-          return status;
      }
 }
-

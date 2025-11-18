@@ -5,9 +5,21 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+
+import System.SystemDataEntities.ApplicationData;
+import System.SystemDataEntities.CompanyCSVData;
+import System.SystemDataEntities.Credentials;
+import System.SystemDataEntities.InternshipData;
+import System.SystemDataEntities.StaffCSVData;
+import System.SystemDataEntities.StudentCSVData;
+import System.SystemDataEntities.WithdrawalData;
 
 public class OldFunctionsFromAllClasses {
 
@@ -495,6 +507,94 @@ public class OldFunctionsFromAllClasses {
         } catch(Exception e) {
             System.out.println("WriteBack Error: "+e.getMessage());
         }
+    }
+
+    /*// try with hash map
+    public static void SystemDataloadStudentMap() {
+
+        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
+        File[] files = folder.listFiles();
+        File targetFile = null;
+
+        for(File f : files) {
+            if(f.getName().contains("student")) {
+                targetFile = f;
+                break;
+            }
+        }
+
+        //reading from csv file and writing into hashmap
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(targetFile));
+            String line = br.readLine(); // skip header line
+            
+            while((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                String studentID = parts[0];
+                String name = parts[1];
+                String role = parts[2];
+                int year = Integer.parseInt(parts[3]);
+                String email = parts[4];
+                String username = email.split("@")[0];
+                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
+            }
+
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error reading file: " + e);
+        }
+
+    } */
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, StudentCSVData> SystemDatagetStudentMap(){
+        
+        return Collections.unmodifiableMap(StudentMap);
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, StaffCSVData> SystemDatagetStaffMap(){
+        
+        return Collections.unmodifiableMap(StaffMap);
+
+    }
+
+    public static Map<String, CompanyCSVData> SystemDatagetCompanyMap() {
+
+        return Collections.unmodifiableMap(RepresentativeMap);
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, InternshipData> SystemDatagetInternshipMap(){
+        
+        return Collections.unmodifiableMap(InternshipMap);
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, ApplicationData> SystemDatagetApplicationMap(){
+        
+        return Collections.unmodifiableMap(ApplicationMap);
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, WithdrawalData> SystemDatagetWithdrawalMap(){
+        
+        return Collections.unmodifiableMap(WithdrawalMap);
+
     }
 
 

@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
+import IPMS.Companypackage.*;
+
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -45,43 +46,6 @@ public class SystemData {
     private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
-
-    // try with hash map
-    public static void loadStudentMap() {
-
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
-        File[] files = folder.listFiles();
-        File targetFile = null;
-
-        for(File f : files) {
-            if(f.getName().contains("student")) {
-                targetFile = f;
-                break;
-            }
-        }
-
-        //reading from csv file and writing into hashmap
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(targetFile));
-            String line = br.readLine(); // skip header line
-            
-            while((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String studentID = parts[0];
-                String name = parts[1];
-                String role = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                String email = parts[4];
-                String username = email.split("@")[0];
-                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
-            }
-
-            br.close();
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + e);
-        }
-
-    }
 
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
@@ -576,57 +540,6 @@ public class SystemData {
             }
         }
         return results;
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, StudentCSVData> getStudentMap(){
-        
-        return Collections.unmodifiableMap(StudentMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, StaffCSVData> getStaffMap(){
-        
-        return Collections.unmodifiableMap(StaffMap);
-
-    }
-
-    public static Map<String, CompanyCSVData> getCompanyMap() {
-
-        return Collections.unmodifiableMap(RepresentativeMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, InternshipData> getInternshipMap(){
-        
-        return Collections.unmodifiableMap(InternshipMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, ApplicationData> getApplicationMap(){
-        
-        return Collections.unmodifiableMap(ApplicationMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, WithdrawalData> getWithdrawalMap(){
-        
-        return Collections.unmodifiableMap(WithdrawalMap);
-
     }
 
     // getter for data since private 
