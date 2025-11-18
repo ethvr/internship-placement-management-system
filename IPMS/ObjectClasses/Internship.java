@@ -68,7 +68,11 @@ public class Internship {
      //adds an application to this internship's list of applications
      public void addApplication(Application app, SystemData data) {
 <<<<<<< HEAD
+<<<<<<< HEAD
           SystemData.setApplicationKeyValue(app.getId(), app);
+=======
+          data.applicationmap.put(app.getId(), app);
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 =======
           data.applicationmap.put(app.getId(), app);
 >>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
@@ -86,7 +90,11 @@ public class Internship {
      public List<Application> getApplications() {
         List<Application> result = new ArrayList<>();
 <<<<<<< HEAD
+<<<<<<< HEAD
         for (Application app : SystemData.SystemDatagetApplicationMap().values()) {
+=======
+        for (Application app : data.applicationmap.values()) {
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 =======
         for (Application app : data.applicationmap.values()) {
 >>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307

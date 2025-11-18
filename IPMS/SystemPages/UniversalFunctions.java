@@ -93,6 +93,9 @@ package IPMS.SystemPages;
 =======
 package SystemPages;
 >>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
+=======
+package SystemPages;
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 
 import java.util.List;
 import java.util.Scanner;
@@ -181,7 +184,10 @@ public class UniversalFunctions {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
+=======
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 =======
 >>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 }

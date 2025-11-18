@@ -4,11 +4,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import IPMS.SystemPages.*;
-<<<<<<< HEAD
-=======
 import ObjectClasses.CompanyRepresentative;
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
-import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.*;
 import IPMS.UserManagement.CompanyRegistrationManager;
@@ -54,7 +50,7 @@ public class CompanyController {
 
         System.out.print("Enter Closing Date (YYYY-MM-DD): ");
         String closeDate = scanner.nextLine().trim();
-
+	
         System.out.print("Enter Number of Slots (max 10): ");
         int slots = UniversalFunctions.readIntInRange(1, 10);
 

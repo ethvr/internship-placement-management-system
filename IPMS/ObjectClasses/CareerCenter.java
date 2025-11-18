@@ -3,11 +3,8 @@ package IPMS.ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
-=======
 import IPMS.Companypackage.*;
 import IPMS.Companypackage.CompanyApprovalStatus;
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.Internship;
 import IPMS.System.SystemData;

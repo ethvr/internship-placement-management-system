@@ -2,10 +2,12 @@ package IPMS.UserManagement;
 //import SystemData;
 import java.util.Scanner;
 
-<<<<<<< HEAD
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
 import IPMS.SystemPages.UniversalFunctions;
+=======
+import ObjectClasses.CompanyRepresentative;
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
 =======
 import ObjectClasses.CompanyRepresentative;
 >>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
