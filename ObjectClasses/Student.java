@@ -13,24 +13,15 @@ public class Student extends User {
 
     private int yearOfStudy;
     private String major;
-    private String email;
-
-    // Constructors
-    public Student(String id, String name, int yearOfStudy, String major) {
-        super(id, name);
-        this.yearOfStudy = yearOfStudy;
-        this.major = major;
-    }
 
     public Student(String id, String name, String email, int yearOfStudy, String major) {
-        super(id, name);
-        this.email = email;
+        super(id, name, email);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
     }
 
     // Getters / Setters
-    public String getEmail() { return email; }
+    public String getEmail() { return this.getEmail(); }
 
     public int getYearOfStudy() { return yearOfStudy; }
 
@@ -44,7 +35,7 @@ public class Student extends User {
     public List<Internship> getEligibleInternships() {
         List<Internship> result = new ArrayList<>();
 
-        for (Internship i : SystemData.getInternshipMap().values()) {
+        for (Internship i : SystemData.SystemDatagetInternshipMap().values()) {
             if (i.isVisibleTo(this)) {
                 result.add(i);
             }
@@ -54,7 +45,7 @@ public class Student extends User {
 
     // Applying to Internship
     public void applyTo(String internshipId) {
-        Internship target = SystemData.getInternshipMap().get(internshipId);
+        Internship target = SystemData.getInternshipValue(internshipId);
 
         if (target == null)
             throw new IllegalArgumentException("No such internship");
@@ -76,14 +67,14 @@ public class Student extends User {
                 false
         );
 
-        SystemData.getApplicationMap().put(app.getId(), app);
+        SystemData.setApplicationKeyValue(app.getId(), app);
         target.addApplication(app);
     }
 
     // Count Active Applications
     public int countActiveApplications() {
         int c = 0;
-        for (Application a : SystemData.getApplicationMap().values()) {
+        for (Application a : SystemData.SystemDatagetApplicationMap().values()) {
             if (a.getStudentId().equals(this.getUserId()) && a.isActive())
                 c++;
         }
@@ -92,7 +83,7 @@ public class Student extends User {
 
     // Accepting Internship
     public void acceptPlacement(String applicationId) {
-        Application chosen = SystemData.getApplicationMap().get(applicationId);
+        Application chosen = SystemData.SystemDatagetApplicationMap().get(applicationId);
 
         if (chosen == null)
             throw new IllegalArgumentException("No such application");
@@ -106,7 +97,7 @@ public class Student extends User {
         chosen.setAcceptedByStudent(true);
 
         // Withdraw all other applications
-        for (Application a : SystemData.getApplicationMap().values()) {
+        for (Application a : SystemData.SystemDatagetApplicationMap().values()) {
             if (a.getStudentId().equals(this.userId) &&
                 !a.getId().equals(applicationId)) {
                 a.setStatus(ApplicationStatus.WITHDRAWN);
@@ -115,7 +106,7 @@ public class Student extends User {
         }
 
         // Update internship filled status
-        Internship internship = SystemData.getInternshipMap().get(chosen.getInternshipId());
+        Internship internship = SystemData.SystemDatagetInternshipMap().get(chosen.getInternshipId());
         if (internship != null)
             internship.updateFilledStatus();
     }
@@ -151,7 +142,7 @@ public class Student extends User {
         }
 
         // Check if duplicate
-        for (WithdrawalRequest wr : SystemData.getWithdrawalMap().values()) {
+        for (WithdrawalRequest wr : SystemData.SystemDatagetWithdrawalMap().values()) {
             if (wr.getApplicationId().equals(applicationId)) {
                 System.out.println("You already requested withdrawal for this application.");
                 return;
@@ -169,7 +160,7 @@ public class Student extends User {
                 "Requested by student"
         );
 
-        SystemData.getWithdrawalMap().put(wid, req);
+        SystemData.setWithdrawalKeyValue(wid, req);
 
         System.out.println("Withdrawal request created. Request ID: " + wid);
     }
@@ -178,7 +169,7 @@ public class Student extends User {
     public List<Application> getAllMyApplications() {
         List<Application> list = new ArrayList<>();
 
-        for (Application app : SystemData.getApplicationMap().values()) {
+        for (Application app : SystemData.SystemDatagetApplicationMap().values()) {
             if (app.getStudentId().equals(this.getUserId()))
                 list.add(app);
         }

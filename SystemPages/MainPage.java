@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package IPMS.SystemPages;
 
 import IPMS.SystemPages.MainSubPages.*;
@@ -29,35 +28,3 @@ public class MainPage implements Page {
     }
 }
 
-=======
-package IPMS.SystemPages;
-
-import IPMS.SystemPages.MainSubPages.*;
-
-public class MainPage implements Page {
-
-    @Override
-    public void showMenu() {
-        System.out.println("======= WELCOME =======");
-        System.out.println("[1] Login");
-        System.out.println("[2] Create Account (Company Rep)");
-        System.out.println("[3] Check Company Rep Status");
-        System.out.println("[4] Exit\n");
-        System.out.print("Enter an option (1-4): ");
-    }
-
-    @Override
-    public PageAction next() {
-        int opt = UniversalFunctions.readIntInRange(1, 4);
-
-        return switch (opt) {
-            case 1 -> PageAction.push(new AccountLoginPage());
-            case 2 -> PageAction.push(new CompanyRegisterPage());
-            case 3 -> PageAction.push(new CompanyStatusPage());
-            case 4 -> PageAction.exit();
-            default -> PageAction.push(this);
-        };
-    }
-}
-
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
