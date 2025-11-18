@@ -706,31 +706,31 @@ public class SystemData {
     }
 
     //GETTER FOR THE MAP ITSELF 
-    public static Map<String, Student> SystemDatagetStudentMap(){
+    public static Map<String, Student> getStudentMap(){
         
         return Collections.unmodifiableMap(StudentMap);
 
     }
 
-    public static Map<String, CareerCenter> SystemDatagetStaffMap(){
+    public static Map<String, CareerCenter> getStaffMap(){
         
         return Collections.unmodifiableMap(StaffMap);
 
     }
 
-    public static Map<String, CompanyRepresentative> SystemDatagetCompanyMap() {
+    public static Map<String, CompanyRepresentative> getCompanyMap() {
 
         return Collections.unmodifiableMap(RepresentativeMap);
 
     }
 
-    public static Map<String, Internship> SystemDatagetInternshipMap(){
+    public static Map<String, Internship> getInternshipMap(){
         
         return Collections.unmodifiableMap(InternshipMap);
 
     }
 
-    public static Map<String, Application> SystemDatagetApplicationMap(){
+    public static Map<String, Application> getApplicationMap(){
         
         return Collections.unmodifiableMap(ApplicationMap);
 
