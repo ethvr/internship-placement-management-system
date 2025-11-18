@@ -648,6 +648,8 @@ public class SystemData {
         return data.Status;
     }
 
+    public static void setApplication
+
     public static void removeinternship(String ID) {
         InternshipMap.remove(ID);
     }
