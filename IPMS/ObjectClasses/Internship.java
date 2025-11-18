@@ -9,7 +9,7 @@ import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 import IPMS.System.*;
 import jdk.jfr.Description;
-import IPMS.Companypackage.CompanyRepresentative;
+//import Companypackage.CompanyRepresentative;
 
 public class Internship {
      private String title;

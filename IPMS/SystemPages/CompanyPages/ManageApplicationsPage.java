@@ -1,16 +1,16 @@
-package SystemPages.CompanyPages;
+package IPMS.SystemPages.CompanyPages;
 import java.util.List;
 import java.util.Scanner;
 
-import Enums.ApplicationStatus;
-import ObjectClasses.CompanyRepresentative;
-import System.SystemData;
-import SystemPages.Page;
-import SystemPages.PageAction;
-import SystemPages.UniversalFunctions;
-import Internship;
-import Application;
-import Companypackage.CompanyController;
+import IPMS.Enums.ApplicationStatus;
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.System.SystemData;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.SystemPages.UniversalFunctions;
+import IPMS.Internship;
+import IPMS.Application;
+import IPMS.Companypackage.CompanyController;
 
 public class ManageApplicationsPage implements Page {
     private final String username;

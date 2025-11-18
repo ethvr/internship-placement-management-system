@@ -7,7 +7,7 @@
 // handles login --> LoginMatch()
 // username -f (field before @ in email 
 // what if new student file etc wants to be introduced on top of pre existing data?
-package UserManagement;
+package IPMS.UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;

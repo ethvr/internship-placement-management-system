@@ -4,7 +4,7 @@
 package IPMS.System;
 
 import java.util.*;
-import IPMS.System.SystemDataEntities.*;
+import System.SystemDataEntities.*;
 import IPMS.SystemPages.MainPage;
 import IPMS.SystemPages.Page;
 import IPMS.SystemPages.PageAction;

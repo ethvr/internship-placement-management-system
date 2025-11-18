@@ -1,4 +1,4 @@
-package SystemPages.CompanyPages;
+package IPMS.SystemPages.CompanyPages;
 import java.util.List;
 import IPMS.Companypackage.CompanyRepresentative;
 import IPMS.SystemPages.*;

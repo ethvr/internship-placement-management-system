@@ -15,11 +15,8 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
-<<<<<<< HEAD
-=======
-import IPMS.Companypackage.*;
-import IPMS.Companypackage.CompanyRepresentative;
->>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
+//import Companypackage.*;
+//import Companypackage.CompanyRepresentative;
 
     
 import IPMS.ObjectClasses.CompanyRepresentative;
@@ -724,14 +721,13 @@ public class SystemData {
 
     public static void setApplication
 
-<<<<<<< HEAD
     // getter for data since private 
     // returns unmodifiable map --> encapsulation
     // can only read cannot write
     public static Map<String, Student> SystemDatagetStudentMap(){
         
         return StudentMap;
-=======
+
     public static void removeinternship(String ID) {
         InternshipMap.remove(ID);
     }
@@ -772,7 +768,6 @@ public class SystemData {
         return Collections.unmodifiableMap(WithdrawalMap);
 
     }
->>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
     }
 

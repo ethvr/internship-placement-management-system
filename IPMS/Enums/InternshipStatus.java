@@ -1,4 +1,4 @@
-package Enums;
+package IPMS.Enums;
 
 public enum InternshipStatus {
     PENDING,        

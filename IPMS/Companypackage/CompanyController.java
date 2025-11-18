@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import IPMS.SystemPages.*;
-import ObjectClasses.CompanyRepresentative;
+import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.*;

@@ -3,24 +3,20 @@ package IPMS.ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import IPMS.Companypackage.*;
-import IPMS.Companypackage.CompanyApprovalStatus;
-import IPMS.Enums.*;
-import IPMS.ObjectClasses.Internship;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities.WithdrawalData;
+//import Companypackage.*;
+//import Companypackage.CompanyApprovalStatus;
+import Enums.*;
+import ObjectClasses.Internship;
+import System.SystemData;
+import System.SystemDataEntities.WithdrawalData;
 
 import javax.management.relation.Role;
-
-import Enums.ApplicationStatus;
-import Enums.InternshipStatus;
-import Enums.WithdrawalStatus;
 
 public class CareerCenter extends User {
 
     private String role;
     private String staffDepartment;
-    private List<CompanyRepresentative> pendingCompanies = new ArrayList<>(); 
+    public static List<CompanyRepresentative> pendingCompanies = new ArrayList<>(); 
     static Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
     static Map<String, Application> applicationmap = SystemData.getApplicationMap();
     static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
@@ -31,6 +27,29 @@ public class CareerCenter extends User {
         this.role = role;
         this.staffDepartment = staffDepartment;
     }
+
+    
+    //view pending company
+    // public void viewPendingCompanyReps(CareerCenter careerCenter) {
+    //     System.out.println("\n=== Pending Company Representative Requests ===\n");
+        
+    //     List<CompanyRepresentative> pendingReps = careerCenter.getPendingCompanies();
+        
+    //     if (pendingReps.isEmpty()) {
+    //         System.out.println("No pending requests.");
+    //         return;
+    //     }
+
+    //     for (int i = 0; i < pendingReps.size(); i++) {
+    //         CompanyRepresentative rep = pendingReps.get(i);
+    //         System.out.println((i + 1) + ". " + rep.getName());
+    //         System.out.println("   Email: " + rep.getUserId());
+    //         System.out.println("   Company: " + rep.getCompanyName());
+    //         System.out.println("   Department: " + rep.getDepartment());
+    //         System.out.println("   Position: " + rep.getPosition());
+    //         System.out.println();
+    //     }
+    // }
 
     //add pending company
     public void addPendingCompany(CompanyRepresentative companyRep){
@@ -91,16 +110,16 @@ public class CareerCenter extends User {
 
 
     // approve student withdrawal before or after confirmation
-    public void approveWithdrawal(WithdrawalRequest withdrawalRequest, SystemData data){
+    public void approveWithdrawal(WithdrawalRequest withdrawalRequest){
         if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
             withdrawalRequest.setStatus(WithdrawalStatus.APPROVED);
 
             // pull application obj from map
             String appplicationID = withdrawalRequest.getApplicationId();
-            Application application = data.getApplicationValue(appplicationID); 
+            Application application = SystemData.getApplicationValue(appplicationID); 
             // pull internship obj from map
             String internshipID = application.getInternshipId();
-            Internship internship = data.getInternshipValue(internshipID);
+            Internship internship = SystemData.getInternshipValue(internshipID);
 
 
             // for (Application withdrawer : applicationmap.values()){
@@ -109,8 +128,6 @@ public class CareerCenter extends User {
             //     }
             // }
             
-
-
             //check if application is valid
             if (application != null){       
                 //if intern slot is confirmed, remove student
@@ -155,7 +172,7 @@ public class CareerCenter extends User {
         this.staffDepartment = staffDepartment;
     }
 
-    public List getPendingCompanies(){
+    public static List getPendingCompanies(){
         return pendingCompanies;
     }
 

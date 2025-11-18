@@ -10,7 +10,7 @@ public class WithdrawalRequest {
     private String applicationId;           
     private String studentId;               
     private WithdrawalStatus status;        
-    private LocalDate requestTime;      
+    private LocalDateTime requestTime;      
     private String remarks;                
 
 
@@ -19,11 +19,11 @@ public class WithdrawalRequest {
         this.applicationId = applicationId;
         this.studentId = studentId;
         this.status = status;
-        this.requestTime = LocalDate.now();
+        this.requestTime = LocalDateTime.now();
         this.remarks = "";
     }
 
-    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status, LocalDate requestTime, String remarks) {
+    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status, LocalDateTime requestTime, String remarks) {
         this.id = id;
         this.applicationId = applicationId;
         this.studentId = studentId;
@@ -48,7 +48,7 @@ public class WithdrawalRequest {
         return status;
     }
 
-    public LocalDate getRequestTime() {
+    public LocalDateTime getRequestTime() {
         return requestTime;
     }
 
