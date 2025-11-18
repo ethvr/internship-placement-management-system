@@ -11,7 +11,8 @@ public class CompanyRepresentative extends User {
      private String companyName;
      private String department;//of the company rep
      private String position;//of the company rep
-     private CompanyApprovalStatus status;
+     private CompanyApprovalStatus status ;
+     //private CompanyApprovalStatus status = CompanyApprovalStatus.PENDING;
      private List<Internship> internshipsCreated; //for each comp rep to track their internships
 
      //Constructor
@@ -76,11 +77,19 @@ public class CompanyRepresentative extends User {
      }
 
      // setters and getters
-     public void setApproved(boolean approved) { this.isApproved = approved; }
-     
-     public boolean isApproved() { //the comp rep's account status
-          return this.status == CompanyApprovalStatus.APPROVED; 
+     public CompanyApprovalStatus getStatus(){
+          return status;
      }
+
+     public void setStatus(CompanyApprovalStatus status){
+          this.status = status;
+     }
+
+     // public void setApproved(CompanyApprovalStatus status) { ; }
+     
+     // public boolean isApproved() { //the comp rep's account status
+     //      return this.status == CompanyApprovalStatus.APPROVED; 
+     // }
 
      public String getCompanyName() {
           return companyName;

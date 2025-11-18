@@ -3,6 +3,7 @@ package IPMS.System;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
 import IPMS.Enums.*;
+import IPMS.Companypackage.*;
 
 public class SystemConverter {
 
