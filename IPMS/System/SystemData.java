@@ -16,6 +16,7 @@ import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
 import IPMS.Companypackage.*;
+import IPMS.Companypackage.CompanyRepresentative;
 
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
@@ -652,8 +653,6 @@ public class SystemData {
         return StudentMap.get(username);
     }
     
-    Student s = Systemdata.getStudentvalue(username)
-    
     public static CareerCenter getStaffValue(String username) {
         return StaffMap.get(username);
     }
@@ -680,7 +679,48 @@ public class SystemData {
         return data.Status;
     }
 
+    public static void setApplication
 
+    public static void removeinternship(String ID) {
+        InternshipMap.remove(ID);
+    }
+
+    //GETTER FOR THE MAP ITSELF 
+    public static Map<String, Student> getStudentMap(){
+        
+        return Collections.unmodifiableMap(StudentMap);
+
+    }
+
+    public static Map<String, CareerCenter> getStaffMap(){
+        
+        return Collections.unmodifiableMap(StaffMap);
+
+    }
+
+    public static Map<String, CompanyRepresentative> getCompanyMap() {
+
+        return Collections.unmodifiableMap(RepresentativeMap);
+
+    }
+
+    public static Map<String, Internship> getInternshipMap(){
+        
+        return Collections.unmodifiableMap(InternshipMap);
+
+    }
+
+    public static Map<String, Application> getApplicationMap(){
+        
+        return Collections.unmodifiableMap(ApplicationMap);
+
+    }
+
+    public static Map<String, WithdrawalRequest> getWithdrawalMap(){
+        
+        return Collections.unmodifiableMap(WithdrawalMap);
+
+    }
 
 
 

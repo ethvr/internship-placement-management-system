@@ -1,4 +1,4 @@
-package Enums; /// the packages are not fixed just ignore thispackage for now
+package IPMS.Enums; /// the packages are not fixed just ignore thispackage for now
 
 public enum CompanyApprovalStatus {
      PENDING,
