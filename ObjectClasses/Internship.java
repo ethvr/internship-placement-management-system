@@ -7,12 +7,8 @@ import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 import IPMS.System.*;
 import jdk.jfr.Description;
-<<<<<<< HEAD
 
 
-=======
-import Companypackage.CompanyRepresentative;
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 public class Internship {
      private String title;

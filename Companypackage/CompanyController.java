@@ -1,8 +1,8 @@
-package IPMS.Companypackage;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import IPMS.SystemPages.*;
+import CompanyRepresentative;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.*;
