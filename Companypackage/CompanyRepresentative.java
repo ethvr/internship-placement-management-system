@@ -2,6 +2,8 @@ package IPMS.Companypackage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import IPMS.Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 
@@ -75,12 +77,21 @@ public class CompanyRepresentative extends User {
         app.setStatus(ApplicationStatus.UNSUCCESSFUL);
      }
 
-     // setters and getters
-     public void setApproved(boolean approved) { this.isApproved = approved; }
      
-     public boolean isApproved() { //the comp rep's account status
-          return this.status == CompanyApprovalStatus.APPROVED; 
+     // setters and getters
+     public void setStatus(CompanyApprovalStatus status){
+          this.status = status;
      }
+
+     public CompanyApprovalStatus getStatus() {
+          return status;
+     }
+
+     // public void setApproved(boolean approved) { this.isApproved = approved; }
+     
+     // public boolean isApproved() { //the comp rep's account status
+     //      return this.status == CompanyApprovalStatus.APPROVED; 
+     // }
 
      public String getCompanyName() {
           return companyName;
