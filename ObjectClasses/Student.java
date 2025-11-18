@@ -122,7 +122,7 @@ public class Student extends User {
 
     // Withdraw (student-side immediate withdrawal)
     public void withdrawApplication(String applicationId) {
-        Application app = SystemData.getApplicationMap().get(applicationId);
+        Application app = SystemData.getApplicationValue(applicationId);
 
         if (app == null)
             throw new IllegalArgumentException("No such application");
@@ -138,7 +138,7 @@ public class Student extends User {
 
     // Request Withdrawal (goes to Career Center for approval)
     public void requestWithdrawal(String applicationId) {
-        Application app = SystemData.getApplicationMap().get(applicationId);
+        Application app = SystemData.getApplicationValue(applicationId);
 
         if (app == null) {
             System.out.println("Invalid Application ID.");

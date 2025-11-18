@@ -15,15 +15,10 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
-<<<<<<< HEAD
 
     
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
-=======
-import IPMS.Companypackage.*;
-
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -37,11 +32,7 @@ public class SystemData {
     private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
     private static HashMap<String, Student> StudentMap = new HashMap<>();
     // Key --> staff ID --> change to username?
-<<<<<<< HEAD
     private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
-=======
-    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
     private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
@@ -58,7 +49,6 @@ public class SystemData {
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
-<<<<<<< HEAD
     // try with hash map
     public static void loadStudentMap() {
 
@@ -96,8 +86,6 @@ public class SystemData {
 
     }
 
-=======
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
         // Pick folder
@@ -701,7 +689,56 @@ public class SystemData {
     }
 
 
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Student> SystemDatagetStudentMap(){
+        
+        return StudentMap;
 
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, CareerCentre> SystemDatagetStaffMap(){
+        
+        return StaffMap;
+
+    }
+
+    public static Map<String, CompanyRepresentative> SystemDatagetCompanyMap() {
+
+        return RepresentativeMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Internship> SystemDatagetInternshipMap(){
+        
+        return InternshipMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Application> SystemDatagetApplicationMap(){
+        
+        return ApplicationMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, WithdrawalRequest> SystemDatagetWithdrawalMap(){
+        
+        return WithdrawalMap;
+
+    }
 
 
 
