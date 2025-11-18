@@ -67,7 +67,15 @@ public class Internship {
 
      //adds an application to this internship's list of applications
      public void addApplication(Application app, SystemData data) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+          SystemData.setApplicationKeyValue(app.getId(), app);
+=======
           data.applicationmap.put(app.getId(), app);
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
+=======
+          data.applicationmap.put(app.getId(), app);
+>>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
      }
      public void setVisible(boolean visible) {
           this.visible = visible;
@@ -75,9 +83,13 @@ public class Internship {
      public String getTitle(){
           return title;
      }
-     public List<Application> getApplications(SystemData data) {
+     public String setTitle(String title){
+          this.title = title;
+          return title;
+     }
+     public List<Application> getApplications() {
         List<Application> result = new ArrayList<>();
-        for (Application app : data.applicationmap.values()) {
+        for (Application app : SystemData.SystemDatagetApplicationMap().values()) {
             if (app.getInternshipId().equals(this.internshipId)) {
                 result.add(app);
             }
@@ -92,6 +104,10 @@ public class Internship {
      }
 
      public String getDescription() {
+          return description;
+     }
+     public String setDescription(String description){
+          this.description = description;
           return description;
      }
 
@@ -128,12 +144,18 @@ public class Internship {
           }
           return true;
      }
+     public boolean isVisible() {
+          return visible;
+     }
 
      public void setStatus(InternshipStatus status) {
         this.status = status;
     }
      public int getSlots() {
           return slots;
+     }
+     public void setSlots(int slots) {
+          this.slots = slots;
      }
      public void updateFilledSlots() {////////////////////
           this.slots-=1;

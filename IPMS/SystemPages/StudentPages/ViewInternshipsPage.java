@@ -1,5 +1,4 @@
 package IPMS.SystemPages.StudentPages;
-
 import java.util.List;
 import java.util.Map;
 import IPMS.SystemPages.Page;
@@ -12,20 +11,10 @@ import IPMS.SystemPages.UniversalFunctions;
 
 public class ViewInternshipsPage implements Page {
     private Student StudentObj;
-    private CareerCenter staffObj;
-    private CompanyRepresentative compObj;
     private int opt;
 
     public ViewInternshipsPage(Student obj) {
         StudentObj = obj;
-    }
-
-    public ViewInternshipsPage(CareerCenter obj){
-        staffObj = obj;
-    }
-
-    public ViewInternshipsPage(CompanyRepresentative obj){
-        compObj = obj;
     }
 
     @Override
@@ -38,7 +27,6 @@ public class ViewInternshipsPage implements Page {
         System.out.println("[4] Number of Slots left\n");
         System.out.println("[5] Key words"); //filter by searching for keywords in description
         System.out.println("[6] Back");
-        
 
         System.out.print("Enter an option (1-6): ");;
     }
@@ -77,4 +65,4 @@ public class ViewInternshipsPage implements Page {
         }
 
 }
-}
+

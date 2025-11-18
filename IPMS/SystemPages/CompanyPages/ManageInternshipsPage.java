@@ -1,12 +1,13 @@
 package IPMS.SystemPages.CompanyPages;
 import java.util.Scanner;
-import java.util.List;
-import IPMS.Companypackage.CompanyRepresentative;
-import IPMS.SystemPages.*;
-import IPMS.Internship;
-import IPMS.Enums.*;
-import IPMS.System.SystemData;  
+
 import IPMS.Companypackage.CompanyController;
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.System.SystemData;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.SystemPages.UniversalFunctions;
+
 
 public class ManageInternshipsPage implements Page {
     private final String username;
@@ -32,7 +33,7 @@ public class ManageInternshipsPage implements Page {
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, 5);
 
-        CompanyRepresentative compRep = SystemData.representatives.get(username);
+        CompanyRepresentative compRep = SystemData.getCompanyValue(username);
         
         if (compRep == null) {
             System.out.println("Error: Company representative not found.\n");

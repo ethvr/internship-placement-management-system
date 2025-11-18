@@ -1,9 +1,12 @@
 package IPMS.SystemPages.CompanyPages;
 import java.util.List;
-import IPMS.Companypackage.CompanyRepresentative;
-import IPMS.SystemPages.*;
-import IPMS.ObjectClasses.*;
-import IPMS.System.SystemData;  
+
+import IPMS.ObjectClasses.Internship;
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.System.SystemData;
+import IPMS.SystemPages.Page;
+import IPMS.SystemPages.PageAction;
+import IPMS.SystemPages.UniversalFunctions;  
 
 public class ViewCreatedInternshipsPage implements Page {
     private final String username;
@@ -16,7 +19,7 @@ public class ViewCreatedInternshipsPage implements Page {
     public void showMenu() {
         System.out.println("======= MY INTERNSHIPS =======\n");
         
-        CompanyRepresentative compRep = SystemData.representatives.get(username);
+        CompanyRepresentative compRep = SystemData.getCompanyValue(username);
         
         if (compRep == null) {
             System.out.println("Error: Company representative not found.\n");
