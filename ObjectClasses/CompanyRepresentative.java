@@ -46,13 +46,13 @@ public class CompanyRepresentative extends User {
           Internship internship = new Internship(title, description, level, preferredMajor,
                                                openDate, closeDate, companyName, this, slots);
           internshipsCreated.add(internship);
-          data.internships.put(internship.getId(), internship);
+          data.InternshipMap.put(internship.getId(), internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
      public void deleteInternship(Internship internship, SystemData data) {
           internshipsCreated.remove(internship);
-          data.internships.remove(internship.getId());
+          data.InternshipMap.remove(internship.getId());
      }
      public List<Internship> getInternshipsCreated() {
           return internshipsCreated;
@@ -64,7 +64,7 @@ public class CompanyRepresentative extends User {
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
-          for (Application app : internship.getApplications(data)) {
+          for (Application app : InternshipMap.getApplications(data)) {
                System.out.println(app);
           }
      }
