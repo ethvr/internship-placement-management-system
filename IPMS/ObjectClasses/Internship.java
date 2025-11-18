@@ -89,15 +89,7 @@ public class Internship {
      }
      public List<Application> getApplications() {
         List<Application> result = new ArrayList<>();
-<<<<<<< HEAD
-<<<<<<< HEAD
         for (Application app : SystemData.SystemDatagetApplicationMap().values()) {
-=======
-        for (Application app : data.applicationmap.values()) {
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
-=======
-        for (Application app : data.applicationmap.values()) {
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
             if (app.getInternshipId().equals(this.internshipId)) {
                 result.add(app);
             }
