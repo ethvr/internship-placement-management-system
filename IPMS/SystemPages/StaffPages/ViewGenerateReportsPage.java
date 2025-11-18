@@ -61,9 +61,9 @@ public class ViewGenerateReportsPage implements Page{
                         yield PageAction.pop();
                     }
                     //print applicants
-                    case 2 -> {
-                        yield PageAction.pop();
-                    }
+                    // case 2 -> {
+                    //     yield PageAction.pop();
+                    // }
 
 
                     //report by status
