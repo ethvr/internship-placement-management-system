@@ -2,6 +2,8 @@ package IPMS.Companypackage;
 //import SystemData;
 import java.util.Scanner;
 
+import ObjectClasses.CompanyRepresentative;
+
 public class CompanyRegistrationManager { //or comp controller i didnt see that class at first so i replaced it with this class
     private Scanner scanner;
     

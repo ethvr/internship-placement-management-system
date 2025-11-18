@@ -1,4 +1,4 @@
-package ObjectClasses;
+package IPMS.ObjectClasses;
 
 import java.time.LocalDateTime;
 import IPMS.Enums.*;

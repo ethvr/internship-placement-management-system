@@ -15,9 +15,8 @@ import IPMS.System.SystemConverter;
 
 public class GenerateReports{
 
-
     static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
-    static Map<String,Application> applicationmap = SystemData.getApplicationMap();
+    static Map<String, Application> applicationmap = SystemData.getApplicationMap();
 
     public List<Internship> loadInternships(
         InternshipStatus status,

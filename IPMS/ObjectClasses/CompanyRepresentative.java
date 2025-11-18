@@ -1,4 +1,4 @@
-package IPMS.Companypackage;
+package ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,8 @@ package IPMS.ObjectClasses;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 import IPMS.System.*;
@@ -23,6 +25,7 @@ public class Internship {
      private boolean visible;
      private int slots;
      private String internshipId;
+     static Map<String,Application> applicationmap = SystemData.getApplicationMap();
 
      public Internship(String title, String description, InternshipLevel level, String preferredMajor, LocalDate openDate, LocalDate closeDate, 
                        String companyName, String compRep, int slots) {
@@ -59,10 +62,12 @@ public class Internship {
      /*Internship(String internshipTitle, String description, InternshipLevel internshipLevel, String prefferedMajors, LocalDate openingDate, LocalDate closingDate, String companyName, String companyRepInCharge, int numberofSlots) {
           throw new UnsupportedOperationException("Not supported yet.");
      }*/
+       
+
 
      //adds an application to this internship's list of applications
      public void addApplication(Application app, SystemData data) {
-          data.applications.put(app.getId(), app);
+          data.applicationmap.put(app.getId(), app);
      }
      public void setVisible(boolean visible) {
           this.visible = visible;
@@ -72,7 +77,7 @@ public class Internship {
      }
      public List<Application> getApplications(SystemData data) {
         List<Application> result = new ArrayList<>();
-        for (Application app : data.applications.values()) {
+        for (Application app : data.applicationmap.values()) {
             if (app.getInternshipId().equals(this.internshipId)) {
                 result.add(app);
             }
@@ -132,6 +137,9 @@ public class Internship {
      }
      public void updateFilledSlots() {////////////////////
           this.slots-=1;
+     }
+     public void addSlots(){
+          this.slots+=1;
      }
      public String getId(){
           return internshipId;
