@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-<<<<<<<< HEAD:ObjectClasses/CompanyRepresentative.java
+
 package IPMS.ObjectClasses;
-========
-package IPMS.Companypackage;
->>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744:Companypackage/CompanyRepresentative.java
-=======
-package IPMS.ObjectClasses;
->>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
 import java.util.ArrayList;
 import java.util.List;

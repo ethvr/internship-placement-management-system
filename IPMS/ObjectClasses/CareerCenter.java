@@ -94,10 +94,14 @@ public class CareerCenter extends User {
     public void approveWithdrawal(WithdrawalRequest withdrawalRequest, SystemData data){
         if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
             withdrawalRequest.setStatus(WithdrawalStatus.APPROVED);
+
+            // pull application obj from map
             String appplicationID = withdrawalRequest.getApplicationId();
             Application application = data.getApplicationValue(appplicationID); 
+            // pull internship obj from map
             String internshipID = application.getInternshipId();
             Internship internship = data.getInternshipValue(internshipID);
+
 
             // for (Application withdrawer : applicationmap.values()){
             //     if (applicationmap.equals(appplicationID)){
@@ -105,12 +109,14 @@ public class CareerCenter extends User {
             //     }
             // }
             
+
+
             //check if application is valid
             if (application != null){       
                 //if intern slot is confirmed, remove student
                 if (application.getStatus() == ApplicationStatus.SUCCESSFUL){
                     application.setStatus(ApplicationStatus.WITHDRAWN);
-                    System.out.println("Withdrawal request approved.");
+                    System.out.println("Withdrawal request is approved.");
                     // add slot to internship
                     internship.addSlots();
 
