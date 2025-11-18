@@ -5,12 +5,9 @@ import java.util.Scanner;
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
 import IPMS.SystemPages.UniversalFunctions;
-=======
+
 import ObjectClasses.CompanyRepresentative;
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
-=======
-import ObjectClasses.CompanyRepresentative;
->>>>>>> c4cf1788ed1d81e3e8bc804b1428193d484ce307
+
 
 public class CompanyRegistrationManager { //or comp controller i didnt see that class at first so i replaced it with this class
     private Scanner scanner;
