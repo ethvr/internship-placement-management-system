@@ -5,6 +5,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+<<<<<<< HEAD
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+=======
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -21,6 +27,7 @@ import System.SystemDataEntities.StaffCSVData;
 import System.SystemDataEntities.StudentCSVData;
 import System.SystemDataEntities.WithdrawalData;
 
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 public class OldFunctionsFromAllClasses {
 
     public static void UserManagerUsernameCSVGenerator(){
@@ -509,6 +516,8 @@ public class OldFunctionsFromAllClasses {
         }
     }
 
+<<<<<<< HEAD
+=======
     /*// try with hash map
     public static void SystemDataloadStudentMap() {
 
@@ -597,6 +606,7 @@ public class OldFunctionsFromAllClasses {
 
     }
 
+>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 
 }

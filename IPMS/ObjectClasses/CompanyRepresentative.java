@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+<<<<<<<< HEAD:ObjectClasses/CompanyRepresentative.java
 package IPMS.ObjectClasses;
+========
+package IPMS.Companypackage;
+>>>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744:Companypackage/CompanyRepresentative.java
+=======
+package IPMS.ObjectClasses;
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +15,9 @@ import IPMS.Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 
+
+import IPMS.Enums.*;
+import IPMS.System.SystemData;
 
 public class CompanyRepresentative extends User {
 
@@ -34,7 +45,7 @@ public class CompanyRepresentative extends User {
      }
 
      public void createInternship(String title, String description, InternshipLevel level,
-                                 String preferredMajor, String openDate, String closeDate, int slots, SystemData data) {
+                                 String preferredMajor, String openDate, String closeDate, int slots) {
           if (!isApproved()) {
                System.out.println("Account not approved by Career Center yet!");
                return;
@@ -78,7 +89,7 @@ public class CompanyRepresentative extends User {
         app.setStatus(ApplicationStatus.UNSUCCESSFUL);
      }
 
-     
+
      // setters and getters
      public void setStatus(CompanyApprovalStatus status){
           this.status = status;
@@ -105,3 +116,4 @@ public class CompanyRepresentative extends User {
 
      }
 }
+

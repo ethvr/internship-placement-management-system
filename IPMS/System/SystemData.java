@@ -15,9 +15,15 @@ import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
 import IPMS.ObjectClasses.*;
+<<<<<<< HEAD
+=======
 import IPMS.Companypackage.*;
 import IPMS.Companypackage.CompanyRepresentative;
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
+    
+import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -31,7 +37,7 @@ public class SystemData {
     private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
     private static HashMap<String, Student> StudentMap = new HashMap<>();
     // Key --> staff ID --> change to username?
-    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
+    private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
     private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
@@ -47,6 +53,43 @@ public class SystemData {
     private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
+
+    // try with hash map
+    public static void loadStudentMap() {
+
+        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
+        File[] files = folder.listFiles();
+        File targetFile = null;
+
+        for(File f : files) {
+            if(f.getName().contains("student")) {
+                targetFile = f;
+                break;
+            }
+        }
+
+        //reading from csv file and writing into hashmap
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(targetFile));
+            String line = br.readLine(); // skip header line
+            
+            while((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                String studentID = parts[0];
+                String name = parts[1];
+                String role = parts[2];
+                int year = Integer.parseInt(parts[3]);
+                String email = parts[4];
+                String username = email.split("@")[0];
+                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
+            }
+
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error reading file: " + e);
+        }
+
+    }
 
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
@@ -681,6 +724,14 @@ public class SystemData {
 
     public static void setApplication
 
+<<<<<<< HEAD
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Student> SystemDatagetStudentMap(){
+        
+        return StudentMap;
+=======
     public static void removeinternship(String ID) {
         InternshipMap.remove(ID);
     }
@@ -721,7 +772,51 @@ public class SystemData {
         return Collections.unmodifiableMap(WithdrawalMap);
 
     }
+>>>>>>> 9c9a0c95a4b355365b4c2b190e8053edf40740ff
 
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, CareerCentre> SystemDatagetStaffMap(){
+        
+        return StaffMap;
+
+    }
+
+    public static Map<String, CompanyRepresentative> SystemDatagetCompanyMap() {
+
+        return RepresentativeMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Internship> SystemDatagetInternshipMap(){
+        
+        return InternshipMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, Application> SystemDatagetApplicationMap(){
+        
+        return ApplicationMap;
+
+    }
+
+    // getter for data since private 
+    // returns unmodifiable map --> encapsulation
+    // can only read cannot write
+    public static Map<String, WithdrawalRequest> SystemDatagetWithdrawalMap(){
+        
+        return WithdrawalMap;
+
+    }
 
 
 

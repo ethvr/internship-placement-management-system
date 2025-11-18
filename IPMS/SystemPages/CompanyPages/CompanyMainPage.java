@@ -1,21 +1,17 @@
+
 package IPMS.SystemPages.CompanyPages;
 
-import IPMS.Companypackage.CompanyRepresentative;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
-
-import java.util.Map;
-
-import IPMS.ObjectClasses.*;
-import IPMS.System.SystemConverter;
-import IPMS.SystemPages.UniversalFunctions;
+import SystemPages.Page;
+import SystemPages.PageAction;
+import ObjectClasses.*;
+import System.SystemData;
+import System.SystemDataEntities.*;
+import SystemPages.UniversalFunctions;
+import ObjectClasses.*;
 
 public class CompanyMainPage implements Page{
 
     private final String username;
-
 
     public CompanyMainPage(String username) {
         this.username = username;
@@ -43,15 +39,12 @@ public class CompanyMainPage implements Page{
     @Override
     public PageAction next() {
 
-        // code to instantiate object ;
-        CompanyRepresentative obj = SystemData.getCompanyREpObj(username);
-
         int opt = UniversalFunctions.readIntInRange(1, 5);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new ManageInternshipsPage(obj));
-            case 2 -> PageAction.push(new ViewCreatedInternshipsPage(obj));
-            case 3 -> PageAction.push(new ManageApplicationsPage(obj));
+            case 1 -> PageAction.push(new ManageInternshipsPage(username));
+            case 2 -> PageAction.push(new ViewCreatedInternshipsPage(username));
+            case 3 -> PageAction.push(new ManageApplicationsPage(username));
             case 4 -> {
                 CompanyRepresentative compRep = SystemData.representatives.get(username);
                 if (compRep != null) {
