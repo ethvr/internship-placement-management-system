@@ -8,7 +8,7 @@ public class Application {
     private String studentId;           
     private String internshipId;        
     private ApplicationStatus status;   
-    private boolean acceptedByStudent;
+    private AcceptedByStudentStuatus acceptedByStudent;
     
     // CONSTRUCTOR FOR CREATING THE OBJ AT THE START
     public Application(String studentId, String internshipId) {
