@@ -16,7 +16,7 @@ public class Application {
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = ApplicationStatus.PENDING;
-        this.acceptedByStudent = false;
+        this.AcceptedByStudentStuatus = AcceptedByStudentStuatus.PENDING;
     }
     // constructor for creating obj from map 
     public Application(String id, String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
