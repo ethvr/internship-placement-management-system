@@ -15,13 +15,13 @@ import IPMS.ObjectClasses.*;
 import IPMS.SystemPages.UniversalFunctions;
 import IPMS.SystemPages.CompanyPages.CompanyMainPage;
 
-public class ViewWithdrawalsPage implements Page{
+public class ViewWithdrawalRequestsPage implements Page{
 
     private CareerCenter staffObj ;
     private int opt;
     final Map<String, WithdrawalRequest> withdrawalmap = SystemData.SystemDatagetWithdrawalMap();
 
-    public ViewWithdrawalsPage( CareerCenter obj){
+    public ViewWithdrawalRequestsPage( CareerCenter obj){
         this.staffObj = obj;
     }
 

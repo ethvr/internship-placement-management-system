@@ -58,7 +58,7 @@ public class StaffMainPage implements Page{
         return switch (opt) {
             case 1 -> PageAction.push(new ViewAccountRequestPage(staffObj));
             case 2 -> PageAction.push(new ViewInternshipRequestPage(staffObj));
-            case 3 -> PageAction.push(new ViewWithdrawalsPage(staffObj));
+            case 3 -> PageAction.push(new ViewWithdrawalRequestsPage(staffObj));
             case 4 -> PageAction.push(new ViewGenerateReportsPage(staffObj));
             case 5 -> PageAction.push(new ViewInternshipsPage(staffObj));
             case 6 -> PageAction.pop();
