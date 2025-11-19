@@ -157,7 +157,7 @@ public class SystemConverter {
         if (i == null) return null;
 
         return new InternshipData(
-                i.getId(),
+                i.getInternshipId(),
                 i.getInternshipTitle(),
                 i.getDescription(),
                 i.getLevel(),
@@ -166,7 +166,7 @@ public class SystemConverter {
                 i.getCloseDate(),
                 i.getStatus(),
                 i.getCompanyName(),
-                i.getCompRep(),     // for now this is a String
+                i.getCompRepID(),     // for now this is a String
                 i.getSlots(),
                 i.getVisibility()
         );
@@ -192,7 +192,7 @@ public class SystemConverter {
         if (app == null) return null;
 
         return new ApplicationData(
-                app.getId(),
+                app.getApplicationID(),
                 app.getStudentId(),
                 app.getInternshipId(),
                 app.getStatus(),

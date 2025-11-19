@@ -3,7 +3,7 @@ package IPMS.ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import IPMS.Companypackage.CompanyRepresentative;
+import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.Enums.InternshipLevel;
 import IPMS.Enums.InternshipStatus;
 import IPMS.System.SystemData;
@@ -36,7 +36,7 @@ public class GenerateReports{
                 data.getOpenDate(),
                 data.getCloseDate(),
                 data.getCompanyName(),
-                data.getCompRep(),
+                data.getCompRepID(),
                 data.getSlots()
             );
             list.add(internship);
@@ -59,16 +59,16 @@ public class GenerateReports{
 
         List<Application> ApplicationList = new ArrayList<>();
 
-        String internshipID = internship.getId();
+        String internshipID = internship.getInternshipId();
 
         for (Application data : applicationmap.values()) {
             if (data.getInternshipId().equalsIgnoreCase(internshipID)) {
             Application application = new Application (
-                data.getId(),
+                data.getApplicationID(),
                 data.getStudentId(),
                 data.getInternshipId(), 
                 data.getStatus(), 
-                data.isAcceptedByStudent() 
+                data.getAcceptedByStudent() 
                 );
 
             ApplicationList.add(application);
@@ -87,7 +87,7 @@ public class GenerateReports{
                 System.out.printf("%-5d %-15s %-18s %-20s\n",
                     count,
                     app.getStudentId(),
-                    app.getId(),
+                    app.getApplicationID(),
                     app.getStatus()   
                 );
                 count++;
@@ -117,7 +117,7 @@ public class GenerateReports{
                 data.getOpenDate(),
                 data.getCloseDate(),
                 data.getCompanyName(),
-                data.getCompRep(),
+                data.getCompRepID(),
                 data.getSlots());
 
             InternshipList.add(internship);
