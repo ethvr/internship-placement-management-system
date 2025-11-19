@@ -402,7 +402,7 @@ public class SystemData {
         for (ApplicationData data : ApplicationCSVMap.values()) {
             Application a = SystemConverter.toApplication(data);
             if (a != null) {
-                ApplicationMap.put(a.getApplicationID(), a);
+                ApplicationMap.put(a.getId(), a);
             }
         }
 
@@ -477,7 +477,7 @@ public class SystemData {
         // Applications
         for (Application app : ApplicationMap.values()) {
             ApplicationData row = SystemConverter.toApplicationData(app);
-            ApplicationCSVMap.put(app.getApplicationID(), row);
+            ApplicationCSVMap.put(app.getId(), row);
         }
 
         // Withdrawals
@@ -588,7 +588,7 @@ public class SystemData {
     }
 
     public static void ApplicationCreation(Application obj) {
-        String appID = obj.getApplicationID();
+        String appID = obj.getId();
         ApplicationMap.put(appID, obj);
 
         String internshipid = obj.getInternshipId();

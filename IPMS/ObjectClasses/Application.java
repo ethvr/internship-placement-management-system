@@ -1,6 +1,7 @@
 package IPMS.ObjectClasses;
 
 import IPMS.Enums.*;
+import IPMS.Enums.AcceptedByStudentStatus;
 import IPMS.UserManagement.IdGenerator;
 
 public class Application {
@@ -8,7 +9,7 @@ public class Application {
     private String studentId;           
     private String internshipId;        
     private ApplicationStatus status;   
-    private AcceptedByStudentStuatus acceptedByStudent;
+    private AcceptedByStudentStatus acceptedByStudent;
     
     // CONSTRUCTOR FOR CREATING THE OBJ AT THE START
     public Application(String studentId, String internshipId) {
@@ -16,15 +17,15 @@ public class Application {
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = ApplicationStatus.PENDING;
-        this.AcceptedByStudentStuatus = AcceptedByStudentStuatus.PENDING;
+        this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
     }
     // constructor for creating obj from map 
-    public Application(String id, String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
+    public Application(String id, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
         this.id = id;
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
-        this.acceptedByStudent = acceptedByStudent;
+        this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
 
     }
 
@@ -41,8 +42,8 @@ public class Application {
     public ApplicationStatus getStatus() {
         return status;}
 
-    public boolean isAcceptedByStudent() {
-        return acceptedByStudent;}
+    public AcceptedByStudentStatus isAcceptedByStudent() {
+        return AcceptedByStudentStatus.ACCEPTED;}
         
     //setters
     public void setId(String id) {
@@ -57,14 +58,14 @@ public class Application {
     public void setStatus(ApplicationStatus status) {
         this.status = status;}
 
-    public void setAcceptedByStudent(boolean acceptedByStudent) {
+    public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
     public boolean isActive() {
         return status != ApplicationStatus.WITHDRAWN;}
 
     public boolean isConfirmedPlacement() {
-        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent;}
+        return status == ApplicationStatus.SUCCESSFUL ;}
 
     public boolean isUnsuccessful() {
         return status == ApplicationStatus.UNSUCCESSFUL;}
