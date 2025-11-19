@@ -254,9 +254,15 @@ public class UserManager {
                         RegistrationInput.get(5)    // position
                     );
 
+<<<<<<< Updated upstream
                     //CompanyCSVData rep2 = SystemConverter.toCompanyCSV(rep);
                     
                     SystemData.setCompanyKeyValue(username, rep);
+=======
+                    // adds new runtime creation to map
+                    SystemData.CompRepCreation(rep);
+                    SystemData.removeUnapprovedRep(rep);
+>>>>>>> Stashed changes
 
                     System.out.println("Registration complete, please wait for your account to be approved");
 
