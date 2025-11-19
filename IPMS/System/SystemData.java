@@ -98,7 +98,7 @@ public class SystemData {
                 int year = Integer.parseInt(parts[3]);
                 String email = parts[4];
                 String username = email.split("@")[0];
-                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
+                StudentMap.put(username, new Student(studentID, name, email, year, role));
             }
 
             br.close();
@@ -263,9 +263,9 @@ public class SystemData {
         //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
+        File PasswordFolder = new File("IPMS\\PasswordCSVFolder");
         File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        File PeopleFolder = new File("IPMS\\PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -393,7 +393,7 @@ public class SystemData {
         for (InternshipData data : InternshipCSVMap.values()) {
             Internship i = SystemConverter.toInternship(data);
             if (i != null) {
-                InternshipMap.put(i.getId(), i);
+                InternshipMap.put(i.getInternshipId(), i);
             }
         }
 
@@ -470,7 +470,7 @@ public class SystemData {
         // Internships
         for (Internship i : InternshipMap.values()) {
             InternshipData row = SystemConverter.toInternshipData(i);
-            InternshipCSVMap.put(i.getId(), row);
+            InternshipCSVMap.put(i.getInternshipId(), row);
         }
 
         // Applications
@@ -587,7 +587,7 @@ public class SystemData {
     }
 
     public static void ApplicationCreation(Application obj) {
-        String appID = obj.getApplicationID();
+        String appID = obj.getID();
         ApplicationMap.put(appID, obj);
 
         String internshipid = obj.getInternshipId();
