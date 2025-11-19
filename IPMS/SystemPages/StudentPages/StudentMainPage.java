@@ -1,60 +1,54 @@
 package IPMS.SystemPages.StudentPages;
 
-import java.util.Map;
+import IPMS.ObjectClasses.Student;
 import IPMS.SystemPages.Page;
 import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
-import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import IPMS.SystemPages.StudentPages.*;
+import IPMS.UniversalFunctions;
 
-public class StudentMainPage implements Page{
-    private final String username;
+public class StudentMainPage implements Page {
 
-    public StudentMainPage(String username) {
-        this.username = username;
+    private Student student;
+
+    public StudentMainPage(Student student) {
+        this.student = student;
     }
 
     @Override
-    public void showMenu() {
-        System.out.println("======= STUDENT =======");
-        System.out.println("[1] View all available Internships");
-        System.out.println("[2] View your Internship Applications");
-        System.out.println("[3] View your Withdrawal Applications");
-        System.out.println("[4] Logout\n");
+    public PageAction run() {
+        System.out.println("\n===== STUDENT MENU =====");
+        System.out.println("[1] View Available Internships");
+        System.out.println("[2] View Your Applications");
+        System.out.println("[3] View Your Withdrawal Requests");
+        System.out.println("[4] Apply for Internship by ID");
+        System.out.println("[5] Change Password");
+        System.out.println("[6] Logout");
 
-        System.out.print("Enter an option (1-4): ");;
-    }
+        int choice = UniversalFunctions.getIntInput("Enter choice: ");
 
-    @Override
-    public PageAction next() {
+        switch (choice) {
+            case 1:
+                return PageAction.push(new ViewInternshipsPage(student));
 
-        // load relevaent maps (code here)
-        SystemData.loadIntoMap("student", StudentCSVData.class);
-        // student map
-        Map<String, StudentCSVData> studentmap = SystemData.getStudentMap();
-        // get users object
-        StudentCSVData data = studentmap.get(username);
+            case 2:
+                return PageAction.push(new ViewApplicationsPage(student));
 
-        Student studentObj = new Student(
-                        data.StudentID,
-                        data.Name,
-                        data.Year,
-                        data.Major
-                    );
+            case 3:
+                return PageAction.push(new ViewWithdrawalsPage(student));
 
-        int opt = UniversalFunctions.readIntInRange(1, 4);
+            case 4:
+                return PageAction.push(new ApplyByIdPage(student));
 
-        return switch (opt) {
-            case 1 -> PageAction.push(new ViewInternshipsPage(studentObj));
-            case 2 -> PageAction.push(new ViewApplicationsPage(studentObj));
-            case 3 -> PageAction.push(new ViewWithdrawalsPage(studentObj));
-            case 4 -> {
-                User.logout();
-                yield PageAction.exit();
-            }
-            default -> PageAction.pop();
-        };
+            case 5:
+                return PageAction.push(new ChangePasswordPage(student));
+
+            case 6:
+                System.out.println("Logging out...");
+                return PageAction.pop();
+
+            default:
+                System.out.println("Invalid choice.");
+                return PageAction.stay();
+        }
     }
 }
-
