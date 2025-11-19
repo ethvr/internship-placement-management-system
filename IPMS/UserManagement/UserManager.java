@@ -77,35 +77,50 @@ public class UserManager {
                         if (line.isEmpty()) continue;
                         String[] parts = line.split(",", -1);
 
-                        // Decide email column index by file type
                         int emailIdx;
                         String type;
+
+                        boolean skip = false;
+
                         if (fname.contains("company")) {
-                            emailIdx = 5;   // CompanyCSVData: ... Email at index 5
+                            emailIdx = 5;
                             type = "company";
-                        } else if (fname.contains("staff")) {
-                            emailIdx = 4;   // StaffCSVData: ... Email at index 4
+
+                            // === READ STATUS COLUMN (index 6) ===
+                            if (parts.length > 6) {
+                                String statusStr = parts[6].trim().toUpperCase();
+
+                                // Only allow approved companies
+                                if (!statusStr.equals("APPROVED")) {
+                                    skip = true;
+                                }
+                            }
+                        } 
+                        else if (fname.contains("staff")) {
+                            emailIdx = 4;
                             type = "staff";
-                        } else if (fname.contains("student")) {
-                            emailIdx = 4;   // StudentCSVData: ... Email at index 4
+                        } 
+                        else if (fname.contains("student")) {
+                            emailIdx = 4;
                             type = "student";
-                        } else {
-                            // Unknown file layout—skip safely
+                        } 
+                        else {
                             continue;
                         }
 
-                        if (parts.length <= emailIdx) continue; // malformed row safeguard
+                        if (skip) continue; // <-- SKIP PENDING/REJECTED COMPANIES
+
+                        if (parts.length <= emailIdx) continue;
                         String email = parts[emailIdx].trim();
+
                         if (email.isEmpty() || !email.contains("@")) continue;
 
                         String username = email.substring(0, email.indexOf('@')).trim();
                         if (username.isEmpty() || existing.contains(username)) continue;
 
-                        // Append default credentials
+                        // Add to output
                         bw.write(username + ",password,true," + type);
                         bw.newLine();
-
-                        // Track so later files don’t duplicate
                         existing.add(username);
                     }
                 } catch (IOException e) {
@@ -285,6 +300,8 @@ public class UserManager {
     }
 
     public static void CompanyStatusCheck() {
+
+        System.out.println(SystemData.RepresentativeMap);
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter your Email used for registration: ");
         String email;

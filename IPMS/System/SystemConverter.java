@@ -99,8 +99,6 @@ public class SystemConverter {
 
     public static CompanyRepresentative toCompanyRep(CompanyCSVData data) {
         if (data == null) return null;
-        String email = data.getEmail();
-        String username = email.substring(0, email.indexOf("@"));
 
         CompanyRepresentative rep = new CompanyRepresentative(
                 data.getCompanyRepID(), // email as userId
@@ -119,14 +117,15 @@ public class SystemConverter {
         if (rep == null) return null;
 
         return new CompanyCSVData(
-                rep.getUserId(),       // CompanyRepID should already exists when you run 
-                rep.getName(),
-                rep.getEmail(),        // Email
-                rep.getCompanyName(),
-                rep.getDepartment(),
-                rep.getPosition(),
-                rep.getStatus()
+                rep.getUserId(),        // CompanyRepID
+                rep.getName(),          // Name
+                rep.getCompanyName(),   // CompanyName
+                rep.getDepartment(),    // Department
+                rep.getPosition(),      // Position
+                rep.getEmail(),         // Email
+                rep.getStatus()         // Status
         );
+
     }
 
 

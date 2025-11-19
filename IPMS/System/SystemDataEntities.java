@@ -105,10 +105,10 @@ public class SystemDataEntities {
                        String Position, String Email, CompanyApprovalStatus Status) {
             this.CompanyRepID = CompanyRepID;
             this.Name = Name;
-            this.Email = Email;
             this.CompanyName = CompanyName;
             this.Department = Department;
             this.Position = Position;
+            this.Email = Email;
             this.Status = Status;
         }
 

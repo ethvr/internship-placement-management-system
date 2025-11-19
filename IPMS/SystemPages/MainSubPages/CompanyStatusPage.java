@@ -25,7 +25,7 @@ public class CompanyStatusPage implements Page{
         return switch (opt) {
             case 1 -> PageAction.pop();
             case 2 -> {
-                SystemData.MainPageOnlySave();
+                SystemData.saveAll("company");
                 yield PageAction.exit();
             }
             default -> PageAction.pop();

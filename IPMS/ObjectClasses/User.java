@@ -36,6 +36,7 @@ public abstract class User {
         String nil = "NIL";
         
         System.out.println();
+        System.out.println(SystemData.LoginMap);
         System.out.print("Enter your Username (Type EXIT to cancel): ");
         String NameInput = sc.nextLine();
         String pwInput = null;
