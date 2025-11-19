@@ -10,46 +10,71 @@ public class UniversalFunctions {
 
     public static int readIntInRange(int min, int max) {
         while (true) {
-            if (!sc.hasNextInt()) {
-                System.out.println("Invalid input. Please enter a number.");
-                sc.next(); // discard invalid input
-                continue;
-            }
+            try {
+                if (!sc.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    if (sc.hasNext()) {
+                        sc.next(); // discard invalid input
+                    } else {
+                        return min; // Return default on EOF
+                    }
+                    continue;
+                }
 
-            int option = sc.nextInt();
-            if (option >= min && option <= max) {
-                return option;
-            }
+                int option = sc.nextInt();
+                if (option >= min && option <= max) {
+                    return option;
+                }
 
-            System.out.println("Invalid option, try again.");
+                System.out.println("Invalid option, try again.");
+            } catch (Exception e) {
+                return min; // Return default on exception
+            }
         }
     }
 
     public static String readString() {
 
-        sc.nextLine(); // clear leftover newline if needed
-        String input = sc.nextLine().trim();
+        try {
+            sc.nextLine(); // clear leftover newline if needed
+            if (!sc.hasNextLine()) {
+                return ""; // Return empty on EOF
+            }
+            String input = sc.nextLine().trim();
 
-        while (input.isEmpty()) {
-            System.out.println("Input cannot be empty. Try again.");
-            input = sc.nextLine().trim();
+            while (input.isEmpty()) {
+                System.out.println("Input cannot be empty. Try again.");
+                if (!sc.hasNextLine()) {
+                    return ""; // Return empty on EOF
+                }
+                input = sc.nextLine().trim();
+            }
+
+            return input;
+        } catch (Exception e) {
+            return ""; // Return empty on exception
         }
-
-        return input;
     }
 
 
     public static <T extends Enum<T>> T readEnum(Class<T> enumType) {
         while (true) {
-            String input = sc.next().trim().toUpperCase();
-
             try {
-                return Enum.valueOf(enumType, input);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid choice. Options are:");
-                for (T constant : enumType.getEnumConstants()) {
-                    System.out.println(" - " + constant.name());
+                if (!sc.hasNext()) {
+                    return enumType.getEnumConstants()[0]; // Return first enum on EOF
                 }
+                String input = sc.next().trim().toUpperCase();
+
+                try {
+                    return Enum.valueOf(enumType, input);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid choice. Options are:");
+                    for (T constant : enumType.getEnumConstants()) {
+                        System.out.println(" - " + constant.name());
+                    }
+                }
+            } catch (Exception e) {
+                return enumType.getEnumConstants()[0]; // Return first enum on exception
             }
         }
     }

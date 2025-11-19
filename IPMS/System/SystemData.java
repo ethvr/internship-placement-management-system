@@ -13,13 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import IPMS.Enums.*;
-import IPMS.System.SystemDataEntities.*; // change for final 
+import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
-//import Companypackage.*;
-//import Companypackage.CompanyRepresentative;
-import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
-import com.sun.source.tree.Tree;
-import javax.print.attribute.standard.Compression;
 
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
@@ -81,15 +76,14 @@ public class SystemData {
 
         //HashMap<String,T> map;
 
-        // file path for desktop
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        // Prefer repository-relative folders so the app runs on non-Windows machines
+        File PasswordFolder = new File("IPMS/PasswordCSVFolder");
+        File OtherFolder = new File("IPMS/OtherCSVFolder");
+        File PeopleFolder = new File("IPMS/PeopleCSVFolder");
 
-        // file path for laptop
-        //ile PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        // also accept top-level data directories as fallbacks
+        File repoDataFolder = new File("data");
+        File ipmsDataFolder = new File("IPMS/data");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -97,6 +91,15 @@ public class SystemData {
             case "password" -> PasswordFolder;
             default -> throw new IllegalArgumentException("invalid");
         };
+
+        // If the chosen folder doesn't exist or is empty, try repository fallbacks
+        if (folder == null || !folder.exists() || folder.listFiles() == null || folder.listFiles().length == 0) {
+            if (ipmsDataFolder.exists() && ipmsDataFolder.listFiles() != null && ipmsDataFolder.listFiles().length > 0) {
+                folder = ipmsDataFolder;
+            } else if (repoDataFolder.exists() && repoDataFolder.listFiles() != null && repoDataFolder.listFiles().length > 0) {
+                folder = repoDataFolder;
+            }
+        }
 
         @SuppressWarnings("unchecked")
         HashMap<String,T> map = switch (filename.toLowerCase()) {
@@ -219,18 +222,13 @@ public class SystemData {
 
 
     // dynamic writeback only for hashmaps 
-    // map parameter --> pass using the get method (immutable map)
     public static <T> void writeBackCSV(String filename, Map<String,T> map) {
 
-        // file path for desktop
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
-
-        // file path for laptop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        File PasswordFolder = new File("IPMS/PasswordCSVFolder");
+        File OtherFolder = new File("IPMS/OtherCSVFolder");
+        File PeopleFolder = new File("IPMS/PeopleCSVFolder");
+        File repoDataFolder = new File("data");
+        File ipmsDataFolder = new File("IPMS/data");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -239,29 +237,26 @@ public class SystemData {
             default -> throw new IllegalArgumentException("invalid");
         };
 
-        // Pick folder
-        /*File folder;
-        if (filename.toLowerCase().contains("password")) {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder");
-        } else if (filename.toLowerCase().contains("application") 
-                || filename.toLowerCase().contains("withdrawal") 
-                || filename.toLowerCase().contains("internship")) {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\OtherCSVFolder");
-        } else {
-            folder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PeopleCSVFolder");
-        }*/
+        if (folder == null || !folder.exists() || folder.listFiles() == null || folder.listFiles().length == 0) {
+            if (ipmsDataFolder.exists() && ipmsDataFolder.listFiles() != null && ipmsDataFolder.listFiles().length > 0) {
+                folder = ipmsDataFolder;
+            } else if (repoDataFolder.exists() && repoDataFolder.listFiles() != null && repoDataFolder.listFiles().length > 0) {
+                folder = repoDataFolder;
+            }
+        }
 
         try {
-            // Find the file
             File targetFile = null;
-            for (File f : Objects.requireNonNull(folder.listFiles())) {
-                if (f.getName().toLowerCase().contains(filename.toLowerCase())) {
-                    targetFile = f; break;
+            if (folder.listFiles() != null) {
+                for (File f : folder.listFiles()) {
+                    if (f.getName().toLowerCase().contains(filename.toLowerCase())) {
+                        targetFile = f;
+                        break;
+                    }
                 }
             }
             if (targetFile == null) throw new FileNotFoundException("CSV not found for: " + filename);
 
-            // Read header to preserve column order
             String headerLine;
             try (BufferedReader br = new BufferedReader(new FileReader(targetFile))) {
                 headerLine = br.readLine();
@@ -293,7 +288,6 @@ public class SystemData {
                                 if (v == null) {
                                     cell = "";
                                 } else if (v instanceof LocalDate) {
-                                    //.toString() converts date to standard ISO format (2025-03-10T16:55:21)
                                     cell = ((LocalDate) v).toString();
                                 } else if (v instanceof Enum<?>) {
                                     cell = ((Enum<?>) v).name();
@@ -301,15 +295,12 @@ public class SystemData {
                                     cell = String.valueOf(v);
                                 }
                             } catch (NoSuchFieldException ignore) {
-                                // Header not present in class → write empty column
                                 cell = "";
                             }
                         }
-
                         sb.append(cell);
                         if (i < headers.length - 1) sb.append(",");
                     }
-
                     bw.write(sb.toString());
                     bw.newLine();
                 }
@@ -317,9 +308,7 @@ public class SystemData {
         } catch (Exception e) {
             System.out.println("WriteBack Error: " + e.getMessage());
         }
-    }
-
-    public static void buildObjectMapsFromEntities(String usertype) {
+    }    public static void buildObjectMapsFromEntities(String usertype) {
         StudentMap.clear();
         StaffMap.clear();
         RepresentativeMap.clear();

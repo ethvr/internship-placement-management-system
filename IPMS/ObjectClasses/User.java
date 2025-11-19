@@ -37,60 +37,67 @@ public abstract class User {
         
         System.out.println();
         System.out.print("Enter your Username (Type EXIT to cancel): ");
-        String NameInput = sc.nextLine();
+        String NameInput;
+        try {
+            NameInput = sc.nextLine();
+        } catch (Exception e) {
+            return "NIL"; // If input is not available, exit
+        }
         String pwInput = null;
         if (NameInput.equalsIgnoreCase("exit")) {
-        return "NIL";
+            return "NIL";
         }
 
         while (true) {
             if(SystemData.checkUsername(NameInput)) {
 
-                while(PWTries > 0 || !pwInput.equals("break")) {
+                while(PWTries > 0) {
 
                     System.out.println("You have " + PWTries + " tries left, type \"0\" to exit");
-                    System.out.print("Enter your password: ");
-                    pwInput = sc.nextLine();
-
-                    if(SystemData.checkPassword(NameInput,pwInput)) {
+                    System.out.print("Enter Password: ");
+                    try {
+                        pwInput = sc.nextLine();
+                    } catch (Exception e) {
+                        return "NIL";
+                    }
+                    
+                    if(pwInput.equals("0")) {
+                        return "NIL";
+                    }
+                    
+                    if(SystemData.checkPassword(NameInput, pwInput)) {
                         System.out.println("Login successful!");
                         if (SystemData.getFirsttimelogin(NameInput)) {
                             System.out.println("First time login. Please change your password");
                             changePassword(NameInput);
-                            //sc.close();
-                            pwInput = "break";
                             SystemData.setFirsttimelogin(false, NameInput);
-                            //System.out.println("exiting login");
                             return NameInput;
                         }
-                        
                         else {
-                            //sc.close();
                             System.out.println("Welcome back " + NameInput);
                             return NameInput;
                         }
                     } 
-                    
                     else {
-                            System.out.println("Wrong password.");
-                            PWTries--;
+                        PWTries--; 
+                        if (PWTries == 0) {
+                            System.out.println("Max tries exceeded. Exiting to main menu");
+                            return "NIL";
+                        }
                     }
-
                 }
-            System.out.println("Maximum number of tries attempted, please contact support for help");
-            //sc.close();
-            return nil;
-            
-            } 
-
-            else {
-                    System.out.println("Invalid username. Please try again.");
-                    //sc.close();
-                    return nil;
+            } else {
+                System.out.print("Username does not exist, retry or type EXIT to exit: ");
+                try {
+                    NameInput = sc.nextLine();
+                } catch (Exception e) {
+                    return "NIL";
+                }
+                if (NameInput.equalsIgnoreCase("exit")) {
+                    return "NIL";
+                }
             }
         }
-        
-
     }
 
     public void logout() {

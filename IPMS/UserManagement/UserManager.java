@@ -32,8 +32,18 @@ public class UserManager {
 
     public static void UsernameCSVGenerator() {
         
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        File outputFile = new File("IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
+        File inputFolder = new File("IPMS/PeopleCSVFolder");
+
+        // Fallback to data/ if PeopleCSVFolder is empty
+        if (inputFolder == null || !inputFolder.exists() || inputFolder.listFiles((d, n) -> n.toLowerCase().endsWith(".csv")) == null 
+            || inputFolder.listFiles((d, n) -> n.toLowerCase().endsWith(".csv")).length == 0) {
+            File dataFolder = new File("IPMS/data");
+            if (dataFolder.exists() && dataFolder.listFiles((d, n) -> n.toLowerCase().endsWith(".csv")) != null 
+                && dataFolder.listFiles((d, n) -> n.toLowerCase().endsWith(".csv")).length > 0) {
+                inputFolder = dataFolder;
+            }
+        }
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
