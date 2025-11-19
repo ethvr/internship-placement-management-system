@@ -40,9 +40,11 @@ public class SystemApp {
                 case PUSH -> nav.push(action.getnextPage());
                 case POP  -> nav.pop();
                 case EXIT -> nav.clear();  // Clear stack = exit program
-                //case STAY -> nav.peek() ???? need for stay?
+                case STAY -> nav.peek(); //???? need for stay?
             }
         }
+
+        
         
     }       
 

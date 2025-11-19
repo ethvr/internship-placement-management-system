@@ -31,8 +31,9 @@ public class UserManager {
     // handles all 3 type files by looping and checking 
 
     public static void UsernameCSVGenerator() {
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\sc2002 project\\PeopleCSVFolder");
+        
+        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
+        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -236,13 +237,13 @@ public class UserManager {
                 }
 
                 case 2 -> {
-                    String username = null;
+                    /*String username = null;
                     for (String line : printer) {
                         if (line.toLowerCase().startsWith("email: ")) {
                             username = line.split(":")[1].trim();
                             break;
                         }
-                    }
+                    }*/
 
                     CompanyRepresentative rep = new CompanyRepresentative(
                         //id self generated

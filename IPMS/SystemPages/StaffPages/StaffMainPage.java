@@ -1,14 +1,7 @@
 package IPMS.SystemPages.StaffPages;
 
-import IPMS.SystemPages.StudentPages.*;
-import IPMS.System.SystemDataEntities.StaffCSVData;
-import IPMS.SystemPages.StudentPages.*;
-import IPMS.System.SystemDataEntities.*;
+
 import IPMS.System.SystemData;
-import IPMS.System.*;
-
-import java.util.Map;
-
 import IPMS.ObjectClasses.*;
 import IPMS.SystemPages.CommonPages.*;
 import IPMS.SystemPages.PageUtilities.Page;
@@ -48,8 +41,7 @@ public class StaffMainPage implements Page{
     @Override
     public PageAction next() {
 
-        //load staff map
-        //SystemData.loadIntoMap("staff", StaffCSVData.class);
+        SystemData.loadAll("staff");
 
         CareerCenter staffObj = SystemData.getStaffValue(username);
 
