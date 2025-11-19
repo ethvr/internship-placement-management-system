@@ -5,19 +5,18 @@ import java.util.Scanner;
 import IPMS.Enums.ApplicationStatus;
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.SystemPages.UniversalFunctions;
-import IPMS.Internship;
-import IPMS.Application;
-import IPMS.Companypackage.CompanyController;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.ObjectClasses.*;
+import IPMS.UserManagement.*;
 
 public class ManageApplicationsPage implements Page {
-    private final String username;
+    private final CompanyRepresentative obj;
     private CompanyController controller;
 
-    public ManageApplicationsPage(String username) {
-        this.username = username;
+    public ManageApplicationsPage(CompanyRepresentative obj) {
+        this.obj = obj;
         this.controller = new CompanyController(new Scanner(System.in));
     }
 
@@ -34,25 +33,23 @@ public class ManageApplicationsPage implements Page {
     @Override
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, 4);
-
-        CompanyRepresentative compRep = SystemData.representatives.get(username);
         
-        if (compRep == null) {
+        if (obj == null) {
             System.out.println("Error: Company representative not found.\n");
             return PageAction.pop();
         }
 
         switch (opt) {
             case 1 -> {
-                controller.handleViewApplications(compRep);
+                controller.handleViewApplications(obj);
                 return PageAction.push(this);
             }
             case 2 -> {
-                controller.handleApproveApplication(compRep);
+                controller.handleApproveApplication(obj);
                 return PageAction.push(this);
             }
             case 3 -> {
-                controller.handleRejectApplication(compRep);
+                controller.handleRejectApplication(obj);
                 return PageAction.push(this);
             }
             case 4 -> {

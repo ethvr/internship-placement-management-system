@@ -3,6 +3,8 @@ package IPMS.UserManagement;
 import java.util.Scanner;
 
 import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.System.SystemData;
+import IPMS.System.SystemDataEntities.Credentials;
 
 public class CompanyRegistrationManager { //or comp controller i didnt see that class at first so i replaced it with this class
     private Scanner scanner;
@@ -58,7 +60,7 @@ public class CompanyRegistrationManager { //or comp controller i didnt see that 
             
             String username = emailInput.substring(0, emailInput.indexOf('@'));
             
-            if (SystemData.representatives.containsKey(username)) {
+            if (SystemData.checkUsername(username)) {
                 System.out.println("An Account with the Email " + emailInput + " already exists\n");
                 return null;
             }
@@ -91,14 +93,15 @@ public class CompanyRegistrationManager { //or comp controller i didnt see that 
      * Registers the company representative in the system
      */
     public void registerCompanyRepresentative(CompanyRepresentative compRep) {//in hashmap
-        String username = compRep.getUserId().substring(0, compRep.getUserId().indexOf('@'));
+        //String username = compRep.getUserId();//.substring(0, compRep.getUserId().indexOf('@'));
         
         // Store in representatives HashMap
-        SystemData.representatives.put(username, compRep);
+        
+        SystemData.CompRepCreation(compRep);
         
         // Create login credentials
-        Credentials creds = new Credentials("password", true, "company");//idk whats credentials
-        SystemData.credentials.put(username, creds);
+        // Credentials creds = new Credentials("password", true, "company");//idk whats credentials
+        // SystemData.credentials.put(username, creds);
     }
     
     /**
@@ -126,7 +129,7 @@ public class CompanyRegistrationManager { //or comp controller i didnt see that 
         String username = email.substring(0, email.indexOf('@'));
     
         // Look up in representatives map
-        CompanyRepresentative compRep = SystemData.representatives.get(username);
+        CompanyRepresentative compRep = SystemData.getCompanyValue(username);
     
         if (compRep == null) {
          System.out.println("No registration found for this email.\n");

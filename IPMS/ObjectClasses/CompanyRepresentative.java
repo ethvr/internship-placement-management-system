@@ -7,10 +7,9 @@ import java.util.List;
 //import Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
-
-
 import IPMS.Enums.*;
 import IPMS.System.SystemData;
+import java.time.LocalDate;
 
 public class CompanyRepresentative extends User {
 
@@ -31,45 +30,71 @@ public class CompanyRepresentative extends User {
           this.status = CompanyApprovalStatus.PENDING;
           this.internshipsCreated = new ArrayList<>();
      }
-     
-     ////////////
-     public void requestRegistration(CareerCenter careerCenter) {
-          careerCenter.addPendingCompany(this);
+
+     public CompanyRepresentative(String CompRepID, String name, String email, String companyName,
+                                 String department, String position, CompanyApprovalStatus status) {
+          super(CompRepID, name, email);
+          this.companyName = companyName;
+          this.department = department;
+          this.position = position;
+          this.status = status;
+          this.internshipsCreated = new ArrayList<>();
      }
 
+     
+     /* 
+     public void requestRegistration(CareerCenter careerCenter) {
+          careerCenter.addPendingCompany(this);
+     }*/
+
      public void createInternship(String title, String description, InternshipLevel level,
-                                 String preferredMajor, String openDate, String closeDate, int slots) {
+                                  String preferredMajor, LocalDate openDate, LocalDate closeDate, int slots) {
           if (!isApproved()) {
                System.out.println("Account not approved by Career Center yet!");
                return;
          }
-          if (internshipsCreated.size() >= 5) {
+          if (SystemData.getILMcompany(this.getUserId()).size() >= 5) {
             System.out.println("You cannot create more than 5 internships.");
             return;
           }
+          String compRepID = this.getUserId();
           Internship internship = new Internship(title, description, level, preferredMajor,
-                                               openDate, closeDate, companyName, this, slots);
+                                               openDate, closeDate, companyName, compRepID, slots);
           internshipsCreated.add(internship);
-          data.InternshipMap.put(internship.getId(), internship);
+
+          SystemData.InternshipCreation(internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
-     public void deleteInternship(Internship internship, SystemData data) {
+     public boolean isApproved() {
+          return status == CompanyApprovalStatus.APPROVED;
+     }
+
+     public void deleteInternship(Internship internship) {
           internshipsCreated.remove(internship);
-          data.InternshipMap.remove(internship.getId());
+          SystemData.removeInternship(internship);
      }
      public List<Internship> getInternshipsCreated() {
-          return internshipsCreated;
+          String key = this.getCompanyRepID();
+          return SystemData.getILMcompany(key);
      }
 
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
      }
 
-     public void viewApplications(Internship internship, SystemData data) {
+     // views applications for a specific internship 
+     public void viewApplications(Internship internship) {
           System.out.println("Applications for " + internship.getTitle() + ":");
-          for (Application app : InternshipMap.getApplications(data)) {
-               System.out.println(app);
+          String key = internship.getInternshipId();
+          List<Application> appList = SystemData.getALMinternship(key);
+          if (appList == null) {
+               System.out.println("No Applications as of this time");
+          }
+          else {
+               for (Application app : appList) {
+                    System.out.println(app);
+               }
           }
      }
 
@@ -88,9 +113,7 @@ public class CompanyRepresentative extends User {
           this.status = status;
      }
 
-     public CompanyApprovalStatus getStatus() {
-          return status;
-     }
+
 
      // public void setApproved(boolean approved) { this.isApproved = approved; }
      
@@ -106,7 +129,13 @@ public class CompanyRepresentative extends User {
      }
      public String getPosition() {
           return position;    
-
      }
+     public String getCompanyRepID() {
+          return getUserId();
+     }
+     public CompanyApprovalStatus getStatus() {
+          return status;
+     }
+
 }
 

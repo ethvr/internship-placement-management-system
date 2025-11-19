@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 
 //import Companypackage.*;
 //import Companypackage.CompanyApprovalStatus;
-import Enums.*;
-import ObjectClasses.Internship;
-import System.SystemData;
-import System.SystemDataEntities.WithdrawalData;
+import IPMS.Enums.*;
+import IPMS.ObjectClasses.Internship;
+import IPMS.System.SystemData;
+import IPMS.System.SystemDataEntities.WithdrawalData;
 
 import javax.management.relation.Role;
 
@@ -63,26 +63,24 @@ public class CareerCenter extends User {
 
     //remove pending company
     public void removePendingCompany(CompanyRepresentative companyRep){
-        if (pendingCompanies.contains(companyRep)){
-            pendingCompanies.remove(companyRep);
-        }
-        else{
-            System.out.println(companyRep.getCompanyName() + " is not in pending list");
+        boolean s = SystemData.removeUnapprovedRep(companyRep);
+        if (!s) {
+            System.out.println("Company Representative not found");
         }
     }
 
     // approve account creation of company representativs
-    public void approveCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
+    public void approveCompanyRep (CompanyRepresentative companyRep) {
         companyRep.setStatus(CompanyApprovalStatus.APPROVED);
-        careerCenter.removePendingCompany(companyRep);
+        removePendingCompany(companyRep);
         System.out.println("Company Representative " + companyRep.getName() + " from " 
         + companyRep.getCompanyName() + " has been approved" );
     }
 
     // reject account creation of company represenattives
-    public void rejectCompanyRep (CompanyRepresentative companyRep, CareerCenter careerCenter){
+    public void rejectCompanyRep (CompanyRepresentative companyRep){
         companyRep.setStatus(CompanyApprovalStatus.REJECTED);
-        careerCenter.removePendingCompany(companyRep);
+        removePendingCompany(companyRep);
         System.out.println("Company Representative " + companyRep.getName() + " from " 
         + companyRep.getCompanyName() + " has been rejected " );
     }

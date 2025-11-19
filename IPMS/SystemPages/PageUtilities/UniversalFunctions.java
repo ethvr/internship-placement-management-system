@@ -1,9 +1,8 @@
-package IPMS.SystemPages;
+package IPMS.SystemPages.PageUtilities;
 
 import java.util.List;
 import java.util.Scanner;
-
-import IPMS.System.SystemDataEntities.InternshipData;
+import IPMS.ObjectClasses.*;
 
 public class UniversalFunctions {
 
@@ -55,7 +54,7 @@ public class UniversalFunctions {
         }
     }
 
-    public static void printInternshipList(List<InternshipData> list) {
+    public static void printInternshipList(List<Internship> list) {
 
         if (list == null || list.isEmpty()) {
             System.out.println("\nNo internships found.\n");
@@ -65,21 +64,22 @@ public class UniversalFunctions {
         System.out.println("\n======= AVAILABLE INTERNSHIPS =======\n");
 
         int index = 1;
-        for (InternshipData i : list) {
+        for (Internship i : list) {
 
-            System.out.printf("[%d] %s (%s)\n",
+            System.out.printf("[%d] %s (%s)%n",
                 index++,
-                i.getInternshipTitle()//,
-                //i.getInternshipLevel()
+                i.getInternshipTitle(),
+                i.getLevel()
             );
 
-            System.out.printf("    Company         : %s\n", i.getCompanyName());
-            System.out.printf("    Preferred Major : %s\n", i.getPrefferedMajors());
-            System.out.printf("    Slots Available : %d\n", i.getNumberofSlots());
-            System.out.printf("    Closing Date    : %d\n", i.getClosingDate());
-            System.out.printf("    Description     : %s\n", i.getDescription());
+            System.out.printf("  Company         : %s%n", i.getCompanyName());
+            System.out.printf("  Preferred Major : %s%n", i.getPreferredMajor());
+            System.out.printf("  Slots Available : %d%n", i.getSlots());
+            System.out.printf("  Closing Date    : %s%n", i.getCloseDate());
+            System.out.printf("  Description     : %s%n", i.getDescription());
 
-            System.out.println(); // blank line between entries
+            System.out.println();
+
         }
     }
 

@@ -1,54 +1,51 @@
 package IPMS.SystemPages.StudentPages;
 
-import IPMS.ObjectClasses.Student;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.SystemPages.StudentPages.*;
-import IPMS.UniversalFunctions;
+import java.util.Map;
+
+import IPMS.System.SystemData;
+import IPMS.ObjectClasses.*;
+import IPMS.SystemPages.CommonPages.PasswordChangePage;
+import IPMS.SystemPages.CommonPages.SharedInternshipPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class StudentMainPage implements Page {
 
-    private Student student;
+    private String username;
 
-    public StudentMainPage(Student student) {
-        this.student = student;
+    public StudentMainPage(String username) {
+        this.username = username;
     }
 
     @Override
-    public PageAction run() {
-        System.out.println("\n===== STUDENT MENU =====");
-        System.out.println("[1] View Available Internships");
-        System.out.println("[2] View Your Applications");
-        System.out.println("[3] View Your Withdrawal Requests");
-        System.out.println("[4] Apply for Internship by ID");
-        System.out.println("[5] Change Password");
-        System.out.println("[6] Logout");
+    public void showMenu() {
+        System.out.println("======= STUDENT =======");
+        System.out.println("[1] View all available Internships");
+        System.out.println("[2] View your Internship Applications");
+        System.out.println("[3] View your Withdrawal Applications");
+        System.out.println("[4] Change Password");
+        System.out.println("[5] Logout\n");
 
-        int choice = UniversalFunctions.getIntInput("Enter choice: ");
+        System.out.print("Enter an option (1-5): ");;
+    }
 
-        switch (choice) {
-            case 1:
-                return PageAction.push(new ViewInternshipsPage(student));
+    @Override 
+    public PageAction next() {
 
-            case 2:
-                return PageAction.push(new ViewApplicationsPage(student));
+        int opt = UniversalFunctions.readIntInRange(1, 5);
+        Student Obj = SystemData.getStudentObj(username);
 
-            case 3:
-                return PageAction.push(new ViewWithdrawalsPage(student));
-
-            case 4:
-                return PageAction.push(new ApplyByIdPage(student));
-
-            case 5:
-                return PageAction.push(new ChangePasswordPage(student));
-
-            case 6:
-                System.out.println("Logging out...");
-                return PageAction.pop();
-
-            default:
-                System.out.println("Invalid choice.");
-                return PageAction.stay();
-        }
+        return switch (opt) {
+            case 1 -> PageAction.push(new SharedInternshipPage(Obj));
+            case 2 -> PageAction.push(new ViewApplicationsPage(Obj));
+            case 3 -> PageAction.push(new ViewWithdrawalsPage(Obj));
+            case 4 -> PageAction.push(new PasswordChangePage(Obj));
+            case 5 -> {
+                Obj.logout();
+                yield PageAction.exit();
+            }
+            default -> PageAction.pop();
+        };
     }
 }

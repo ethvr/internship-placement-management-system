@@ -1,11 +1,14 @@
+package IPMS.UserManagement;
+
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import IPMS.SystemPages.*;
-import IPMS.ObjectClasses.CompanyRepresentative;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.*;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class CompanyController {
     private Scanner scanner;
@@ -44,17 +47,19 @@ public class CompanyController {
         String preferredMajor = scanner.nextLine().trim();
 
         System.out.print("Enter Opening Date (YYYY-MM-DD): ");
-        String openDate = scanner.nextLine().trim();
+        String openDateinput = scanner.nextLine().trim();
+        LocalDate openDate = LocalDate.parse(openDateinput);
 
         System.out.print("Enter Closing Date (YYYY-MM-DD): ");
-        String closeDate = scanner.nextLine().trim();
+        String closeDateinput = scanner.nextLine().trim();
+        LocalDate closeDate = LocalDate.parse(closeDateinput);
 
         System.out.print("Enter Number of Slots (max 10): ");
         int slots = UniversalFunctions.readIntInRange(1, 10);
 
         // Call the entity method
         compRep.createInternship(title, description, level, preferredMajor, 
-                                openDate, closeDate, slots, SystemData.getInstance());
+                                openDate, closeDate, slots);
         
         System.out.println();
     }
@@ -65,28 +70,35 @@ public class CompanyController {
     public void handleEditInternship(CompanyRepresentative compRep) {
         System.out.println("\n=== EDIT INTERNSHIP ===");
         
-        List<Internship> internships = compRep.getInternshipsCreated();
+        List<Internship> internshipList = compRep.getInternshipsCreated();
         
-        if (internships.isEmpty()) {
+        if (internshipList.isEmpty()) {
             System.out.println("You have no internships created yet.\n");
             return;
         }
 
         // Display internships
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
         System.out.println("Your Internships:");
-        for (int i = 0; i < internships.size(); i++) {
-            Internship intern = internships.get(i);
-            System.out.println("[" + (i + 1) + "] " + intern.getTitle() + 
-                             " - Status: " + intern.getStatus());
+        for (Internship i : internshipList) {
+            System.out.printf("[%d] %s%n    Status: %s%n",
+                index,
+                i.getTitle(),
+                i.getStatus()
+            );
+            indexMap.put(index, i);
+            index++;
         }
-        System.out.println("[0] Cancel\n");
 
-        System.out.print("Select internship to edit: ");
-        int choice = UniversalFunctions.readIntInRange(0, internships.size());
+        System.out.printf("[%d] Cancel%n%n", index);
+
+        System.out.print("Select internship to edit : ");
+        int choice = UniversalFunctions.readIntInRange(0, index);
         
-        if (choice == 0) return;
+        if (choice == index) return;
 
-        Internship selectedInternship = internships.get(choice - 1);
+        Internship selectedInternship = indexMap.get(choice);
 
         // Check if approved (cannot edit if approved)
         if (selectedInternship.getStatus() == InternshipStatus.APPROVED) {
@@ -136,35 +148,42 @@ public class CompanyController {
     public void handleDeleteInternship(CompanyRepresentative compRep) {
         System.out.println("\n=== DELETE INTERNSHIP ===");
         
-        List<Internship> internships = compRep.getInternshipsCreated();
+        List<Internship> internshipList = compRep.getInternshipsCreated();
         
-        if (internships.isEmpty()) {
+        if (internshipList.isEmpty()) {
             System.out.println("You have no internships created yet.\n");
             return;
         }
 
         // Display internships
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
         System.out.println("Your Internships:");
-        for (int i = 0; i < internships.size(); i++) {
-            Internship intern = internships.get(i);
-            System.out.println("[" + (i + 1) + "] " + intern.getTitle() + 
-                             " - Status: " + intern.getStatus());
+        for (Internship i : internshipList) {
+            System.out.printf("[%d] %s%n    Status: %s%n",
+                index,
+                i.getTitle(),
+                i.getStatus()
+            );
+            indexMap.put(index, i);
+            index++;
         }
-        System.out.println("[0] Cancel\n");
 
-        System.out.print("Select internship to delete: ");
-        int choice = UniversalFunctions.readIntInRange(0, internships.size());
+        System.out.printf("[%d] Cancel%n%n", index);
+
+        System.out.print("Select internship to delete : ");
+        int choice = UniversalFunctions.readIntInRange(0, index);
         
-        if (choice == 0) return;
+        if (choice == index) return;
 
-        Internship selectedInternship = internships.get(choice - 1);
+        Internship selectedInternship = indexMap.get(choice);
 
         // Confirm deletion
         System.out.print("Are you sure you want to delete '" + selectedInternship.getTitle() + "'? (yes/no): ");
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        String confirm = UniversalFunctions.readString();
 
-        if (confirm.equals("yes") || confirm.equals("y")) {
-            compRep.deleteInternship(selectedInternship, SystemData.getInstance());
+        if (confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")) {
+            compRep.deleteInternship(selectedInternship);
             System.out.println("Internship deleted successfully!\n");
         } else {
             System.out.println("Deletion cancelled.\n");
@@ -177,29 +196,46 @@ public class CompanyController {
     public void handleToggleVisibility(CompanyRepresentative compRep) {
         System.out.println("\n=== TOGGLE VISIBILITY ===");
         
-        List<Internship> internships = compRep.getInternshipsCreated();
+        List<Internship> internshipList = compRep.getInternshipsCreated();
         
-        if (internships.isEmpty()) {
+        if (internshipList.isEmpty()) {
             System.out.println("You have no internships created yet.\n");
             return;
         }
 
         // Display internships with visibility status
-        System.out.println("Your Internships:");
-        for (int i = 0; i < internships.size(); i++) {
-            Internship intern = internships.get(i);
-            String visible = intern.isVisible() ? "Visible" : "Hidden";
-            System.out.println("[" + (i + 1) + "] " + intern.getTitle() + " - " + visible);
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
+
+        System.out.println("====== YOUR INTERNSHIPS ======\n");
+
+        for (Internship i : internshipList) {
+
+            String visible = i.getVisibility() ? "Visible" : "Hidden";
+
+            System.out.printf(
+                "[%d] %s%n" +
+                "     Status: %s%n" +
+                "     Visibility: %s%n%n",
+                index,
+                i.getTitle(),
+                i.getStatus(),
+                visible
+            );
+
+            indexMap.put(index, i);
+            index++;
         }
-        System.out.println("[0] Cancel\n");
 
-        System.out.print("Select internship to toggle visibility: ");
-        int choice = UniversalFunctions.readIntInRange(0, internships.size());
+        System.out.printf("[%d] Cancel%n%n", index);
+
+        System.out.printf("Select internship to toggle (1-%d): ", index);
+        int choice = UniversalFunctions.readIntInRange(0, index);
         
-        if (choice == 0) return;
+        if (choice == index) return;
 
-        Internship selectedInternship = internships.get(choice - 1);
-        boolean currentVisibility = selectedInternship.isVisible();
+        Internship selectedInternship = internshipList.get(choice);
+        boolean currentVisibility = selectedInternship.getVisibility();
         
         // Toggle visibility
         compRep.toggleVisibility(selectedInternship, !currentVisibility);
@@ -214,32 +250,39 @@ public class CompanyController {
     public void handleViewApplications(CompanyRepresentative compRep) {
         System.out.println("\n=== VIEW APPLICATIONS ===");
         
-        List<Internship> internships = compRep.getInternshipsCreated();
+        List<Internship> internshipList = compRep.getInternshipsCreated();
         
-        if (internships.isEmpty()) {
+        if (internshipList.isEmpty()) {
             System.out.println("You have no internships created yet.\n");
             return;
         }
 
         // Display internships
-        System.out.println("Select an internship to view applications:");
-        for (int i = 0; i < internships.size(); i++) {
-            Internship intern = internships.get(i);
-            System.out.println("[" + (i + 1) + "] " + intern.getTitle() + 
-                             " (" + intern.getStatus() + ")");
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
+
+        for (Internship i : internshipList) {
+            System.out.printf("[%d] Title: %s%n    Status: %s%n%n",
+                index,
+                i.getTitle(),
+                i.getStatus()
+            );
+            indexMap.put(index, i);
+            index++;
         }
-        System.out.println("[0] Cancel\n");
-
-        System.out.print("Select internship: ");
-        int choice = UniversalFunctions.readIntInRange(0, internships.size());
         
-        if (choice == 0) return;
+        
+        System.out.printf("[%d] Cancel%n%n", index);
+        System.out.print("Select an internship to view applications: ");
+        int choice = UniversalFunctions.readIntInRange(1, index);
+    
+        if (choice == index) return;
 
-        Internship selectedInternship = internships.get(choice - 1);
+        Internship selectedInternship = indexMap.get(choice - 1);
         
         // Use the existing method to view applications
         System.out.println();
-        compRep.viewApplications(selectedInternship, SystemData.getInstance());
+        compRep.viewApplications(selectedInternship);
         System.out.println();
     }
 
@@ -254,7 +297,7 @@ public class CompanyController {
         if (selectedInternship == null) return;
         
         // Get applications for this internship
-        List<Application> applications = selectedInternship.getApplications(SystemData.getInstance());
+        List<Application> applications = selectedInternship.getApplications();
         
         if (applications.isEmpty()) {
             System.out.println("No applications for this internship.\n");
@@ -311,9 +354,9 @@ public class CompanyController {
         if (selectedInternship == null) return;
         
         // Get applications for this internship
-        List<Application> applications = selectedInternship.getApplications(SystemData.getInstance());
+        List<Application> applicationList = selectedInternship.getApplications();
         
-        if (applications.isEmpty()) {
+        if (applicationList.isEmpty()) {
             System.out.println("No applications for this internship.\n");
             return;
         }
@@ -322,14 +365,19 @@ public class CompanyController {
         List<Application> pendingApps = new ArrayList<>();
         System.out.println("Pending Applications:");
         
+
         int index = 1;
-        for (Application app : applications) {
-            if (app.getStatus() == ApplicationStatus.PENDING) {
-                System.out.println("[" + index + "] Student ID: " + app.getStudentId() + 
-                                 " - Status: " + app.getStatus());
-                pendingApps.add(app);
-                index++;
-            }
+        HashMap<Integer, Application> indexMap = new HashMap<>();
+
+        for (Application a : applicationList) {
+            System.out.printf("[%d] Student ID: %s%n    Status: %s%n%n",
+                index,
+                a.getStudentId(),
+                a.getStatus()
+            );
+            pendingApps.add(a);
+            indexMap.put(index, a);
+            index++;
         }
         
         if (pendingApps.isEmpty()) {
@@ -337,13 +385,13 @@ public class CompanyController {
             return;
         }
         
-        System.out.println("[0] Cancel\n");
+        System.out.printf("[%d] Cancel%n%n", index);
         System.out.print("Select application to reject: ");
-        int choice = UniversalFunctions.readIntInRange(0, pendingApps.size());
+        int choice = UniversalFunctions.readIntInRange(1, index);
         
-        if (choice == 0) return;
+        if (choice == index) return;
 
-        Application selectedApp = pendingApps.get(choice - 1);
+        Application selectedApp = indexMap.get(choice);
         
         // Confirm
         System.out.print("Reject application from Student " + selectedApp.getStudentId() + "? (yes/no): ");
@@ -361,25 +409,55 @@ public class CompanyController {
      * Helper method to select an internship
      */
     private Internship selectInternship(CompanyRepresentative compRep) {
-        List<Internship> internships = compRep.getInternshipsCreated();
+        List<Internship> internshipList = compRep.getInternshipsCreated();
         
-        if (internships.isEmpty()) {
+        if (internshipList.isEmpty()) {
             System.out.println("You have no internships created yet.\n");
             return null;
         }
+        
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
 
-        System.out.println("Select an internship:");
-        for (int i = 0; i < internships.size(); i++) {
-            Internship intern = internships.get(i);
-            System.out.println("[" + (i + 1) + "] " + intern.getTitle());
+        for (Internship i : internshipList) {
+            System.out.printf("[%d] %s%n    Status: %s%n",
+                index,
+                i.getTitle(),
+                i.getStatus()
+            );
+            indexMap.put(index, i);
+            index++;
         }
-        System.out.println("[0] Cancel\n");
 
-        System.out.print("Select internship: ");
-        int choice = UniversalFunctions.readIntInRange(0, internships.size());
+        System.out.printf("[0] Cancel%n%n");
+
+        System.out.println("Select an internship: ");
+        int choice = UniversalFunctions.readIntInRange(0, index-1);
         
         if (choice == 0) return null;
         
-        return internships.get(choice - 1);
+        return indexMap.get(choice);
+    }
+
+    private int InternshipChoiceViewer(List<Internship> internshipList) {
+        
+        int index = 1;
+        HashMap<Integer, Internship> indexMap = new HashMap<>();
+
+        for (Internship i : internshipList) {
+            System.out.printf("[%d] %s%n    Status: %s%n",
+                index,
+                i.getTitle(),
+                i.getStatus()
+            );
+            indexMap.put(index, i);
+            index++;
+        }
+
+        System.out.printf("[0] Cancel%n%n");
+
+        System.out.println("Select an internship: ");
+        int choice = UniversalFunctions.readIntInRange(0, index-1);
+        return choice;
     }
 }

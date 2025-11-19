@@ -1,12 +1,12 @@
-package IPMS.SystemPages.CompanyPages;
+package IPMS.OldFunctions;
 import java.util.List;
 
 import IPMS.ObjectClasses.Internship;
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.SystemPages.UniversalFunctions;  
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;  
 
 public class ViewCreatedInternshipsPage implements Page {
     private final String username;

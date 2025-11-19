@@ -1,20 +1,20 @@
 package IPMS.SystemPages.CompanyPages;
 import java.util.Scanner;
 
-import IPMS.Companypackage.CompanyController;
+import IPMS.UserManagement.*;
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.SystemPages.UniversalFunctions;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 
 public class ManageInternshipsPage implements Page {
-    private final String username;
+    private final CompanyRepresentative obj;
     private CompanyController controller;
 
-    public ManageInternshipsPage(String username) {
-        this.username = username;
+    public ManageInternshipsPage(CompanyRepresentative obj) {
+        this.obj = obj;
         this.controller = new CompanyController(new Scanner(System.in));
     }
 
@@ -32,29 +32,27 @@ public class ManageInternshipsPage implements Page {
     @Override
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, 5);
-
-        CompanyRepresentative compRep = SystemData.getCompanyValue(username);
         
-        if (compRep == null) {
+        if (obj == null) {
             System.out.println("Error: Company representative not found.\n");
             return PageAction.pop();
         }
 
         switch (opt) {
             case 1 -> {
-                controller.handleCreateInternship(compRep);
+                controller.handleCreateInternship(obj);
                 return PageAction.push(this);
             }
             case 2 -> {
-                controller.handleEditInternship(compRep);
+                controller.handleEditInternship(obj);
                 return PageAction.push(this);
             }
             case 3 -> {
-                controller.handleDeleteInternship(compRep);
+                controller.handleDeleteInternship(obj);
                 return PageAction.push(this);
             }
             case 4 -> {
-                controller.handleToggleVisibility(compRep);
+                controller.handleToggleVisibility(obj);
                 return PageAction.push(this);
             }
             case 5 -> {

@@ -1,6 +1,9 @@
-package IPMS.SystemPages;
+package IPMS.SystemPages.CommonPages;
 
 import IPMS.SystemPages.MainSubPages.*;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class MainPage implements Page {
 

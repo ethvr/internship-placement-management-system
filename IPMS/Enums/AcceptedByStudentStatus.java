@@ -1,6 +1,6 @@
 package IPMS.Enums;
 
-public enum AcceptedByStudentStuatus {
+public enum AcceptedByStudentStatus {
     PENDING,
     ACCEPTED,
     REJECTED

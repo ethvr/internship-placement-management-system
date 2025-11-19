@@ -1,7 +1,7 @@
 package IPMS.SystemPages.MainSubPages;
 
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.UserManagement.UserManager;
 import java.util.List;
 
@@ -15,9 +15,8 @@ public class CompanyRegisterPage implements Page {
 
     @Override
     public PageAction next() {
-        int optionBack = 1;
 
-        while (optionBack == 1) {
+        while (true) {
             List<String> UserInput = UserManager.CompanyRepRegistrationInput();
             if (UserInput.isEmpty()){
                 System.out.println("Exiting...");

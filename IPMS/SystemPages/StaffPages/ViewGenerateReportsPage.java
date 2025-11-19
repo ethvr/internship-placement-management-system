@@ -1,11 +1,6 @@
 package IPMS.SystemPages.StaffPages;
 
 import IPMS.SystemPages.StudentPages.*;
-import ObjectClasses.CareerCenter;
-import ObjectClasses.Internship;
-import ObjectClasses.User;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
@@ -19,8 +14,10 @@ import IPMS.Enums.InternshipLevel;
 import IPMS.Enums.InternshipStatus;
 import IPMS.ObjectClasses.GenerateReports;
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
 import IPMS.SystemPages.CompanyPages.CompanyMainPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class ViewGenerateReportsPage implements Page{
 
@@ -29,7 +26,6 @@ public class ViewGenerateReportsPage implements Page{
     private int opt;
     public InternshipLevel level;
     public InternshipStatus Status;
-     final Map<String, Internship> internshipmap = SystemData.SystemDatagetInternshipMap();
 
     public ViewGenerateReportsPage(CareerCenter obj){
         this.staffObj = obj;
@@ -42,9 +38,9 @@ public class ViewGenerateReportsPage implements Page{
         System.out.println("===== GENERATE REPORTS =====");
         System.out.println("[1] Generate full report");
         System.out.println("[2] Generate report with applicants");
-        //System.out.println("[3] Generate report by status");
+        System.out.println("[3] Generate report by status");
         System.out.println("[4] Generate report by Major");
-        //System.out.println("[5] Generate report by Internship Level");
+        System.out.println("[5] Generate report by Internship Level");
         System.out.println("[6] Generate report by Company");
         System.out.println("[7] Generate custom report");
         System.out.println("[8] Back");
@@ -64,13 +60,8 @@ public class ViewGenerateReportsPage implements Page{
                         reports.generateFullReport();
                         yield PageAction.pop();
                     }
-                    
                     //print applicants
                     case 2 -> {
-                        System.out.print("Enter Internship id: ");
-                        String InternshipID = UniversalFunctions.readString();
-                        Internship internship = internshipmap.get(InternshipID);
-                        reports.printApplicants(internship);
                         yield PageAction.pop();
                     }
 
@@ -131,45 +122,16 @@ public class ViewGenerateReportsPage implements Page{
                         yield PageAction.pop();
                     }
 
-                    // custom report
+                    //custom report
                     // case 7 -> {
-                    //     System.out.print("Enter status: ");
-                    //     String Status= UniversalFunctions.readString();
-                    //     if (Status == "PENDING"){
-                    //         InternshipStatus istatus = InternshipStatus.PENDING;
-                    //     }
-                    //     else if (Status == "FILLED"){
-                    //         InternshipStatus istatus = InternshipStatus.FILLED;
-                    //     }
-                    //     else if (Status == "APPROVED"){
-                    //         InternshipStatus istatus = InternshipStatus.APPROVED;
-                    //     }
-                    //     else{
-                    //         InternshipStatus istatus = InternshipStatus.REJECTED;
-                    //     }
-                    //     System.out.print("Enter major: ");
-                    //     String Major = UniversalFunctions.readString();
-                    //     System.out.print("Enter internship level: ");
-                    //     String Level = UniversalFunctions.readString();
-                    //     if (Level == "ADVANCED"){
-                    //         InternshipLevel level = InternshipLevel.ADVANCED;
-                    //     }
-                    //     else if (Level == "INTERMEDIATE"){
-                    //         InternshipLevel level = InternshipLevel.INTERMEDIATE;
-                    //     }
-                    //     else{
-                    //          InternshipLevel level = InternshipLevel.BASIC;
-                    //     }
-                    //     System.out.print("Enter company: ");
-                    //     String company = UniversalFunctions.readString();
-                    //     reports.generateCustomReport(istatus, Major, level, company );
-
+                        
+                    //     reports.generateCustomReport(null, null, null, null);;
                     //     yield PageAction.pop();
                     // }
 
                     case 8 -> PageAction.pop();
                     case 9 -> {
-                        User.logout();
+                        staffObj.logout();
                         yield PageAction.pop();
                     }
                     default -> PageAction.pop();

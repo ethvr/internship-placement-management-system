@@ -23,9 +23,10 @@ public class IdGenerator {
           return String.format("W%04d", withdrawalCounter);
      }
 
-     public static String nextCompanyId() {
+     // compRep id --> email 
+     /*public static String nextCompanyId() {
           CompanyRepCounter++;
           return String.format("C%04d", withdrawalCounter);
-     }
+     }*/
      
 }
