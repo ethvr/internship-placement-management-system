@@ -22,8 +22,8 @@ public class SystemApp {
 
         // things to run before the start of the code 
         UserManager.UsernameCSVGenerator();
-        SystemData.loadIntoMap("password", Credentials.class);
-
+        SystemData.MainPageOnlyload();
+        
         Stack<Page> nav = new Stack<>();
         nav.push(new MainPage());   // Start at the main menu
 
@@ -44,7 +44,7 @@ public class SystemApp {
             }
         }
 
-        
+
         
     }       
 

@@ -27,7 +27,7 @@ public class MainPage implements Page {
             case 2 -> PageAction.push(new CompanyRegisterPage());
             case 3 -> PageAction.push(new CompanyStatusPage());
             case 4 -> {
-                SystemData.saveAll("company");
+                SystemData.MainPageOnlySave();
                 yield PageAction.exit();
             }
             default -> PageAction.push(this);

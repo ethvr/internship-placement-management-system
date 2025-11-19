@@ -476,8 +476,13 @@ public class SystemData {
     }
 
     public static void MainPageOnlyload() {
-        SystemData.loadIntoMap("password", Credentials.class);
-        SystemData.loadIntoMap("company", CompanyCSVData.class);
+        loadIntoMap("password", Credentials.class);
+        loadIntoMap("company", CompanyCSVData.class);
+    }
+
+    public static void MainPageOnlySave() {
+        writeBackCSV("password", LoginMap);
+        writeBackCSV("company", RepresentativeCSVMap);
     }
 
     // gets password and firsttime login based on suername 
