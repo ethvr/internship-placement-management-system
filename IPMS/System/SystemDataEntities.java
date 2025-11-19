@@ -97,12 +97,21 @@ public class SystemDataEntities {
         String CompanyName;
         String Department;
         String Position;
+<<<<<<< HEAD
+=======
+        String Email;
+>>>>>>> dd27a5ab3496d0432e70e1473974d9d814870a30
         CompanyApprovalStatus Status; // change to enumerators 
 
         public CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
 
+<<<<<<< HEAD
         CompanyCSVData(String CompanyRepID, String Name, String Email, String CompanyName, 
                        String Department, String Position, CompanyApprovalStatus Status) {
+=======
+        CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, 
+                       String Position, String Email, CompanyApprovalStatus Status) {
+>>>>>>> dd27a5ab3496d0432e70e1473974d9d814870a30
             this.CompanyRepID = CompanyRepID;
             this.Name = Name;
             this.Email = Email;
@@ -118,7 +127,11 @@ public class SystemDataEntities {
         public String getDepartment() { return Department; }
         public String getPosition() { return Position; }
         public String getEmail() { return Email; }
+<<<<<<< HEAD
         public CompanyApprovalStatus getStatus() { return Status; }
+=======
+        public String getStatus() { return Status; }
+>>>>>>> dd27a5ab3496d0432e70e1473974d9d814870a30
 
     }
     // under company rep in assignment pdf

@@ -10,8 +10,9 @@ import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
-public class StudentMainPage implements Page{
-    private final String username;
+public class StudentMainPage implements Page {
+
+    private String username;
 
     public StudentMainPage(String username) {
         this.username = username;
@@ -29,7 +30,7 @@ public class StudentMainPage implements Page{
         System.out.print("Enter an option (1-5): ");;
     }
 
-    @Override
+    @Override 
     public PageAction next() {
 
         int opt = UniversalFunctions.readIntInRange(1, 5);
@@ -48,4 +49,3 @@ public class StudentMainPage implements Page{
         };
     }
 }
-

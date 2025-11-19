@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.*;
 
+<<<<<<< HEAD
 import IPMS.Enums.CompanyApprovalStatus;
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.*;
@@ -21,6 +22,12 @@ import IPMS.System.SystemDataEntities.*;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.ObjectClasses.*;
 
+=======
+import IPMS.System.SystemApp;
+import IPMS.System.SystemData;
+import IPMS.System.SystemDataEntities;
+import IPMS.System.SystemDataEntities.*;
+>>>>>>> dd27a5ab3496d0432e70e1473974d9d814870a30
 
 public class UserManager {
     
