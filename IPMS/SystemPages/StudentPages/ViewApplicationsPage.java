@@ -45,6 +45,9 @@ public class ViewApplicationsPage implements Page{
         System.out.print("Enter an option: ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

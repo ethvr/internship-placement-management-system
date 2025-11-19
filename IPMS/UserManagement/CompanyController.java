@@ -439,6 +439,10 @@ public class CompanyController {
         return indexMap.get(choice);
     }
 
+    /** 
+     * @param internshipList
+     * @return int
+     */
     private int InternshipChoiceViewer(List<Internship> internshipList) {
         
         int index = 1;

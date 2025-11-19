@@ -29,48 +29,90 @@ public class Application {
 
     }
 
+    /** 
+     * @return String
+     */
     //getters
     public String getApplicationID() {
         return ApplicationID;}
 
+    /** 
+     * @return String
+     */
     public String getStudentId() {
         return studentId;}
 
+    /** 
+     * @return String
+     */
     public String getInternshipId() {
         return internshipId;}
 
+    /** 
+     * @return ApplicationStatus
+     */
     public ApplicationStatus getStatus() {
         return status;}
 
+        /** 
+         * @return AcceptedByStudentStatus
+         */
         //????????
     public AcceptedByStudentStatus getAcceptedByStudent() {
         return acceptedByStudent;}
         
+    /** 
+     * @param ApplicationID
+     */
     //setters
     public void setApplicationID(String ApplicationID) {
         this.ApplicationID = ApplicationID;}
 
+    /** 
+     * @param studentId
+     */
     public void setStudentId(String studentId) {
         this.studentId = studentId;}
 
+    /** 
+     * @param internshipId
+     */
     public void setInternshipId(String internshipId) {
         this.internshipId = internshipId;}
 
+    /** 
+     * @param status
+     */
     public void setStatus(ApplicationStatus status) {
         this.status = status;}
 
+    /** 
+     * @param acceptedByStudent
+     */
     public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
+    /** 
+     * @return ApplicationStatus
+     */
     public ApplicationStatus isActive() {
         return status = ApplicationStatus.WITHDRAWN;}
 
+    /** 
+     * @return boolean
+     */
     public boolean isConfirmedPlacement() {
         return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
 
+    /** 
+     * @return ApplicationStatus
+     */
     public ApplicationStatus isUnsuccessful() {
         return status = ApplicationStatus.UNSUCCESSFUL;}
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return String.format(

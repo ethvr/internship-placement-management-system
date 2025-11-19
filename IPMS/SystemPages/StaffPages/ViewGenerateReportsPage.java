@@ -49,6 +49,9 @@ public class ViewGenerateReportsPage implements Page{
         System.out.print("Enter an option (1-9): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @SuppressWarnings("unchecked")
     @Override
     public PageAction next() {

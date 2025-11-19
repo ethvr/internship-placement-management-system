@@ -18,6 +18,9 @@ public class SystemApp {
     public static String currentUser = null;
     static Scanner sc = new Scanner(System.in);
 
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
 
         // things to run before the start of the code 
@@ -48,10 +51,16 @@ public class SystemApp {
         
     }       
 
+    /** 
+     * @param user
+     */
     public static void setCurrentUser(String user) {
         currentUser = user;
     }       
 
+    /** 
+     * @param username
+     */
     //username from user login and creates object?
     // protected or public or private?
     public static void login(String username) {

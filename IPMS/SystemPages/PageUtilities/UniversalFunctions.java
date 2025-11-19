@@ -8,6 +8,11 @@ public class UniversalFunctions {
 
     static Scanner sc = new Scanner(System.in);
 
+    /** 
+     * @param min
+     * @param max
+     * @return int
+     */
     public static int readIntInRange(int min, int max) {
         while (true) {
             if (!sc.hasNextInt()) {
@@ -25,6 +30,9 @@ public class UniversalFunctions {
         }
     }
 
+    /** 
+     * @return String
+     */
     public static String readString() {
 
         sc.nextLine(); // clear leftover newline if needed
@@ -39,6 +47,10 @@ public class UniversalFunctions {
     }
 
 
+    /** 
+     * @param enumType
+     * @return T
+     */
     public static <T extends Enum<T>> T readEnum(Class<T> enumType) {
         while (true) {
             String input = sc.next().trim().toUpperCase();
@@ -54,6 +66,9 @@ public class UniversalFunctions {
         }
     }
 
+    /** 
+     * @param list
+     */
     public static void printInternshipList(List<Internship> list) {
 
         if (list == null || list.isEmpty()) {

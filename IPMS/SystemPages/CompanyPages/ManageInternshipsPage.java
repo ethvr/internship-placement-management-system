@@ -29,6 +29,9 @@ public class ManageInternshipsPage implements Page {
         System.out.print("Enter an option (1-5): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, 5);

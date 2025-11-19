@@ -79,13 +79,23 @@ public class Internship {
      public void setVisible(boolean visible) {
           this.visible = visible;
      }
+     /** 
+      * @return String
+      */
      public String getTitle(){
           return title;
      }
+     /** 
+      * @param title
+      * @return String
+      */
      public String setTitle(String title){
           this.title = title;
           return title;
      }
+     /** 
+      * @return List<Application>
+      */
      public List<Application> getApplications() {
         String CompRepID = this.getCompRepID();
         List<Application> result = SystemData.getALMcompany(CompRepID);
@@ -93,49 +103,93 @@ public class Internship {
      }
 
 
+     /** 
+      * @return String
+      */
      // getters 
      public String getInternshipId(){
           return internshipId;
      }
+     /** 
+      * @return String
+      */
      public String getInternshipTitle(){
           return title;
      }
+     /** 
+      * @return String
+      */
      public String getDescription() {
           return description;
      }
+     /** 
+      * @return InternshipLevel
+      */
      public InternshipLevel getLevel() {
           return level;
      }
+     /** 
+      * @return String
+      */
      public String getPreferredMajor() {
           return preferredMajor;
      }
+     /** 
+      * @return LocalDate
+      */
      public LocalDate getOpenDate() {
           return openDate;
      }
+     /** 
+      * @return LocalDate
+      */
      public LocalDate getCloseDate() {
           return closeDate;
      }
+     /** 
+      * @return InternshipStatus
+      */
      public InternshipStatus getStatus() {
           return status; 
      }
+     /** 
+      * @return String
+      */
      public String getCompanyName() {
           return companyName;
      }
+     /** 
+      * @return String
+      */
      public String getCompRepID() {
           return compRepID;
      }
+     /** 
+      * @return int
+      */
      public int getSlots() {
           return slots;
      }
+     /** 
+      * @return boolean
+      */
      public boolean getVisibility() {
           return visible;
      }
 
+     /** 
+      * @param description
+      * @return String
+      */
      public String setDescription(String description){
           this.description = description;
           return description;
      }
 
+     /** 
+      * @param student
+      * @return boolean
+      */
      public boolean isVisibleTo(Student student) {
           if (slots<1){
                return false;
@@ -150,13 +204,22 @@ public class Internship {
           return true;
      }
 
+     /** 
+      * @param status
+      */
      public void setStatus(InternshipStatus status) {
         this.status = status;
      }
 
+     /** 
+      * @param slots
+      */
      public void setSlots(int slots) {
           this.slots = slots;
      }
+     /** 
+      * @param addSlots(
+      */
      public void updateFilledSlots() {////////////////////
           this.slots-=1;
      }

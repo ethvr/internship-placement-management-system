@@ -13,6 +13,9 @@ public class CompanyRegisterPage implements Page {
 
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

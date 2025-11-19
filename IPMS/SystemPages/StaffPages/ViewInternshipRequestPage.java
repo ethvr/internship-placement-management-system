@@ -36,6 +36,9 @@ public class ViewInternshipRequestPage implements Page{
         System.out.print("Enter an option (1-5): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @SuppressWarnings("unchecked")
     @Override
     public PageAction next() {

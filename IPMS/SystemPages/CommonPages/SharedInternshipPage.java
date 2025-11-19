@@ -47,6 +47,9 @@ public class SharedInternshipPage implements Page {
         
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 
@@ -108,6 +111,10 @@ public class SharedInternshipPage implements Page {
             default -> PageAction.pop();
         };
     }
+    /** 
+     * @param obj
+     * @return boolean
+     */
     // true --> internships applicable to that user exists 
     private boolean InternshipExists(User obj) {
 

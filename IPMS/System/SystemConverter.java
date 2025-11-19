@@ -8,6 +8,9 @@ import java.time.LocalDate;
 
 public class SystemConverter {
 
+    /** 
+     * @return Student
+     */
     /* ==============================
        HELPER PARSERS
        ============================== */
@@ -54,6 +57,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param s
+     * @return StudentCSVData
+     */
     public static StudentCSVData toStudentCSV(Student s) {
         if (s == null) return null;
 
@@ -65,6 +72,10 @@ public class SystemConverter {
                 s.getEmail()
         );
     }
+    /** 
+     * @param data
+     * @return CareerCenter
+     */
     /* ==============================
        STAFF    
        ============================== */
@@ -81,6 +92,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param c
+     * @return StaffCSVData
+     */
     public static StaffCSVData toStaffCSV(CareerCenter c) {
         if (c == null) return null;
 
@@ -93,6 +108,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param data
+     * @return CompanyRepresentative
+     */
     /* ==============================
        COMPANY REPRESENTATIVE
        ============================== */
@@ -115,6 +134,10 @@ public class SystemConverter {
         return rep;
     }
 
+    /** 
+     * @param rep
+     * @return CompanyCSVData
+     */
     public static CompanyCSVData toCompanyCSV(CompanyRepresentative rep) {
         if (rep == null) return null;
 
@@ -130,6 +153,10 @@ public class SystemConverter {
     }
 
 
+    /** 
+     * @param data
+     * @return Internship
+     */
     /* ==============================
        INTERNSHIP
        ============================== */
@@ -153,6 +180,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param i
+     * @return InternshipData
+     */
     public static InternshipData toInternshipData(Internship i) {
         if (i == null) return null;
 
@@ -172,6 +203,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param data
+     * @return Application
+     */
     /* ==============================
        APPLICATION
        ============================== */
@@ -188,6 +223,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param app
+     * @return ApplicationData
+     */
     public static ApplicationData toApplicationData(Application app) {
         if (app == null) return null;
 
@@ -200,6 +239,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param data
+     * @return WithdrawalRequest
+     */
     /* ==============================
        WITHDRAWAL
        ============================== */
@@ -217,6 +260,10 @@ public class SystemConverter {
         );
     }
 
+    /** 
+     * @param wr
+     * @return WithdrawalData
+     */
     public static WithdrawalData toWithdrawalData(WithdrawalRequest wr) {
         if (wr == null) return null;
 

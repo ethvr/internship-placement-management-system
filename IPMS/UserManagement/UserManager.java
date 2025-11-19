@@ -117,6 +117,9 @@ public class UserManager {
         }
     }
 
+    /** 
+     * @return List<String>
+     */
     /*String CompanyRepID; // before @ of email --> change to idgenerator 
     String Name;
     String CompanyName;
@@ -228,6 +231,10 @@ public class UserManager {
 
     }
 
+    /** 
+     * @param printer
+     * @return int
+     */
     public static int CompanyRegistrationConfirmation(List<String> printer) {
         
         int option;
@@ -333,6 +340,10 @@ public class UserManager {
 
     }
 
+    /** 
+     * @param input
+     * @return CompanyCSVData
+     */
     public static CompanyCSVData toCompanyCSVDynamic(List<String> input) {
         try {
             CompanyCSVData obj = new CompanyCSVData();
@@ -369,6 +380,10 @@ public class UserManager {
         }
     }
     
+    /** 
+     * @param input
+     * @return CompanyRepresentative
+     */
     public static CompanyRepresentative toCompanyRepDynamic(List<String> input) {
         CompanyCSVData csv = toCompanyCSVDynamic(input);
         return SystemConverter.toCompanyRep(csv); // Use your existing converter!

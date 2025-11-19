@@ -17,6 +17,9 @@ public class AccountLoginPage implements Page{
         
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
         String username = User.login(); // you already have this

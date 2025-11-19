@@ -61,6 +61,9 @@ public class CareerCenter extends User {
         }
     }
 
+    /** 
+     * @param companyRep
+     */
     //remove pending company
     public void removePendingCompany(CompanyRepresentative companyRep){
         boolean s = SystemData.removeUnapprovedRep(companyRep);
@@ -69,6 +72,9 @@ public class CareerCenter extends User {
         }
     }
 
+    /** 
+     * @param companyRep
+     */
     // approve account creation of company representativs
     public void approveCompanyRep (CompanyRepresentative companyRep) {
         companyRep.setStatus(CompanyApprovalStatus.APPROVED);
@@ -77,6 +83,9 @@ public class CareerCenter extends User {
         + companyRep.getCompanyName() + " has been approved" );
     }
 
+    /** 
+     * @param companyRep
+     */
     // reject account creation of company represenattives
     public void rejectCompanyRep (CompanyRepresentative companyRep){
         companyRep.setStatus(CompanyApprovalStatus.REJECTED);
@@ -85,6 +94,9 @@ public class CareerCenter extends User {
         + companyRep.getCompanyName() + " has been rejected " );
     }
 
+    /** 
+     * @param internship
+     */
     // approve  internships submitted by company
     public void approveInternship(Internship internship){
         if (internship.getStatus() == InternshipStatus.PENDING){
@@ -96,6 +108,9 @@ public class CareerCenter extends User {
         }
     }
 
+    /** 
+     * @param internship
+     */
     // reject  internships submitted by company
     public void rejectInternship(Internship internship){
         if (internship.getStatus()==InternshipStatus.PENDING){
@@ -107,6 +122,9 @@ public class CareerCenter extends User {
     }
 
 
+    /** 
+     * @param withdrawalRequest
+     */
     // approve student withdrawal before or after confirmation
     public void approveWithdrawal(WithdrawalRequest withdrawalRequest){
         if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
@@ -144,6 +162,9 @@ public class CareerCenter extends User {
         }
     }
 
+    /** 
+     * @param withdrawalRequest
+     */
     //reject student withdrawal before or after confirmation
     public void rejectWithdrawal(WithdrawalRequest withdrawalRequest){
         if (withdrawalRequest.getStatus()== WithdrawalStatus.PENDING){
@@ -155,6 +176,9 @@ public class CareerCenter extends User {
         }
     }
 
+    /** 
+     * @return String
+     */
     //getters and setters
     public String getRole() {
         return role;
@@ -162,14 +186,23 @@ public class CareerCenter extends User {
 
 
 
+    /** 
+     * @return String
+     */
     public String getStaffDepartment() {
         return staffDepartment;
     }
 
+    /** 
+     * @param staffDepartment
+     */
     public void setStaffDepartment (String staffDepartment){
         this.staffDepartment = staffDepartment;
     }
 
+    /** 
+     * @return List
+     */
     public static List getPendingCompanies(){
         return pendingCompanies;
     }

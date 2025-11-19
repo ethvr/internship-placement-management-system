@@ -18,6 +18,9 @@ public class MainPage implements Page {
         System.out.print("Enter an option (1-4): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, 4);

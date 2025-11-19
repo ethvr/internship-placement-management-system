@@ -10,12 +10,19 @@ import IPMS.ObjectClasses.*;
 
 public class Filters {
 
+    /** 
+     * @return List<Internship>
+     */
     public static List<Internship> getAllInternships() {
         List<Internship> list = new ArrayList<>();
         list.addAll(SystemData.getInternshipMap().values());
         return list;
     }
 
+    /** 
+     * @param word
+     * @return List<Internship>
+     */
     public static List<Internship> filterByKeyword(String word) {
         List<Internship> results = new ArrayList<>();
 
@@ -26,6 +33,10 @@ public class Filters {
         }
         return results;
     }
+    /** 
+     * @param companyName
+     * @return List<Internship>
+     */
     //Returns a internship list filtered to a specific company
     // used for students
     public static List<Internship> filterByCompanyName(String companyName) {
@@ -39,6 +50,10 @@ public class Filters {
         return results;
     }
 
+    /** 
+     * @param year
+     * @return List<Internship>
+     */
     public static List<Internship> filterByYearOfStudy(int year) {
         List<Internship> results = new ArrayList<>();
 
@@ -61,6 +76,10 @@ public class Filters {
     }
 
 
+    /** 
+     * @param major
+     * @return List<Internship>
+     */
     public static List<Internship> filterByMajor(String major) {
         List<Internship> results = new ArrayList<>();
 
@@ -73,6 +92,10 @@ public class Filters {
     }
 
 
+    /** 
+     * @param level
+     * @return List<Internship>
+     */
     // used for students
     public static List<Internship> filterByInternshipLevel(InternshipLevel level) {
         List<Internship> results = new ArrayList<>();
@@ -85,6 +108,11 @@ public class Filters {
         return results;
     }
 
+    /** 
+     * @param level
+     * @param list
+     * @return List<Internship>
+     */
     public static List<Internship> filterByInternshipLevel(InternshipLevel level, List<Internship> list) {
         List<Internship> results = new ArrayList<>();
 
@@ -96,6 +124,10 @@ public class Filters {
         return results;
     }
 
+    /** 
+     * @param date
+     * @return List<Internship>
+     */
     // used for students
     public static List<Internship> filterByClosingDate(LocalDate date) {
         List<Internship> results = new ArrayList<>();
@@ -108,6 +140,10 @@ public class Filters {
         return results;
     }
 
+    /** 
+     * @param slots
+     * @return List<Internship>
+     */
     // used for students
     public static List<Internship> filterBySlotsLeft(int slots) {
         List<Internship> results = new ArrayList<>();

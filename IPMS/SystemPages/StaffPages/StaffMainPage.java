@@ -38,6 +38,9 @@ public class StaffMainPage implements Page{
         System.out.print("Enter an option (1-5): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

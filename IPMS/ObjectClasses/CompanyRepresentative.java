@@ -66,23 +66,39 @@ public class CompanyRepresentative extends User {
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
+     /** 
+      * @return boolean
+      */
      public boolean isApproved() {
           return status == CompanyApprovalStatus.APPROVED;
      }
 
+     /** 
+      * @param internship
+      */
      public void deleteInternship(Internship internship) {
           internshipsCreated.remove(internship);
           SystemData.removeInternship(internship);
      }
+     /** 
+      * @return List<Internship>
+      */
      public List<Internship> getInternshipsCreated() {
           String key = this.getCompanyRepID();
           return SystemData.getILMcompany(key);
      }
 
+     /** 
+      * @param internship
+      * @param visible
+      */
      public void toggleVisibility(Internship internship, boolean visible) {
           internship.setVisible(visible);
      }
 
+     /** 
+      * @param internship
+      */
      // views applications for a specific internship 
      public void viewApplications(Internship internship) {
           System.out.println("Applications for " + internship.getTitle() + ":");
@@ -98,16 +114,25 @@ public class CompanyRepresentative extends User {
           }
      }
 
+     /** 
+      * @param app
+      */
      public void approveApplication(Application app) {
         app.setStatus(ApplicationStatus.SUCCESSFUL);
         
      }
 
+     /** 
+      * @param app
+      */
      public void rejectApplication(Application app) {
         app.setStatus(ApplicationStatus.UNSUCCESSFUL);
      }
 
 
+     /** 
+      * @param status
+      */
      // setters and getters
      public void setStatus(CompanyApprovalStatus status){
           this.status = status;
@@ -115,6 +140,9 @@ public class CompanyRepresentative extends User {
 
 
 
+     /** 
+      * @return String
+      */
      // public void setApproved(boolean approved) { this.isApproved = approved; }
      
      // public boolean isApproved() { //the comp rep's account status
@@ -124,15 +152,27 @@ public class CompanyRepresentative extends User {
      public String getCompanyName() {
           return companyName;
      }
+     /** 
+      * @return String
+      */
      public String getDepartment() {
           return department;
      }
+     /** 
+      * @return String
+      */
      public String getPosition() {
           return position;    
      }
+     /** 
+      * @return String
+      */
      public String getCompanyRepID() {
           return getUserId();
      }
+     /** 
+      * @return CompanyApprovalStatus
+      */
      public CompanyApprovalStatus getStatus() {
           return status;
      }

@@ -25,6 +25,9 @@ public abstract class User {
     }
 
 
+    /** 
+     * @return String
+     */
     // login succesfull --> retun username
     // Username not found --> return NIL 
     // exceed max number of tries --> return NIL 
@@ -105,6 +108,9 @@ public abstract class User {
         System.out.println("Logging out...");
     }
 
+    /** 
+     * @param username
+     */
     // takes in the username returned by the login() function
     public static void changePassword(String username) {
 
@@ -183,14 +189,23 @@ public abstract class User {
 
     }
 
+    /** 
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /** 
+     * @return String
+     */
     public String getUserId() {
         return userID;
     }
 
+    /** 
+     * @return String
+     */
     public String getEmail() {
         return email;
     }

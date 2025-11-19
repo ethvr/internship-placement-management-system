@@ -26,6 +26,10 @@ public class FilteredInternshipsPage implements Page {
         this.list = list;
     }
 
+    /** 
+     * @param Obj
+     * @return PageAction
+     */
     private PageAction ForStudent(User Obj) {
 
         if (obj instanceof Student s){
@@ -51,6 +55,9 @@ public class FilteredInternshipsPage implements Page {
         System.out.println("\n===== FILTERED INTERNSHIPS =====");
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 
