@@ -22,8 +22,8 @@ public class SystemApp {
 
         // things to run before the start of the code 
         UserManager.UsernameCSVGenerator();
-        SystemData.loadIntoMap("password", Credentials.class);
-        SystemData.loadAll("company");
+        //SystemData.loadIntoMap("password", Credentials.class);
+        SystemData.loadAll();
 
         Stack<Page> nav = new Stack<>();
         nav.push(new MainPage());   // Start at the main menu
@@ -44,11 +44,7 @@ public class SystemApp {
                 case STAY -> nav.peek(); //???? need for stay?
             }
         }
-        System.out.print("sng001 pw: ");
-        System.out.println(SystemData.LoginMap.get("sng001").Password);
-        System.out.println(SystemData.RepresentativeMap);
-        System.out.println(SystemData.RepresentativeCSVMap);
-        
+        SystemData.saveAll();
     }       
 
     public static void setCurrentUser(String user) {

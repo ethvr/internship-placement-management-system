@@ -321,7 +321,7 @@ public class SystemData {
         }
     }
 
-    public static void buildObjectMapsFromEntities(String usertype) {
+    public static void buildObjectMapsFromEntities() {
         StudentMap.clear();
         StaffMap.clear();
         RepresentativeMap.clear();
@@ -329,33 +329,27 @@ public class SystemData {
         ApplicationMap.clear();
         WithdrawalMap.clear();
 
-        switch (usertype) {
-            case "student" -> {
-                for (StudentCSVData data : StudentCSVMap.values()) {
-                    Student s = SystemConverter.toStudent(data);
-                    String username = s.getEmail().split("@")[0];
-                    if (s != null) {
-                        StudentMap.put(username, s);
-                    }
-                }
+        for (CompanyCSVData data : RepresentativeCSVMap.values()) {
+            CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+            String username = rep.getEmail().split("@")[0];
+            if (rep != null) {
+                RepresentativeMap.put(username, rep);
             }
-            case "staff" -> {
-                for (StaffCSVData data : StaffCSVMap.values()) {
-                    CareerCenter s = SystemConverter.toCareerCenter(data);
-                    String username = s.getEmail().split("@")[0];
-                    if (s != null) {
-                        StaffMap.put(username, s);
-                    }
-                }
+        }
+
+        for (StaffCSVData data : StaffCSVMap.values()) {
+            CareerCenter s = SystemConverter.toCareerCenter(data);
+            String username = s.getEmail().split("@")[0];
+            if (s != null) {
+                StaffMap.put(username, s);
             }
-            case "company" -> {
-                for (CompanyCSVData data : RepresentativeCSVMap.values()) {
-                    CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
-                    String username = rep.getEmail().split("@")[0];
-                    if (rep != null) {
-                        RepresentativeMap.put(username, rep);
-                    }
-                }
+        }
+
+        for (StudentCSVData data : StudentCSVMap.values()) {
+            Student s = SystemConverter.toStudent(data);
+            String username = s.getEmail().split("@")[0];
+            if (s != null) {
+                StudentMap.put(username, s);
             }
         }
 
@@ -384,20 +378,12 @@ public class SystemData {
         }
     }
 
-    public static void loadAll(String usertype) {
+    public static void loadAll() {
 
-        switch (usertype.toLowerCase()) {
-            case "student" -> {
-                loadIntoMap("student",    StudentCSVData.class);
-            }
-            case "staff" -> {
-                loadIntoMap("staff",      StaffCSVData.class);
-            }
-            case "company" -> {
-                loadIntoMap("company",    CompanyCSVData.class);
-            }
-        }
         // Load entities from CSV files
+        loadIntoMap("student",    StudentCSVData.class);
+        loadIntoMap("staff",      StaffCSVData.class);
+        loadIntoMap("company",    CompanyCSVData.class);
         loadIntoMap("internship", InternshipData.class);
         loadIntoMap("application",ApplicationData.class);
         loadIntoMap("withdrawal", WithdrawalData.class);
@@ -405,11 +391,11 @@ public class SystemData {
         // no need to load login? --> have to load before running app alr?
 
         // Build runtime object maps
-        buildObjectMapsFromEntities(usertype);
+        buildObjectMapsFromEntities();
     }
 
     //used before saving --> turns all objects back to entities and places in map
-    public static void syncEntitiesFromObjects(String usertype) {
+    public static void syncEntitiesFromObjects() {
         StudentCSVMap.clear();
         StaffCSVMap.clear();
         RepresentativeCSVMap.clear();
@@ -417,28 +403,22 @@ public class SystemData {
         ApplicationCSVMap.clear();
         WithdrawalCSVMap.clear();
 
-        switch (usertype) {
-            case "student" -> {
-                for (Student student : StudentMap.values()) {
-                    StudentCSVData row = SystemConverter.toStudentCSV(student);
-                    String username = row.getEmail().split("@")[0];
-                    StudentCSVMap.put(username, row);
-                }
-            }
-            case "staff" -> {
-                 for (CareerCenter staff : StaffMap.values()) {
-                    StaffCSVData row = SystemConverter.toStaffCSV(staff);
-                    String username = row.getEmail().split("@")[0];
-                    StaffCSVMap.put(username, row);
-                }
-            }
-            case "company" -> {
-                for (CompanyRepresentative rep : RepresentativeMap.values()) {
-                    CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
-                    String username = row.getEmail().split("@")[0];
-                    RepresentativeCSVMap.put(username, row);
-                }
-            }
+        for (CareerCenter staff : StaffMap.values()) {
+            StaffCSVData row = SystemConverter.toStaffCSV(staff);
+            String username = row.getEmail().split("@")[0];
+            StaffCSVMap.put(username, row);
+        }
+
+        for (CompanyRepresentative rep : RepresentativeMap.values()) {
+            CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
+            String username = row.getEmail().split("@")[0];
+            RepresentativeCSVMap.put(username, row);
+        }
+
+        for (Student student : StudentMap.values()) {
+            StudentCSVData row = SystemConverter.toStudentCSV(student);
+            String username = row.getEmail().split("@")[0];
+            StudentCSVMap.put(username, row);
         }
 
         // Internships
@@ -462,21 +442,13 @@ public class SystemData {
         // LoginMap is already the CSV entity map (Credentials), and you’re already mutating it directly.
     }
 
-    public static void saveAll(String usertype) {
-        syncEntitiesFromObjects(usertype);
+    public static void saveAll() {
+        syncEntitiesFromObjects();
 
-        switch (usertype.toLowerCase()) {
-            case "student" -> {
-                writeBackCSV("student",    StudentCSVMap);
-            }
-            case "staff" -> {
-                writeBackCSV("staff",      StaffCSVMap);
-            }
-            case "company" -> {
-                writeBackCSV("company",    RepresentativeCSVMap);
-            }
-        }
         // write entities to CSV files
+        writeBackCSV("staff",      StaffCSVMap);
+        writeBackCSV("student",    StudentCSVMap);
+        writeBackCSV("company",    RepresentativeCSVMap);
         writeBackCSV("internship", InternshipCSVMap);
         writeBackCSV("application",ApplicationCSVMap);
         writeBackCSV("withdrawal", WithdrawalCSVMap);

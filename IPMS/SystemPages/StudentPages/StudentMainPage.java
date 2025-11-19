@@ -32,8 +32,6 @@ public class StudentMainPage implements Page {
     @Override 
     public PageAction next() {
 
-        SystemData.loadAll("student");
-
         int opt = UniversalFunctions.readIntInRange(1, 5);
         Student Obj = SystemData.getStudentObj(username);
 

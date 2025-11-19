@@ -34,7 +34,7 @@ public class PasswordChangePage implements Page {
 
         User.changePassword(username);
 
-        System.out.println(SystemData.LoginMap.get("sng001").Password + "in page");
+        //System.out.println(SystemData.LoginMap.get("sng001").Password + "in page");
         return PageAction.pop();
     }
 }
