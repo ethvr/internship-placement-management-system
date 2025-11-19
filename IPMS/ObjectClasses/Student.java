@@ -114,7 +114,7 @@ public class Student extends User {
             Application a = it.next();
 
             // keep only ACCEPTED
-            if (a.isAcceptedByStudent() != AcceptedByStudentStatus.ACCEPTED) {
+            if (a.getAcceptedByStudent() != AcceptedByStudentStatus.ACCEPTED) {
                 it.remove(); // safe removal
             }
         }
@@ -205,10 +205,10 @@ public class Student extends User {
 
         for (Application app : apps) {
             System.out.println("--------------------------------");
-            System.out.println("Application ID : " + app.getId());
+            System.out.println("Application ID : " + app.getApplicationID());
             System.out.println("Internship ID  : " + app.getInternshipId());
             System.out.println("Status         : " + app.getStatus());
-            System.out.println("Accepted?      : " + app.isAcceptedByStudent());
+            System.out.println("Accepted?      : " + app.getAcceptedByStudent());
         }
     }
 }

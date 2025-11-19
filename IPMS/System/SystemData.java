@@ -71,47 +71,7 @@ public class SystemData {
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
-<<<<<<< HEAD
    
-=======
-    // try with hash map
-    public static void loadStudentMap() {
-
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
-        File[] files = folder.listFiles();
-        File targetFile = null;
-
-        for(File f : files) {
-            if(f.getName().contains("student")) {
-                targetFile = f;
-                break;
-            }
-        }
-
-        //reading from csv file and writing into hashmap
-        //write student object back
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(targetFile));
-            String line = br.readLine(); // skip header line
-            
-            while((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String studentID = parts[0];
-                String name = parts[1];
-                String role = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                String email = parts[4];
-                String username = email.split("@")[0];
-                StudentMap.put(username, new Student(studentID, name, role, year, email));
-            }
-
-            br.close();
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + e);
-        }
-
-    }
->>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
 
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     // clazz --> CSVdata class
@@ -406,7 +366,7 @@ public class SystemData {
         for (ApplicationData data : ApplicationCSVMap.values()) {
             Application a = SystemConverter.toApplication(data);
             if (a != null) {
-                ApplicationMap.put(a.getId(), a);
+                ApplicationMap.put(a.getApplicationID(), a);
             }
         }
 
@@ -481,7 +441,7 @@ public class SystemData {
         // Applications
         for (Application app : ApplicationMap.values()) {
             ApplicationData row = SystemConverter.toApplicationData(app);
-            ApplicationCSVMap.put(app.getId(), row);
+            ApplicationCSVMap.put(app.getApplicationID(), row);
         }
 
         // Withdrawals
@@ -592,11 +552,7 @@ public class SystemData {
     }
 
     public static void ApplicationCreation(Application obj) {
-<<<<<<< HEAD
         String appID = obj.getApplicationID();
-=======
-        String appID = obj.getId();
->>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
         ApplicationMap.put(appID, obj);
 
         String internshipid = obj.getInternshipId();
@@ -619,7 +575,7 @@ public class SystemData {
     }
 
     public static void removeApplication(Application obj) {
-        String appID = obj.getId();
+        String appID = obj.getApplicationID();
         ApplicationMap.remove(appID);
 
         String internshipid = obj.getInternshipId();

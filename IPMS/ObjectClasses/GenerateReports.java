@@ -64,11 +64,11 @@ public class GenerateReports{
         for (Application data : applicationmap.values()) {
             if (data.getInternshipId().equalsIgnoreCase(internshipID)) {
             Application application = new Application (
-                data.getId(),
+                data.getApplicationID(),
                 data.getStudentId(),
                 data.getInternshipId(), 
                 data.getStatus(), 
-                data.isAcceptedByStudent() 
+                data.getAcceptedByStudent() 
                 );
 
             ApplicationList.add(application);
@@ -87,7 +87,7 @@ public class GenerateReports{
                 System.out.printf("%-5d %-15s %-18s %-20s\n",
                     count,
                     app.getStudentId(),
-                    app.getId(),
+                    app.getApplicationID(),
                     app.getStatus()   
                 );
                 count++;

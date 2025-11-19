@@ -254,8 +254,7 @@ public class UserManager {
                     );
 
                     // adds new runtime creation to map
-                    SystemData.setCompanyKeyValue(username, rep);
-                    SystemData.setUnapprovedRep(rep);
+                    SystemData.CompRepCreation(rep);
 
                     System.out.println("Registration complete, please wait for your account to be approved");
 

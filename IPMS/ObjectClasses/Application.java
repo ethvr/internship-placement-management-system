@@ -20,13 +20,8 @@ public class Application {
         this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
     }
     // constructor for creating obj from map 
-<<<<<<< HEAD
     public Application(String ApplicationID, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
         this.ApplicationID = ApplicationID;
-=======
-    public Application(String id, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
-        this.id = id;
->>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
@@ -47,17 +42,13 @@ public class Application {
     public ApplicationStatus getStatus() {
         return status;}
 
-<<<<<<< HEAD
-    public boolean isAcceptedByStudent() {
-        return acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
-=======
-    public AcceptedByStudentStatus isAcceptedByStudent() {
-        return AcceptedByStudentStatus.ACCEPTED;}
->>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
+        //????????
+    public AcceptedByStudentStatus getAcceptedByStudent() {
+        return acceptedByStudent;}
         
     //setters
-    public void setId(String id) {
-        this.id = id;}
+    public void setApplicationID(String ApplicationID) {
+        this.ApplicationID = ApplicationID;}
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;}
@@ -74,13 +65,8 @@ public class Application {
     public ApplicationStatus isActive() {
         return status = ApplicationStatus.WITHDRAWN;}
 
-<<<<<<< HEAD
     public boolean isConfirmedPlacement() {
         return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
-=======
-    public ApplicationStatus isConfirmedPlacement() {
-        return status = ApplicationStatus.SUCCESSFUL ;}
->>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
 
     public ApplicationStatus isUnsuccessful() {
         return status = ApplicationStatus.UNSUCCESSFUL;}
@@ -89,7 +75,7 @@ public class Application {
     public String toString() {
         return String.format(
             "Application[%s] Student=%s, Internship=%s, Status=%s, Accepted=%s",
-            id, studentId, internshipId, status, acceptedByStudent
+            ApplicationID, studentId, internshipId, status, acceptedByStudent
         );
     }
 }

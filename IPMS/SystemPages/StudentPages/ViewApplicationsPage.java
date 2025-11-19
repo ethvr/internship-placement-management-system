@@ -32,10 +32,10 @@ public class ViewApplicationsPage implements Page{
 
         int index = 1;
         for (Application a : list) {
-            System.out.printf("[%d] Application ID: %s\n", index++, a.getId());
+            System.out.printf("[%d] Application ID: %s\n", index++, a.getApplicationID());
             System.out.println("    Internship ID : " + a.getInternshipId());
             System.out.println("    Status        : " + a.getStatus());
-            System.out.println("    Accepted?     : " + a.isAcceptedByStudent());
+            System.out.println("    Accepted?     : " + a.getAcceptedByStudent());
             System.out.println();
             appList.add(a);
         }
