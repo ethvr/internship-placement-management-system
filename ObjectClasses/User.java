@@ -179,4 +179,9 @@ public abstract class User {
     public String getUserId() {
         return userId;
     }
+
+    // In this project userId is used as email/username in many places
+    public String getEmail() {
+        return userId;
+    }
 }

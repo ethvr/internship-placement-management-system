@@ -1,9 +1,10 @@
-package IPMS.ObjectClasses;
+package ObjectClasses;
 
 import java.util.ArrayList;
 import java.util.List;
 import Enums.*;
 import System.SystemData;
+import java.time.LocalDate;
 
 public class CompanyRepresentative extends User {
 
@@ -40,10 +41,13 @@ public class CompanyRepresentative extends User {
             System.out.println("You cannot create more than 5 internships.");
             return;
           }
+          // parse dates (expecting ISO-8601 format: YYYY-MM-DD)
+          LocalDate od = LocalDate.parse(openDate);
+          LocalDate cd = LocalDate.parse(closeDate);
           Internship internship = new Internship(title, description, level, preferredMajor,
-                                               openDate, closeDate, companyName, this, slots);
+                                               od, cd, companyName, this.getUserId(), slots);
           internshipsCreated.add(internship);
-          data.internships.put(internship.getId(), internship);
+          SystemData.addInternship(internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }
 
@@ -61,7 +65,7 @@ public class CompanyRepresentative extends User {
 
      public void viewApplications(Internship internship, SystemData data) {
           System.out.println("Applications for " + internship.getTitle() + ":");
-          for (Application app : internship.getApplications(data)) {
+          for (Application app : internship.getApplications()) {
                System.out.println(app);
           }
      }
@@ -82,6 +86,14 @@ public class CompanyRepresentative extends User {
 
      public String getCompanyName() {
           return companyName;
+     }
+
+     public String getDepartment() {
+          return department;
+     }
+
+     public String getPosition() {
+          return position;
      }
 }
 

@@ -40,13 +40,12 @@ public class Internship {
           this.internshipId = IdGenerator.nextInternshipId();
      }
 
-    Internship(String internshipTitle, String description, InternshipLevel internshipLevel, String prefferedMajors, LocalDate openingDate, LocalDate closingDate, String companyName, String companyRepInCharge, int numberofSlots) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+     // Removed duplicate/unused constructor stub that conflicted with the main constructor
 
      //adds an application to this internship's list of applications
-     public void addApplication(Application app, SystemData data) {
-          data.applications.put(app.getId(), app);
+     public void addApplication(Application app) {
+          // delegate to SystemData compatibility layer
+          SystemData.addApplication(app);
      }
      public void setVisible(boolean visible) {
           this.visible = visible;
@@ -54,15 +53,15 @@ public class Internship {
      public String getTitle(){
           return title;
      }
-     public List<Application> getApplications(SystemData data) {
-        List<Application> result = new ArrayList<>();
-        for (Application app : data.applications.values()) {
-            if (app.getInternshipId().equals(this.internshipId)) {
-                result.add(app);
-            }
-        }
-        return result;
-     }
+      public List<Application> getApplications() {
+          List<Application> result = new ArrayList<>();
+          for (Application app : SystemData.getApplications().values()) {
+               if (app.getInternshipId().equals(this.internshipId)) {
+                    result.add(app);
+               }
+          }
+          return result;
+      }
 
      public String getDescription() {
           return description;
@@ -113,6 +112,10 @@ public class Internship {
      }
      public String getId(){
           return internshipId;
+     }
+
+     public String getCompRep() {
+          return compRep;
      }
      
 }

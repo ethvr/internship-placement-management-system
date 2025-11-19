@@ -3,7 +3,7 @@ package SystemPages;
 import java.util.List;
 import java.util.Scanner;
 
-import IPMS.System.SystemDataEntities.InternshipData;
+import System.SystemDataEntities.InternshipData;
 
 public class UniversalFunctions {
 

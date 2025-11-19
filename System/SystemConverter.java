@@ -40,7 +40,7 @@ public class SystemConverter {
         return new Student(
                 data.getStudentID(),
                 data.getName(),
-                data.getEmail(),
+                dummyPassword,
                 data.getYear(),
                 data.getMajor()
         );
@@ -101,20 +101,21 @@ public class SystemConverter {
         InternshipStatus status = parseInternshipStatus(data.getStatus());
         boolean visible = parseVisibility(data.getVisibility());
 
-        return new Internship(
-                data.getUniqueID(),             // id
-                data.getInternshipTitle(),
-                data.getDescription(),
-                data.getInternshipLevel(),
-                data.getPrefferedMajors(),
-                data.getOpeningDate(),
-                data.getClosingDate(),
-                status,
-                data.getCompanyName(),
-                data.getCompanyRepInCharge(),
-                visible,
-                data.getNumberofSlots()
+        Internship i = new Internship(
+            data.getInternshipTitle(),
+            data.getDescription(),
+            data.getInternshipLevel(),
+            data.getPrefferedMajors(),
+            data.getOpeningDate(),
+            data.getClosingDate(),
+            data.getCompanyName(),
+            data.getCompanyRepInCharge(),
+            data.getNumberofSlots()
         );
+        // adjust status/visibility if present
+        i.setStatus(status);
+        i.setVisible(visible);
+        return i;
     }
 
     public static InternshipData toInternshipData(Internship i) {
@@ -142,13 +143,14 @@ public class SystemConverter {
     public static Application toApplication(ApplicationData data) {
         if (data == null) return null;
 
-        return new Application(
-                data.getUniqueID(),          // id
-                data.getStudentID(),
-                data.getInternshipID(),
-                data.getStatus(),
-                data.getAcceptedByStudent()
+        Application app = new Application(
+            data.getStudentID(),
+            data.getInternshipID(),
+            data.getStatus(),
+            data.getAcceptedByStudent()
         );
+        app.setId(data.getUniqueID());
+        return app;
     }
 
     public static ApplicationData toApplicationData(Application app) {
@@ -183,15 +185,15 @@ public class SystemConverter {
     public static WithdrawalRequest toWithdrawal(WithdrawalData data) {
         if (data == null) return null;
 
-        return new WithdrawalRequest(
-                data.getUniqueID(),
-                data.getApplicationID(),
-                data.getStudentID(),
-                data.getStatus(),
-                data.getRequestTime(),
-                data.getRemarks()
+        WithdrawalRequest wr = new WithdrawalRequest(
+            data.getApplicationID(),
+            data.getStudentID(),
+            data.getStatus()
         );
+        wr.setId(data.getUniqueID());
+        wr.setRequestTime(data.getRequestTime());
+        wr.setRemarks(data.getRemarks());
+        return wr;
     }
-}
 
 }

@@ -36,11 +36,13 @@ public class StudentMainPage implements Page{
         // get users object
         StudentCSVData data = studentmap.get(username);
 
+        // Student constructor requires a password; provide a dummy here
         Student studentObj = new Student(
-                        data.StudentID,
-                        data.Name,
-                        data.Year,
-                        data.Major
+                        data.getStudentID(),
+                        data.getName(),
+                        "DEFAULT",
+                        data.getYear(),
+                        data.getMajor()
                     );
 
         int opt = UniversalFunctions.readIntInRange(1, 4);

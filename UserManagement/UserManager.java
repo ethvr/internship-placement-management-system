@@ -7,16 +7,15 @@
 // handles login --> LoginMatch()
 // username -f (field before @ in email 
 // what if new student file etc wants to be introduced on top of pre existing data?
-package IPMS.UserManagement;
+package UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import IPMS.System.SystemApp;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities;
-import IPMS.System.SystemDataEntities.*;
+import System.SystemApp;
+import System.SystemData;
+import System.SystemDataEntities.*;
 
 public class UserManager {
     
@@ -312,7 +311,7 @@ public class UserManager {
 
         Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
 
-        SystemDataEntities.CompanyCSVData data = map.get(username);
+        CompanyCSVData data = map.get(username);
 
         String status;
 

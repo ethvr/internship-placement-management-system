@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 
 import Enums.*;
 import System.SystemDataEntities.*; // change for final 
+import ObjectClasses.*;
+import System.SystemConverter;
 
     
 public class SystemData {
@@ -39,6 +41,11 @@ public class SystemData {
     private static HashMap<String, WithdrawalData> WithdrawalMap = new HashMap<>();
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
+
+    // Compatibility lists for legacy ObjectClasses code (keeps ObjectClasses instances)
+    public static List<Internship> internships = new ArrayList<>();
+    public static List<Application> applications = new ArrayList<>();
+    public static List<WithdrawalRequest> withdrawalRequests = new ArrayList<>();
 
     // try with hash map
     public static void loadStudentMap() {
@@ -543,6 +550,43 @@ public class SystemData {
     public static String getCompanyStatus(String username) {
         CompanyCSVData data = RepresentativeMap.get(username);
         return data.Status;
+    }
+
+    // --- Compatibility methods for ObjectClasses usage ---
+    public static void addApplication(Application app) {
+        if (app == null) return;
+        applications.add(app);
+        // also store converted ApplicationData for CSV/writeback
+        ApplicationData ad = SystemConverter.toApplicationData(app);
+        ApplicationMap.put(ad.getUniqueID(), ad);
+    }
+
+    public static Map<String, Application> getApplications() {
+        Map<String, Application> map = new HashMap<>();
+        for (Application a : applications) map.put(a.getId(), a);
+        return map;
+    }
+
+    public static Application getApplicationObject(String id) {
+        for (Application a : applications) if (a.getId().equals(id)) return a;
+        // fallback: try convert from ApplicationMap
+        ApplicationData ad = ApplicationMap.get(id);
+        if (ad == null) return null;
+        return SystemConverter.toApplication(ad);
+    }
+
+    public static void addWithdrawalRequest(WithdrawalRequest wr) {
+        if (wr == null) return;
+        withdrawalRequests.add(wr);
+        WithdrawalData wd = SystemConverter.toWithdrawalData(wr);
+        WithdrawalMap.put(wd.getUniqueID(), wd);
+    }
+
+    public static void addInternship(Internship i) {
+        if (i == null) return;
+        internships.add(i);
+        InternshipData id = SystemConverter.toInternshipData(i);
+        InternshipMap.put(id.getUniqueID(), id);
     }
 
 

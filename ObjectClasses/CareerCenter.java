@@ -3,6 +3,7 @@ package ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 import Enums.*;
+import System.SystemData;
 
 public class CareerCenter extends User {
 
@@ -78,7 +79,7 @@ public class CareerCenter extends User {
             
             withdrawalRequest.setStatus(WithdrawalStatus.APPROVED);
             String appplicationID = withdrawalRequest.getApplicationId();
-            Application application = data.applications.get(appplicationID);
+            Application application = SystemData.getApplicationObject(appplicationID);
             
             //check if application is valid
             if (application != null){       

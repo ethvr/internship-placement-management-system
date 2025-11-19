@@ -65,17 +65,18 @@ public class Student extends User {
 
         // Create and register application
         Application app = new Application(
-                this.getUserId(),
-                target.getId(),
-                ApplicationStatus.PENDING
+            this.getUserId(),
+            target.getId(),
+            ApplicationStatus.PENDING,
+            false
         );
-        data.applications.add(app);
+        SystemData.addApplication(app);
         target.addApplication(app);
     }
 
     public int countActiveApplications(SystemData data) {
         int c = 0;
-        for (Application a : data.applications) {
+        for (Application a : SystemData.getApplications().values()) {
             if (a.getStudentId().equals(this.getUserId()) && a.isActive()) {
                 c++;
             }
@@ -93,8 +94,8 @@ public class Student extends User {
 
         chosen.setAcceptedByStudent(true);
 
-        for (Application a : data.applications) {
-            if (a.getStudentId().equals(this.userId) &&
+        for (Application a : SystemData.getApplications().values()) {
+            if (a.getStudentId().equals(this.getUserId()) &&
                 !a.getId().equals(applicationId)) {
                 a.setStatus(ApplicationStatus.WITHDRAWN);
             }
@@ -102,27 +103,10 @@ public class Student extends User {
 
         Internship internship = findInternshipById(chosen.getInternshipId(), data);
         if (internship != null)
-            internship.updateFilledStatus(data);
+            internship.updateFilledSlots();
     }
 
-    public void requestWithdrawal(String applicationId, SystemData data) {
-        Application target = findAppById(applicationId, data);
-        if (target == null)
-            throw new IllegalArgumentException("No such application");
-
-        // Don’t allow multiple withdrawal requests for same app
-        for (WithdrawalRequest wr : data.withdrawalRequests) {
-            if (wr.getApplicationId().equals(applicationId))
-                throw new IllegalStateException("Withdrawal already requested");
-        }
-
-        WithdrawalRequest wr = new WithdrawalRequest(
-                applicationId,
-                this.userId,
-                WithdrawalStatus.PENDING
-        );
-        data.withdrawalRequests.add(wr);
-    }
+    
 
     public void withdrawApplication(String applicationId, SystemData data) {
         Application target = findAppById(applicationId, data);
@@ -136,7 +120,7 @@ public class Student extends User {
     }
 
     private Application findAppById(String appId, SystemData data) {
-        for (Application a : data.applications) {
+        for (Application a : SystemData.getApplications().values()) {
             if (a.getId().equals(appId))
                 return a;
         }
@@ -144,7 +128,7 @@ public class Student extends User {
     }
 
     private Internship findInternshipById(String id, SystemData data) {
-        for (Internship i : data.internships) {
+        for (Internship i : SystemData.internships) {
             if (i.getId().equals(id))
                 return i;
         }
@@ -207,7 +191,7 @@ public class Student extends User {
         for (Application other : data.getApplications().values()) {
             if (other.getStudentId().equals(this.getUserId()) &&
                     !other.getId().equals(applicationId)) {
-                this.requestWithdrawal(other.applicationID, data);
+                this.requestWithdrawal(other.getId(), data);
                 other.setStatus(ApplicationStatus.WITHDRAWN);
                 other.setAcceptedByStudent(false);
             }
@@ -230,18 +214,14 @@ public class Student extends User {
         }
 
         // Create withdrawal request
-        String wid = IdGenerator.nextWithdrawalId();
         WithdrawalRequest req = new WithdrawalRequest(
-                wid,
-                app.getId(),
-                this.getUserId(),
-                WithdrawalStatus.PENDING,
-                LocalDateTime.now(),
-                "Requested by student"
+            app.getId(),
+            this.getUserId(),
+            WithdrawalStatus.PENDING
         );
 
-        data.addWithdrawalRequest(req);
-        System.out.println("Withdrawal request created. Request ID: " + wid);
+        SystemData.addWithdrawalRequest(req);
+        System.out.println("Withdrawal request created. Request ID: " + req.getId());
     }
 }
 

@@ -43,26 +43,32 @@ public class ViewInternshipsPage implements Page {
 
         switch (opt) {
             case 1 -> {
-                PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "level"));
+                return PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "level"));
             }
             case 2 -> {
-                PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "date"));
+                return PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "date"));
             }
             case 3 -> {
-                PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "name"));
+                return PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "name"));
             }
             case 4 -> {
-                PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "slots"));
+                return PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "slots"));
             }
             case 5 -> {
-                PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "words"));
+                return PageAction.push(new FilteredInternshipsPage(StudentObj, InternshipList, "words"));
             }
             case 6 -> {
-                PageAction.pop();
+                return PageAction.pop();
             }
             default -> {
-                PageAction.pop();
+                return PageAction.pop();
             }
         }
 
+    }
+
+
+
 }
+
+

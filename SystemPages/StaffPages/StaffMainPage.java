@@ -30,8 +30,6 @@ public class StaffMainPage implements Page{
     @Override
     public PageAction next() {
 
-        student 
-
         int opt = UniversalFunctions.readIntInRange(1, 4);
 
         return switch (opt) {
