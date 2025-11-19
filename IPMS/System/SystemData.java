@@ -329,11 +329,20 @@ public class SystemData {
         ApplicationMap.clear();
         WithdrawalMap.clear();
 
+        //COMPANY REPRESENTATIVES 
+
         for (CompanyCSVData data : RepresentativeCSVMap.values()) {
             CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
             String username = rep.getEmail().split("@")[0];
             if (rep != null) {
                 RepresentativeMap.put(username, rep);
+            }
+        }
+
+        for (CompanyCSVData data : RepresentativeCSVMap.values()) {
+            CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+            if (rep.isStatusPending()) {
+                
             }
         }
 
