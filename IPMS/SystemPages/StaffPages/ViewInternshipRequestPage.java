@@ -55,7 +55,7 @@ public class ViewInternshipRequestPage implements Page{
                             int x =1;
                             // for every pending request, [print internship id, title]
                             for (Internship i : pending){
-                            System.out.printf("[%d] %s - %s \n", x++, i.getId(), i.getInternshipTitle());
+                            System.out.printf("[%d] %s - %s \n", x++, i.getInternshipId(), i.getInternshipTitle());
                             }
                         }
                         //exit printing
@@ -68,7 +68,7 @@ public class ViewInternshipRequestPage implements Page{
                         String internIDString = UniversalFunctions.readString();
                         Internship internship = internshipmap.get(internIDString);
                         staffObj.approveInternship(internship);
-                        System.out.printf("%s - %s internship has been approved", internship.getId(), internship.getInternshipTitle());
+                        System.out.printf("%s - %s internship has been approved", internship.getInternshipId(), internship.getInternshipTitle());
                         yield PageAction.pop();
                     }
 
@@ -78,7 +78,7 @@ public class ViewInternshipRequestPage implements Page{
                         String internIDString = UniversalFunctions.readString();
                         Internship internship = internshipmap.get(internIDString);
                         staffObj.rejectInternship(internship);
-                        System.out.printf("%s - %s internship has been rejected", internship.getId(), internship.getInternshipTitle());
+                        System.out.printf("%s - %s internship has been rejected", internship.getInternshipId(), internship.getInternshipTitle());
                         yield PageAction.pop();
 
                     }

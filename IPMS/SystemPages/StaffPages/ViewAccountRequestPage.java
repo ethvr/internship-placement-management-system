@@ -64,7 +64,7 @@ public class ViewAccountRequestPage implements Page{
                         System.out.print("Enter email to approve account creation: ");
                         String emailString = UniversalFunctions.readString();
                         CompanyRepresentative compRep = companymap.get(emailString);
-                        staffObj.approveCompanyRep(compRep, staffObj);;
+                        staffObj.approveCompanyRep(compRep);;
                         System.out.printf("%s acount has been approved", compRep.getEmail());
                         yield PageAction.pop();
                     }
@@ -74,7 +74,7 @@ public class ViewAccountRequestPage implements Page{
                         System.out.print("Enter email to reject account creation: ");
                         String emailString = UniversalFunctions.readString();
                         CompanyRepresentative compRep = companymap.get(emailString);
-                        staffObj.rejectCompanyRep(compRep, staffObj);;
+                        staffObj.rejectCompanyRep(compRep);;
                         System.out.printf("%s acount has been approved", compRep.getEmail());
                         yield PageAction.pop();
 
