@@ -1,6 +1,7 @@
 package IPMS.SystemPages.CommonPages;
 
 import IPMS.ObjectClasses.*;
+import IPMS.System.SystemData;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 
@@ -32,9 +33,11 @@ public class PasswordChangePage implements Page {
             return PageAction.pop();
         }
         else username = email.split("@")[0];
+        System.out.println("user is " + username);
 
         User.changePassword(username);
 
+        System.out.println(SystemData.LoginMap.get("sng001").Password + "in page");
         return PageAction.pop();
     }
 }
