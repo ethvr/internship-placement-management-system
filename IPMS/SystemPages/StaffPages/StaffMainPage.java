@@ -58,9 +58,9 @@ public class StaffMainPage implements Page{
             case 6 -> PageAction.push(new PasswordChangePage(staffObj));
             case 7 -> PageAction.pop();
             case 8 -> {
-                System.out.println(SystemData.LoginMap.get("sng001").Password +"before");
+                //System.out.println(SystemData.LoginMap.get("sng001").Password +"before");
                 staffObj.logout();
-                System.out.println(SystemData.LoginMap.get("sng001").Password +"after");
+                //System.out.println(SystemData.LoginMap.get("sng001").Password +"after");
                 yield PageAction.exit();
             }
             default -> PageAction.pop();
