@@ -1,8 +1,6 @@
 package IPMS.SystemPages.StaffPages;
 
 import IPMS.SystemPages.StudentPages.*;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
@@ -12,14 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
 import IPMS.SystemPages.CompanyPages.CompanyMainPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class ViewWithdrawalsPage implements Page{
 
     private CareerCenter staffObj ;
     private int opt;
-    final Map<String, WithdrawalRequest> withdrawalmap = SystemData.SystemDatagetWithdrawalMap();
+    final Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
 
     public ViewWithdrawalsPage( CareerCenter obj){
         this.staffObj = obj;
@@ -83,7 +83,7 @@ public class ViewWithdrawalsPage implements Page{
                     }
                     case 4 -> PageAction.pop();
                     case 5 -> {
-                        User.logout();
+                        staffObj.logout();
                         yield PageAction.pop();
                     }
                     default -> PageAction.pop();

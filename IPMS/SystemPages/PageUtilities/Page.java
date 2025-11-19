@@ -1,4 +1,4 @@
-package IPMS.SystemPages;
+package IPMS.SystemPages.PageUtilities;
 
 public interface Page {
     void showMenu();

@@ -1,6 +1,5 @@
 package IPMS.ObjectClasses;
 
-import java.time.LocalDateTime;
 import IPMS.Enums.*;
 import IPMS.UserManagement.*;
 import java.time.LocalDate;
@@ -10,25 +9,25 @@ public class WithdrawalRequest {
     private String applicationId;           
     private String studentId;               
     private WithdrawalStatus status;        
-    private LocalDateTime requestTime;      
+    private LocalDate requestDate;      
     private String remarks;                
 
 
-    public WithdrawalRequest(String applicationId, String studentId, WithdrawalStatus status) {
+    public WithdrawalRequest(String applicationId, String studentId, String remarks) {
         this.id = IdGenerator.nextWithdrawalId();
         this.applicationId = applicationId;
         this.studentId = studentId;
-        this.status = status;
-        this.requestTime = LocalDateTime.now();
-        this.remarks = "";
+        this.status = WithdrawalStatus.PENDING;
+        this.requestDate = LocalDate.now();
+        this.remarks = remarks;
     }
 
-    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status, LocalDateTime requestTime, String remarks) {
+    public WithdrawalRequest(String id, String applicationId, String studentId, WithdrawalStatus status, LocalDate requestDate, String remarks) {
         this.id = id;
         this.applicationId = applicationId;
         this.studentId = studentId;
         this.status = status;
-        this.requestTime = requestTime;
+        this.requestDate = requestDate;
         this.remarks = remarks;
     }
 
@@ -48,8 +47,8 @@ public class WithdrawalRequest {
         return status;
     }
 
-    public LocalDateTime getRequestTime() {
-        return requestTime;
+    public LocalDate getRequestDate() {
+        return requestDate;
     }
 
     public String getRemarks() {
@@ -72,8 +71,8 @@ public class WithdrawalRequest {
         this.status = status;
     }
 
-    public void setRequestTime(LocalDateTime requestTime) {
-        this.requestTime = requestTime;
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
     }
 
     public void setRemarks(String remarks) {
@@ -88,7 +87,8 @@ public class WithdrawalRequest {
     public String toString() {
         return String.format(
             "WithdrawalRequest[%s] Application=%s, Student=%s, Status=%s, Time=%s, Remarks=%s",
-            id, applicationId, studentId, status, requestTime, remarks
+            id, applicationId, studentId, status, requestDate, remarks
         );
     }
+
 }

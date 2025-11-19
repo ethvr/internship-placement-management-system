@@ -1,8 +1,8 @@
-package IPMS.SystemPages;
+package IPMS.SystemPages.PageUtilities;
 
 public class PageAction {
 
-    public enum Type { PUSH, POP, EXIT }
+    public enum Type { PUSH, POP, STAY, EXIT }
 
     private Type type;
     private Page nextPage;
@@ -17,6 +17,12 @@ public class PageAction {
     public static PageAction pop() {
         PageAction a = new PageAction();
         a.type = Type.POP;
+        return a;
+    }
+
+    public static PageAction stay() {
+        PageAction a = new PageAction();
+        a.type = Type.STAY;
         return a;
     }
 

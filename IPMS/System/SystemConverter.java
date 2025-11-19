@@ -3,6 +3,8 @@ package IPMS.System;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
 import IPMS.Enums.*;
+import java.time.LocalDate;
+
 
 public class SystemConverter {
 
@@ -10,7 +12,7 @@ public class SystemConverter {
        HELPER PARSERS
        ============================== */
 
-    private static InternshipStatus parseInternshipStatus(String status) {
+    /*private static InternshipStatus parseInternshipStatus(String status) {
         if (status == null) return InternshipStatus.PENDING;
         try {
             return InternshipStatus.valueOf(status.toUpperCase());
@@ -27,12 +29,12 @@ public class SystemConverter {
             || v.equalsIgnoreCase("1");
     }
 
-    /*private static CompanyRepStatus parseCompanyRepStatus(String s) {
-        if (s == null) return CompanyRepStatus.PENDING;
+    private static CompanyApprovalStatus parseCompanyRepStatus(String s) {
+        if (s == null) return CompanyApprovalStatus.PENDING;
         try {
-            return CompanyRepStatus.valueOf(s.toUpperCase());
+            return CompanyApprovalStatus.valueOf(s.toUpperCase());
         } catch (Exception e) {
-            return CompanyRepStatus.PENDING;
+            return CompanyApprovalStatus.PENDING;
         }
     }*/
 
@@ -67,7 +69,7 @@ public class SystemConverter {
        STAFF    
        ============================== */
 
-    public static CareerCenter toStaff(StaffCSVData data) {
+    public static CareerCenter toCareerCenter(StaffCSVData data) {
         if (data == null) return null;
 
         return new CareerCenter(
@@ -101,7 +103,7 @@ public class SystemConverter {
         String username = email.substring(0, email.indexOf("@"));
 
         CompanyRepresentative rep = new CompanyRepresentative(
-                data.getCompanyRepID(),// email as userId
+                data.getCompanyRepID(), // email as userId
                 data.getName(),           
                 data.getEmail(),
                 data.getCompanyName(),
@@ -138,14 +140,14 @@ public class SystemConverter {
         return new Internship(
                 data.getInternshipTitle(),
                 data.getDescription(),
-                data.getInternshipLevel(),
+                data.getInternshipLevel(), //enum
                 data.getPrefferedMajors(),
                 data.getOpeningDate(),
                 data.getClosingDate(),
-                parseInternshipStatus(data.getStatus()),
+                data.getStatus(), //enum
                 data.getCompanyName(),
                 data.getCompanyRepInCharge(),
-                parseVisibility(data.getVisibility()),
+                data.getVisibility(), // boolean
                 data.getNumberofSlots(),
                 data.getUniqueID()
         );
@@ -156,16 +158,17 @@ public class SystemConverter {
 
         return new InternshipData(
                 i.getId(),
-                i.getTitle(),
+                i.getInternshipTitle(),
                 i.getDescription(),
                 i.getLevel(),
                 i.getPreferredMajor(),
                 i.getOpenDate(),
                 i.getCloseDate(),
-                i.getStatus().name(),
+                i.getStatus(),
                 i.getCompanyName(),
                 i.getCompRep(),     // for now this is a String
-                i.getSlots()
+                i.getSlots(),
+                i.getVisibility()
         );
     }
 
@@ -180,8 +183,8 @@ public class SystemConverter {
                 data.getUniqueID(),
                 data.getStudentID(),
                 data.getInternshipID(),
-                data.getStatus(),
-                data.getAcceptedByStudent()
+                data.getStatus(), //enum
+                data.getAcceptedByStudent() //enum
         );
     }
 
@@ -193,7 +196,7 @@ public class SystemConverter {
                 app.getStudentId(),
                 app.getInternshipId(),
                 app.getStatus(),
-                app.isAcceptedByStudent()
+                app.getAcceptedByStudent()
         );
     }
 
@@ -208,8 +211,8 @@ public class SystemConverter {
                 data.getUniqueID(),
                 data.getApplicationID(),
                 data.getStudentID(),
-                data.getStatus(),
-                data.getRequestTime(),
+                data.getStatus(), //enum
+                data.getRequestDate(),
                 data.getRemarks()
         );
     }
@@ -222,7 +225,7 @@ public class SystemConverter {
                 wr.getApplicationId(),
                 wr.getStudentId(),
                 wr.getStatus(),
-                wr.getRequestTime(),
+                wr.getRequestDate(),
                 wr.getRemarks()
         );
     }

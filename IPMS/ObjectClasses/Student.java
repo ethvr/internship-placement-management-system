@@ -2,6 +2,7 @@ package IPMS.ObjectClasses;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,24 +14,15 @@ public class Student extends User {
 
     private int yearOfStudy;
     private String major;
-    private String email;
 
     // Constructors
-    public Student(String id, String name, int yearOfStudy, String major) {
-        super(id, name);
-        this.yearOfStudy = yearOfStudy;
-        this.major = major;
-    }
-
     public Student(String id, String name, String email, int yearOfStudy, String major) {
-        super(id, name);
-        this.email = email;
+        super(id, name, email);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
     }
 
     // Getters / Setters
-    public String getEmail() { return email; }
 
     public int getYearOfStudy() { return yearOfStudy; }
 
@@ -54,136 +46,153 @@ public class Student extends User {
 
     // Applying to Internship
     public void applyTo(String internshipId) {
-        Internship target = SystemData.getInternshipMap().get(internshipId);
+        Internship internship = SystemData.getInternshipValue(internshipId);
 
-        if (target == null)
+        if (internship == null)
             throw new IllegalArgumentException("No such internship");
 
-        if (!target.isVisibleTo(this))
+        if (!internship.isVisibleTo(this))
             throw new IllegalStateException("Internship not available for you");
 
         if (countActiveApplications() >= 3)
             throw new IllegalStateException("You already have 3 active applications");
 
-        if (yearOfStudy <= 2 && target.getLevel() != InternshipLevel.BASIC)
+        if (yearOfStudy <= 2 && internship.getLevel() != InternshipLevel.BASIC)
             throw new IllegalStateException("Year 1–2 can only apply to BASIC internships");
 
         Application app = new Application(
-                IdGenerator.nextApplicationId(),
                 this.getUserId(),
-                target.getId(),
-                ApplicationStatus.PENDING,
-                false
+                internship.getInternshipId()
         );
 
-        SystemData.getApplicationMap().put(app.getId(), app);
-        target.addApplication(app);
+        SystemData.ApplicationCreation(app);
+
+        /*//key for company
+        String compRepID = internship.getCompRepID();
+        // key for value
+        String appID = app.getApplicationID();
+        //key for student
+        String studentID = this.getUserId();
+
+        SystemData.setALMcompany(compRepID, app);
+        SystemData.setALMstudent(studentID, app);
+        SystemData.setApplicationKeyValue(appID, app);*/
+
+        /*SystemData.getApplicationMap().put(app.getId(), app);
+        target.addApplication(app);*/
     }
 
     // Count Active Applications
     public int countActiveApplications() {
-        int c = 0;
-        for (Application a : SystemData.getApplicationMap().values()) {
-            if (a.getStudentId().equals(this.getUserId()) && a.isActive())
-                c++;
-        }
-        return c;
+        List<Application> list = SystemData.getALMstudent(this.getUserId());
+        if (list == null) {return 0;}
+        else return list.size();
     }
 
     // Accepting Internship
     public void acceptPlacement(String applicationId) {
-        Application chosen = SystemData.getApplicationMap().get(applicationId);
+        Application application = SystemData.getApplicationValue(applicationId);
 
-        if (chosen == null)
+        if (application == null)
             throw new IllegalArgumentException("No such application");
 
-        if (!chosen.getStudentId().equals(this.getUserId()))
+        if (!application.getStudentId().equals(this.getUserId()))
             throw new IllegalStateException("This application does not belong to you.");
 
-        if (chosen.getStatus() != ApplicationStatus.SUCCESSFUL)
+        if (application.getStatus() != ApplicationStatus.SUCCESSFUL)
             throw new IllegalStateException("You may only accept a SUCCESSFUL offer.");
 
-        chosen.setAcceptedByStudent(true);
+        application.setAcceptedByStudent(AcceptedByStudentStatus.ACCEPTED);
 
-        // Withdraw all other applications
-        for (Application a : SystemData.getApplicationMap().values()) {
-            if (a.getStudentId().equals(this.userId) &&
-                !a.getId().equals(applicationId)) {
-                a.setStatus(ApplicationStatus.WITHDRAWN);
-                a.setAcceptedByStudent(false);
+
+        // Withdraw all other applications (stated in pdf)
+        List<Application> appList = SystemData.getALMstudent(this.getUserId());
+
+        Iterator<Application> it = appList.iterator();
+
+        while (it.hasNext()) {
+            Application a = it.next();
+
+            // keep only ACCEPTED
+            if (a.getAcceptedByStudent() != AcceptedByStudentStatus.ACCEPTED) {
+                it.remove(); // safe removal
             }
         }
-
-        // Update internship filled status
-        Internship internship = SystemData.getInternshipMap().get(chosen.getInternshipId());
-        if (internship != null)
-            internship.updateFilledStatus();
     }
+        // Update internship filled status
+        /*Internship internship = SystemData.getInternshipMap().get(chosen.getInternshipId());
+            if (internship != null)
+                internship.updateFilledStatus();
+        }*/
 
     // Withdraw (student-side immediate withdrawal)
     public void withdrawApplication(String applicationId) {
-        Application app = SystemData.getApplicationValue(applicationId);
+        Application application = SystemData.getApplicationValue(applicationId);
 
-        if (app == null)
+        if (application == null)
             throw new IllegalArgumentException("No such application");
 
-        if (!app.getStudentId().equals(this.getUserId()))
+        if (!application.getStudentId().equals(this.getUserId()))
             throw new IllegalStateException("This application does not belong to you.");
 
-        if (app.getStatus() == ApplicationStatus.SUCCESSFUL && app.isAcceptedByStudent())
-            throw new IllegalStateException("Cannot withdraw after accepting placement");
-
-        app.setStatus(ApplicationStatus.WITHDRAWN);
+        application.setStatus(ApplicationStatus.WITHDRAWN);
     }
 
     // Request Withdrawal (goes to Career Center for approval)
-    public void requestWithdrawal(String applicationId) {
-        Application app = SystemData.getApplicationValue(applicationId);
+    public void requestWithdrawal(String applicationId, String remarks) {
+        Application application = SystemData.getApplicationValue(applicationId);
 
-        if (app == null) {
+        if (application == null) {
             System.out.println("Invalid Application ID.");
             return;
         }
 
-        if (!app.getStudentId().equals(this.getUserId())) {
+        if (!application.getStudentId().equals(this.getUserId())) {
             System.out.println("This application does not belong to you.");
             return;
         }
 
         // Check if duplicate
-        for (WithdrawalRequest wr : SystemData.getWithdrawalMap().values()) {
-            if (wr.getApplicationId().equals(applicationId)) {
-                System.out.println("You already requested withdrawal for this application.");
-                return;
-            }
+        WithdrawalRequest wr = SystemData.getWithdrawalValue(applicationId);
+        if (wr != null) {
+            // withdrawal exists
+            System.out.println("Withdrawal request already sent");
         }
 
-        String wid = IdGenerator.nextWithdrawalId();
-
-        WithdrawalRequest req = new WithdrawalRequest(
-                wid,
-                app.getId(),
+        WithdrawalRequest obj = new WithdrawalRequest(
+                applicationId,
                 this.getUserId(),
-                WithdrawalStatus.PENDING,
-                LocalDate.now(),
-                "Requested by student"
+                remarks
         );
 
-        SystemData.getWithdrawalMap().put(wid, req);
+        // appid as key for value
+        String appID = applicationId;
+        // studentid as key for list 
+        String studentID = this.getUserId();
 
-        System.out.println("Withdrawal request created. Request ID: " + wid);
+        // sync to maps
+        SystemData.setWithdrawalKeyValue(appID, obj);
+        SystemData.setWLMstudent(studentID, obj);
+        
+        application.setStatus(ApplicationStatus.WITHDRAWN);
+
+        System.out.println("Withdrawal request created." );
     }
 
     // View All My Applications
     public List<Application> getAllMyApplications() {
         List<Application> list = new ArrayList<>();
 
-        for (Application app : SystemData.getApplicationMap().values()) {
-            if (app.getStudentId().equals(this.getUserId()))
-                list.add(app);
-        }
+        String key = this.getUserId();
+        return list = SystemData.getALMstudent(key);
 
-        return list;
+    }
+
+    public List<WithdrawalRequest> getAllMyWithdrawalRequests() {
+        List<WithdrawalRequest> list = new ArrayList<>();
+
+        String key = this.getUserId();
+        return list = SystemData.getWLMstudent(key);
     }
 
     public void viewApplications() {
@@ -196,10 +205,10 @@ public class Student extends User {
 
         for (Application app : apps) {
             System.out.println("--------------------------------");
-            System.out.println("Application ID : " + app.getId());
+            System.out.println("Application ID : " + app.getApplicationID());
             System.out.println("Internship ID  : " + app.getInternshipId());
             System.out.println("Status         : " + app.getStatus());
-            System.out.println("Accepted?      : " + app.isAcceptedByStudent());
+            System.out.println("Accepted?      : " + app.getAcceptedByStudent());
         }
     }
 }

@@ -1,20 +1,21 @@
 package IPMS.SystemPages.StaffPages;
 
 import IPMS.SystemPages.StudentPages.*;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
 import IPMS.System.SystemDataEntities.StaffCSVData;
-import IPMS.SystemPages.StudentPages.ViewInternshipsPage;
 import IPMS.SystemPages.StudentPages.*;
-import IPMS.ObjectClasses.Internship;
-import IPMS.ObjectClasses.User;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
+import IPMS.System.*;
 
 import java.util.Map;
 
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import IPMS.OldFunctions.ViewInternshipsPage;
+import IPMS.SystemPages.CommonPages.*;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+
 
 
 public class StaffMainPage implements Page{
@@ -38,8 +39,9 @@ public class StaffMainPage implements Page{
         System.out.println("[4] Generate Reports");
         // filtered list of submissions
         System.out.println("[5] View all available Internships");
-        System.out.println("[6] Back");
-        System.out.println("[7] Logout\n");
+        System.out.println("[6] Change password");
+        System.out.println("[7] Back");
+        System.out.println("[8] Logout\n");
 
         System.out.print("Enter an option (1-5): ");
     }
@@ -50,8 +52,7 @@ public class StaffMainPage implements Page{
         //load staff map
         //SystemData.loadIntoMap("staff", StaffCSVData.class);
 
-        final Map<String, CareerCenter> staffmap = SystemData.getStaffMap();
-        CareerCenter staffObj = staffmap.get(username);
+        CareerCenter staffObj = SystemData.getStaffValue(username);
 
         int opt = UniversalFunctions.readIntInRange(1, 5);
 
@@ -60,10 +61,11 @@ public class StaffMainPage implements Page{
             case 2 -> PageAction.push(new ViewInternshipRequestPage(staffObj));
             case 3 -> PageAction.push(new ViewWithdrawalsPage(staffObj));
             case 4 -> PageAction.push(new ViewGenerateReportsPage(staffObj));
-            case 5 -> PageAction.push(new ViewInternshipsPage(staffObj));
-            case 6 -> PageAction.pop();
-            case 7 -> {
-                User.logout();
+            case 5 -> PageAction.push(new SharedInternshipPage(staffObj));
+            case 6 -> PageAction.push(new PasswordChangePage(staffObj));
+            case 7 -> PageAction.pop();
+            case 8 -> {
+                staffObj.logout();
                 yield PageAction.pop();
             }
             default -> PageAction.pop();

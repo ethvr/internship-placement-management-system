@@ -14,21 +14,13 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.*;
 
-<<<<<<< HEAD
-import IPMS.System.SystemApp;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities;
-import IPMS.System.SystemDataEntities.*;
-=======
 import IPMS.Enums.CompanyApprovalStatus;
 import IPMS.ObjectClasses.CompanyRepresentative;
-import IPMS.System.SystemApp;
-import IPMS.System.SystemConverter;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities;
+import IPMS.System.*;
 import IPMS.System.SystemDataEntities.*;
-import java.awt.SystemColor;
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.ObjectClasses.*;
+
 
 public class UserManager {
     
@@ -135,7 +127,7 @@ public class UserManager {
     public static List<String> CompanyRepRegistrationInput() {
 
         SystemData.loadIntoMap("company", CompanyCSVData.class);
-        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
+        Map<String, CompanyRepresentative> map = SystemData.getCompanyMap();
         RegistrationInput.clear();
         List<String> EmptyList = new ArrayList<>();
 
@@ -164,7 +156,7 @@ public class UserManager {
                 System.out.println("[3] Exit");
                 System.out.print("Enter an option: ");
                 
-                int option = SystemApp.readIntInRange(1,2);
+                int option = UniversalFunctions.readIntInRange(1,2);
 
                 if (option == 1) {
                     System.out.println("\nPlease re-enter your email.\n");
@@ -183,7 +175,6 @@ public class UserManager {
             }
         }
         
-        int option = 0;//?
         Field[] fields = CompanyCSVData.class.getDeclaredFields();
         List<String> printer = new ArrayList<>();      
 
@@ -236,7 +227,7 @@ public class UserManager {
         System.out.println("[3] Cancel registration\n");
 
         while (true) {
-            option = SystemApp.readIntInRange(1,3);
+            option = UniversalFunctions.readIntInRange(1,3);
 
             switch (option) {
                 case 1 -> {
@@ -261,9 +252,9 @@ public class UserManager {
                         RegistrationInput.get(5)    // position
                     );
 
-                    //CompanyCSVData rep2 = SystemConverter.toCompanyCSV(rep);
-                    
+                    // adds new runtime creation to map
                     SystemData.setCompanyKeyValue(username, rep);
+                    SystemData.setUnapprovedRep(rep);
 
                     System.out.println("Registration complete, please wait for your account to be approved");
 
@@ -279,7 +270,7 @@ public class UserManager {
         
     }
 
-    public static int CompanyStatusCheck() {
+    public static void CompanyStatusCheck() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter your Email used for registration: ");
         String email;
@@ -306,28 +297,27 @@ public class UserManager {
 
         String username = email.substring(0, email.indexOf('@')).trim();
 
-        Map<String, CompanyCSVData> map = SystemData.getCompanyMap();
+        Map<String, CompanyRepresentative> map = SystemData.getCompanyMap();
 
-        SystemDataEntities.CompanyCSVData data = map.get(username);
+        CompanyRepresentative data = map.get(username);
 
-        String status;
+        CompanyApprovalStatus status;
 
         if (data == null) {
             System.out.println("Error: Account does not exist.");
-            return 4;
-        } else {
-            // make getter method?
-            System.out.println("====== STATUS ======");
-            status = SystemData.getCompanyStatus(username); 
-            System.out.println("Account Approval Status: " + status);
+            return; 
         }
 
-        if (status.equalsIgnoreCase("approved")) {
+        System.out.println("====== STATUS ======");
+        status = SystemData.getCompanyStatus(username);
+        System.out.println("Account Approval Status: " + status);
+
+        if (status == CompanyApprovalStatus.APPROVED) {
             System.out.println("\n====== LOGIN DETAILS ======");
             System.out.println("Your Username is: " + username);
             System.out.println("Your Password is: password");
         }
-        return 4;
+
 
     }
 

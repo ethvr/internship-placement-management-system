@@ -90,7 +90,7 @@ public abstract class User {
 
     }
 
-    public static void logout() {
+    public void logout() {
         SystemApp.setCurrentUser(null);
         System.out.println("Logging out...");
     }

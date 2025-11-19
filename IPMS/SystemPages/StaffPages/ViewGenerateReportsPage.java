@@ -1,8 +1,6 @@
 package IPMS.SystemPages.StaffPages;
 
 import IPMS.SystemPages.StudentPages.*;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
@@ -16,8 +14,10 @@ import IPMS.Enums.InternshipLevel;
 import IPMS.Enums.InternshipStatus;
 import IPMS.ObjectClasses.GenerateReports;
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
 import IPMS.SystemPages.CompanyPages.CompanyMainPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class ViewGenerateReportsPage implements Page{
 
@@ -131,7 +131,7 @@ public class ViewGenerateReportsPage implements Page{
 
                     case 8 -> PageAction.pop();
                     case 9 -> {
-                        User.logout();
+                        staffObj.logout();
                         yield PageAction.pop();
                     }
                     default -> PageAction.pop();

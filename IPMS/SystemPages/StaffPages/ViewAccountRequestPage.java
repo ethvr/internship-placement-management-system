@@ -1,7 +1,5 @@
 package IPMS.SystemPages.StaffPages;
 import IPMS.SystemPages.StudentPages.*;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
@@ -9,19 +7,18 @@ import IPMS.System.SystemData;
 import java.util.List;
 import java.util.Map;
 
-
-import ObjectClasses.*;
-import SystemPages.UniversalFunctions;
-import SystemPages.CompanyPages.CompanyMainPage;
+import IPMS.SystemPages.CompanyPages.CompanyMainPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class ViewAccountRequestPage implements Page{
 
-    private CareerCenter staffObj;
-    private int opt;
-    final Map<String, CompanyRepresentative> companymap = SystemData.SystemDatagetCompanyMap();
+    private final CareerCenter staffObj;
+    final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
 
     public ViewAccountRequestPage(CareerCenter obj){
-        this.staffObj = staffObj;
+        this.staffObj = obj;
     }
 
     @Override
@@ -84,7 +81,7 @@ public class ViewAccountRequestPage implements Page{
                     }
                     case 4 -> PageAction.pop();
                     case 5 -> {
-                        User.logout();
+                        staffObj.logout();
                         yield PageAction.pop();
                     }
                     default -> PageAction.pop();

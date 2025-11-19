@@ -1,12 +1,14 @@
 package IPMS.SystemPages.StudentPages;
 
 import java.util.Map;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
+
 import IPMS.System.SystemData;
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import IPMS.SystemPages.CommonPages.PasswordChangePage;
+import IPMS.SystemPages.CommonPages.SharedInternshipPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class StudentMainPage implements Page{
     private final String username;
@@ -21,36 +23,25 @@ public class StudentMainPage implements Page{
         System.out.println("[1] View all available Internships");
         System.out.println("[2] View your Internship Applications");
         System.out.println("[3] View your Withdrawal Applications");
-        System.out.println("[4] Logout\n");
+        System.out.println("[4] Change Password");
+        System.out.println("[5] Logout\n");
 
-        System.out.print("Enter an option (1-4): ");;
+        System.out.print("Enter an option (1-5): ");;
     }
 
     @Override
     public PageAction next() {
 
-        // load relevaent maps (code here)
-        SystemData.loadIntoMap("student", StudentCSVData.class);
-        // student map
-        Map<String, StudentCSVData> studentmap = SystemData.getStudentMap();
-        // get users object
-        StudentCSVData data = studentmap.get(username);
-
-        Student studentObj = new Student(
-                        data.StudentID,
-                        data.Name,
-                        data.Year,
-                        data.Major
-                    );
-
-        int opt = UniversalFunctions.readIntInRange(1, 4);
+        int opt = UniversalFunctions.readIntInRange(1, 5);
+        Student Obj = SystemData.getStudentObj(username);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new ViewInternshipsPage(studentObj));
-            case 2 -> PageAction.push(new ViewApplicationsPage(studentObj));
-            case 3 -> PageAction.push(new ViewWithdrawalsPage(studentObj));
-            case 4 -> {
-                User.logout();
+            case 1 -> PageAction.push(new SharedInternshipPage(Obj));
+            case 2 -> PageAction.push(new ViewApplicationsPage(Obj));
+            case 3 -> PageAction.push(new ViewWithdrawalsPage(Obj));
+            case 4 -> PageAction.push(new PasswordChangePage(Obj));
+            case 5 -> {
+                Obj.logout();
                 yield PageAction.exit();
             }
             default -> PageAction.pop();

@@ -17,10 +17,10 @@ import IPMS.System.SystemDataEntities.*; // change for final
 import IPMS.ObjectClasses.*;
 //import Companypackage.*;
 //import Companypackage.CompanyRepresentative;
-
-    
-import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
+import com.sun.source.tree.Tree;
+import javax.print.attribute.standard.Compression;
+
 public class SystemData {
     //private static List<Application> ApplicationList = new ArrayList<>();
     //private static List<WithdrawalRequest> WithdrawalRequestList = new ArrayList<>();
@@ -33,21 +33,41 @@ public class SystemData {
     // Key --> student ID --> change to username?
     private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
     private static HashMap<String, Student> StudentMap = new HashMap<>();
+    
     // Key --> staff ID --> change to username?
-    private static HashMap<String, StaffCSVData> StafCSVfMap = new HashMap<>();
+    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
     private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
+    
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
     private static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
-    // Key --> ID generator 
+    private static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
+    
+    // Key --> comp rep id 
     private static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
+    // key --> internshipID?
     private static HashMap<String, Internship> InternshipMap = new HashMap<>();
+    // comp rep id key
+    private static HashMap<String, List<Internship>> ILMcompany = new HashMap<>();
+    
     // Key --> ID generator
     private static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
+    // key --> application ID
     private static HashMap<String, Application> ApplicationMap = new HashMap<>();
+    // KEY --> CompRepID
+    private static HashMap<String, List<Application>> ALMcompany = new HashMap<>();
+    // key --> StudentID
+    private static HashMap<String, List<Application>> ALMstudent = new HashMap<>();
+    // key --> intenrshipID
+    private static HashMap<String, List<Application>> ALMinternship = new HashMap<>();
+
     // Key --> ID generator
     private static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
+    // key --> application ID
     private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
+    // key --> studentID
+    private static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
+
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
@@ -89,6 +109,7 @@ public class SystemData {
     }
 
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
+    // clazz --> CSVdata class
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
         // Pick folder
         // adjust folder path
@@ -177,7 +198,7 @@ public class SystemData {
                             } else if (type == boolean.class) {
                                 value = raw.equalsIgnoreCase("true");
                             } else if (type == LocalDateTime.class) {
-                                value = raw.isEmpty() ? null : LocalDateTime.parse(raw);
+                                value = raw.isEmpty() ? null : LocalDate.parse(raw);
                             } else if (type.isEnum()) {
                                 @SuppressWarnings("rawtypes")
                                 Class<? extends Enum> et = type.asSubclass(Enum.class);
@@ -306,9 +327,9 @@ public class SystemData {
 
                                 if (v == null) {
                                     cell = "";
-                                } else if (v instanceof LocalDateTime) {
+                                } else if (v instanceof LocalDate) {
                                     //.toString() converts date to standard ISO format (2025-03-10T16:55:21)
-                                    cell = ((LocalDateTime) v).toString();
+                                    cell = ((LocalDate) v).toString();
                                 } else if (v instanceof Enum<?>) {
                                     cell = ((Enum<?>) v).name();
                                 } else {
@@ -333,7 +354,7 @@ public class SystemData {
         }
     }
 
-    public static void buildObjectMapsFromEntities() {
+    public static void buildObjectMapsFromEntities(String usertype) {
         StudentMap.clear();
         StaffMap.clear();
         RepresentativeMap.clear();
@@ -341,33 +362,30 @@ public class SystemData {
         ApplicationMap.clear();
         WithdrawalMap.clear();
 
-        // Students
-        for (StudentCSVData data : StudentCSVMap.values()) {
-            Student s = SystemConverter.toStudent(data);
-            if (s != null) {
-                StudentMap.put(s.getUserId(), s);
+        switch (usertype) {
+            case "student" -> {
+                for (StudentCSVData data : StudentCSVMap.values()) {
+                    Student s = SystemConverter.toStudent(data);
+                    if (s != null) {
+                        StudentMap.put(s.getUserId(), s);
+                    }
+                }
             }
-        }
-
-        // Staff → CareerCenter
-        for (StaffCSVData data : StaffCSVMap.values()) {
-            CareerCenter staff = new CareerCenter(
-                    data.getStaffID(),
-                    data.getName(),
-                    data.getEmail(),
-                    data.getRole(),
-                    data.getDepartment()
-            );
-            StaffMap.put(staff.getUserId(), staff);
-        }
-
-
-
-        // Company reps
-        for (CompanyCSVData data : RepresentativeCSVMap.values()) {
-            CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
-            if (rep != null) {
-                RepresentativeMap.put(rep.getUserId(), rep);
+            case "staff" -> {
+                for (StaffCSVData data : StaffCSVMap.values()) {
+                    CareerCenter s = SystemConverter.toCareerCenter(data);
+                    if (s != null) {
+                        StaffMap.put(s.getUserId(), s);
+                    }
+                }
+            }
+            case "company" -> {
+                for (CompanyCSVData data : RepresentativeCSVMap.values()) {
+                    CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+                    if (rep != null) {
+                        RepresentativeMap.put(rep.getUserId(), rep);
+                    }
+                }
             }
         }
 
@@ -396,21 +414,31 @@ public class SystemData {
         }
     }
 
-    public static void loadAll() {
+    public static void loadAll(String usertype) {
+
+        switch (usertype.toLowerCase()) {
+            case "student" -> {
+                loadIntoMap("student",    StudentCSVData.class);
+            }
+            case "staff" -> {
+                loadIntoMap("staff",      StaffCSVData.class);
+            }
+            case "company" -> {
+                loadIntoMap("company",    CompanyCSVData.class);
+            }
+        }
         // Load entities from CSV files
-        loadIntoMap("student",    StudentCSVData.class);
-        loadIntoMap("staff",      StaffCSVData.class);
-        loadIntoMap("company",    CompanyCSVData.class);
         loadIntoMap("internship", InternshipData.class);
         loadIntoMap("application",ApplicationData.class);
         loadIntoMap("withdrawal", WithdrawalData.class);
-        loadIntoMap("password",   Credentials.class);
+        // no need to load login? --> have to load before running app alr?
 
         // Build runtime object maps
-        buildObjectMapsFromEntities();
+        buildObjectMapsFromEntities(usertype);
     }
 
-    public static void syncEntitiesFromObjects() {
+    //used before saving --> turns all objects back to entities and places in map
+    public static void syncEntitiesFromObjects(String usertype) {
         StudentCSVMap.clear();
         StaffCSVMap.clear();
         RepresentativeCSVMap.clear();
@@ -418,34 +446,25 @@ public class SystemData {
         ApplicationCSVMap.clear();
         WithdrawalCSVMap.clear();
 
-        // Students
-        for (Student student : StudentMap.values()) {
-            StudentCSVData row = SystemConverter.toStudentCSV(student);
-            StudentCSVMap.put(student.getUserId(), row);
-        }
-
-        //staff
-        for (CareerCenter staff : StaffMap.values()) {
-            StaffCSVData row = SystemConverter.toStaffCSV(staff);
-                StaffCSVMap.put(staff.getUserId(), row);
-        }
-
-        // Staff????????????
-        for (CareerCenter staff : StaffMap.values()) {
-            StaffCSVData row = new StaffCSVData(
-                    staff.getUserId(),
-                    staff.getName(),
-                    "CareerCenter",           // Role if you need
-                    staff.getStaffDepartment(),
-                    ""                        // Email if you track it
-            );
-            StaffCSVMap.put(staff.getUserId(), row);
-        }
-
-        // Company reps
-        for (CompanyRepresentative rep : RepresentativeMap.values()) {
-            CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
-            RepresentativeCSVMap.put(rep.getUserId(), row);
+        switch (usertype) {
+            case "student" -> {
+                for (Student student : StudentMap.values()) {
+                    StudentCSVData row = SystemConverter.toStudentCSV(student);
+                    StudentCSVMap.put(student.getUserId(), row);
+                }
+            }
+            case "staff" -> {
+                 for (CareerCenter staff : StaffMap.values()) {
+                    StaffCSVData row = SystemConverter.toStaffCSV(staff);
+                    StaffCSVMap.put(staff.getUserId(), row);
+                }
+            }
+            case "company" -> {
+                for (CompanyRepresentative rep : RepresentativeMap.values()) {
+                    CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
+                    RepresentativeCSVMap.put(rep.getUserId(), row);
+                }
+            }
         }
 
         // Internships
@@ -469,157 +488,25 @@ public class SystemData {
         // LoginMap is already the CSV entity map (Credentials), and you’re already mutating it directly.
     }
 
-    public static void saveAll() {
-        syncEntitiesFromObjects();
+    public static void saveAll(String usertype) {
+        syncEntitiesFromObjects(usertype);
 
-        writeBackCSV("student",    StudentCSVMap);
-        writeBackCSV("staff",      StaffCSVMap);
-        writeBackCSV("company",    RepresentativeCSVMap);
+        switch (usertype.toLowerCase()) {
+            case "student" -> {
+                writeBackCSV("student",    StudentCSVMap);
+            }
+            case "staff" -> {
+                writeBackCSV("staff",      StaffCSVMap);
+            }
+            case "company" -> {
+                writeBackCSV("company",    RepresentativeCSVMap);
+            }
+        }
+        // write entities to CSV files
         writeBackCSV("internship", InternshipCSVMap);
         writeBackCSV("application",ApplicationCSVMap);
         writeBackCSV("withdrawal", WithdrawalCSVMap);
         writeBackCSV("password",   LoginMap);
-    }
-
-
-
-    public static List<InternshipData> filterByKeyword(String word) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.Description.contains(word) && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-    //Returns a internship list filtered to a specific company
-    // used for students
-    public static List<InternshipData> filterByCompanyName(String companyName) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.CompanyName.equalsIgnoreCase(companyName) && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-    public static List<InternshipData> filterByYearOfStudy(int year) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-
-            if (!"visible".equalsIgnoreCase(i.Visibility)) continue;
-
-            InternshipLevel level = i.InternshipLevel;
-
-            if (year <= 2) {
-                if (level == InternshipLevel.BASIC) {
-                    results.add(i);
-                }
-            } else {
-                results.add(i);
-            }
-        }
-
-        return results;
-    }
-
-
-    public static List<InternshipData> filterByMajor(String major) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.PrefferedMajors.equalsIgnoreCase(major) && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-
-    // used for students
-    public static List<InternshipData> filterByInternshipLevel(InternshipLevel level) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.InternshipLevel == level && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-    public static List<InternshipData> filterByInternshipLevel(InternshipLevel level, List<InternshipData> list) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : list) {
-            if (i.InternshipLevel == level && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-    // used for students
-    public static List<InternshipData> filterByClosingDate(LocalDate date) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.ClosingDate.isBefore(date) && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-    // used for students
-    public static List<InternshipData> filterBySlotsLeft(int slots) {
-        List<InternshipData> results = new ArrayList<>();
-
-        for (InternshipData i : getInternshipMap().values()) {
-            if (i.NumberofSlots == slots && "visible".equalsIgnoreCase(i.Visibility)) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Credentials> getLoginMap(){
-        
-        return Collections.unmodifiableMap(LoginMap);
-
-    }
-
-     // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Internship> getInternshipMap(){
-        
-        return Collections.unmodifiableMap(InternshipMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Application> getApplicationMap(){
-        
-        return Collections.unmodifiableMap(ApplicationMap);
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, WithdrawalRequest> SystemDatagetWithdrawalMap(){
-        
-        return Collections.unmodifiableMap(WithdrawalMap);
 
     }
 
@@ -662,34 +549,109 @@ public class SystemData {
         return type;
     }
 
-    // SETTERS FOR THE MAPS 
-    public static void setStudentKeyValue(String username, Student obj) {
-        StudentMap.put(username, obj);
+    // SETTERS FOR THE MAPS --> SHOULD ONLY BE FOR THOSE THAT ARE CREATED DURING RUNTIME
+    public static void CompRepCreation(CompanyRepresentative obj) {
+        String compRepID = obj.getUserId();
+        RepresentativeMap.put(compRepID, obj);
+        // unapproved list
+        UnapprovedRepList.add(obj);
+    }
+    public static boolean removeUnapprovedRep(CompanyRepresentative obj) {
+        if (UnapprovedRepList.contains(obj)){
+            UnapprovedRepList.remove(obj);
+            return true;
+        }
+        else return false;
     }
 
-    public static void setStaffKeyValue(String username, CareerCenter obj) {
-        StaffMap.put(username, obj);
+    //WHAT IS FIRST KEY??
+    public static void InternshipCreation(Internship obj) {
+        String internshipid = obj.getInternshipId();
+        InternshipMap.put(internshipid, obj);
+
+        String CompRepID = obj.getCompRepID();
+        ILMcompany
+            .computeIfAbsent(CompRepID, k -> new ArrayList<>())
+            .add(obj);
+    }
+    public static void removeInternship(Internship obj) {
+        // Remove from the single-internship map
+        String internshipid = obj.getInternshipId();
+        InternshipMap.remove(internshipid);
+
+        String CompRepID = obj.getCompRepID();
+        List<Internship> list = ILMcompany.get(CompRepID);
+        if (list != null) {
+            list.remove(obj); // removes the first matching obj
+        }
     }
 
-    //should only need this 
-    public static void setCompanyKeyValue(String username, CompanyRepresentative obj) {
-        RepresentativeMap.put(username, obj);
+    public static void ApplicationCreation(Application obj) {
+        String appID = obj.getApplicationID();
+        ApplicationMap.put(appID, obj);
+
+        String internshipid = obj.getInternshipId();
+        ALMinternship
+            .computeIfAbsent(internshipid, k -> new ArrayList<>())
+            .add(obj);
+        
+        Internship i = InternshipMap.get(internshipid);
+        String CompRepID = i.getCompRepID();
+        ALMcompany
+            .computeIfAbsent(CompRepID, k -> new ArrayList<>())
+            .add(obj);
+
+        String studentID = obj.getStudentId();
+        ALMstudent
+            .computeIfAbsent(studentID, k -> new ArrayList<>())
+            .add(obj);
+
+       
     }
 
-    public static void setInternshipKeyValue(String username, Internship obj) {
-        InternshipMap.put(username, obj);
-    }
+    public static void removeApplication(Application obj) {
+        String appID = obj.getApplicationID();
+        ApplicationMap.remove(appID);
 
-    public static void setApplicationKeyValue(String username, Application obj) {
-        ApplicationMap.put(username, obj);
+        String internshipid = obj.getInternshipId();
+        List<Application> list = ALMcompany.get(internshipid);
+        if (list != null) {
+            list.remove(obj); 
+        }
+
+        Internship i = InternshipMap.get(internshipid);
+        String CompRepID = i.getCompRepID();
+        List<Application> list2 = ALMcompany.get(CompRepID);
+        if (list != null) {
+            list.remove(obj); 
+        }
+
+        String studentID = obj.getStudentId();
+        List<Application> list3 = ALMstudent.get(studentID);
+        if (list2 != null) {
+            list2.remove(obj); 
+        }
+
     }
+    
     
     public static void setWithdrawalKeyValue(String username, WithdrawalRequest obj) {
         WithdrawalMap.put(username, obj);
     }
+    public static void setWLMstudent(String key, WithdrawalRequest obj) {
+        WLMstudent
+            .computeIfAbsent(key, k -> new ArrayList<>())
+            .add(obj);
+    }
 
-    //GETTERS FOR THE OBJECT MAPS 
-    public static Student getStudentValue(String username) {
+    public static void removeInternship(String key) {
+        InternshipMap.remove(key);
+    }
+
+    //===========================================
+    // GETTERS 
+    //===========================================
+    public static Student getStudentObj(String username) {
         return StudentMap.get(username);
     }
     
@@ -701,38 +663,50 @@ public class SystemData {
     public static CompanyRepresentative getCompanyValue(String username) {
         return RepresentativeMap.get(username);
     }
-
-    public static Internship getInternshipValue(String username) {
-        return InternshipMap.get(username);
+    public static CompanyApprovalStatus getCompanyStatus(String username) {
+        CompanyRepresentative data = RepresentativeMap.get(username);
+        return data.getStatus();
     }
 
-    public static Application getApplicationValue(String username) {
-        return ApplicationMap.get(username);
+    public static Internship getInternshipValue(String InternshipID) {
+        return InternshipMap.get(InternshipID);
+    }
+    public static List<Internship> getILMcompany(String CompRepID) {
+        return ILMcompany.getOrDefault(CompRepID, new ArrayList<>());
+    }
+
+    public static Application getApplicationValue(String appID) {
+        return ApplicationMap.get(appID);
+    }
+    public static List<Application> getALMcompany(String comprepid) {
+        return ALMcompany.getOrDefault(comprepid, new ArrayList<>());
+    }
+    public static List<Application> getALMstudent(String studentid) {
+        return ALMstudent.getOrDefault(studentid, new ArrayList<>());
+    }
+    public static List<Application> getALMinternship(String internshipid) {
+        return ALMstudent.getOrDefault(internshipid, new ArrayList<>());
     }
     
-    public static WithdrawalRequest getWithdrawalValue(String username) {
-        return WithdrawalMap.get(username);
+    public static WithdrawalRequest getWithdrawalValue(String appID) {
+        return WithdrawalMap.get(appID);
+    }
+    public static List<WithdrawalRequest> getWLMstudent(String studentID) {
+        return WLMstudent.getOrDefault(studentID, new ArrayList<>());
     }
 
-    public static String getCompanyStatus(String username) {
-        CompanyCSVData data = RepresentativeMap.get(username);
-        return data.Status;
-    }
 
-    public static void setApplication
 
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Student> SystemDatagetStudentMap(){
-        
-        return StudentMap;
+    
+    //===========================================
 
     public static void removeinternship(String ID) {
         InternshipMap.remove(ID);
     }
 
-    //GETTER FOR THE MAP ITSELF 
+    //===========================================
+    // READ ONLY MAP GETTERS (to not break encapsulation)
+    //===========================================
     public static Map<String, Student> getStudentMap(){
         
         return Collections.unmodifiableMap(StudentMap);
@@ -769,50 +743,12 @@ public class SystemData {
 
     }
 
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, CareerCentre> SystemDatagetStaffMap(){
+    public static Map<String, Credentials> getLoginMap(){
         
-        return StaffMap;
+        return Collections.unmodifiableMap(LoginMap);
 
     }
+    // ==========================================
 
-    public static Map<String, CompanyRepresentative> SystemDatagetCompanyMap() {
-
-        return RepresentativeMap;
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Internship> SystemDatagetInternshipMap(){
-        
-        return InternshipMap;
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, Application> SystemDatagetApplicationMap(){
-        
-        return ApplicationMap;
-
-    }
-
-    // getter for data since private 
-    // returns unmodifiable map --> encapsulation
-    // can only read cannot write
-    public static Map<String, WithdrawalRequest> SystemDatagetWithdrawalMap(){
-        
-        return WithdrawalMap;
-
-    }
-
-
-
+    
 }

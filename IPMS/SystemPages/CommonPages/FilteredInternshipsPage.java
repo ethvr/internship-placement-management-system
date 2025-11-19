@@ -1,28 +1,49 @@
-package IPMS.SystemPages.StudentPages;
+package IPMS.SystemPages.CommonPages;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import IPMS.SystemPages.Page;
-import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
+
+import IPMS.System.*;
 import IPMS.Enums.InternshipLevel;
 import IPMS.ObjectClasses.*;
-import IPMS.SystemPages.UniversalFunctions;
+import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
+import IPMS.SystemPages.PageUtilities.Page;
+import IPMS.SystemPages.PageUtilities.PageAction;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.SystemPages.StudentPages.ApplyToInternshipPage;
 
 
 public class FilteredInternshipsPage implements Page {
-    private Student obj;
-    private String filter;
-    private List<InternshipData> list;
+    private final User obj;
+    private final String filter;
+    private final List<Internship> list;
 
-    public FilteredInternshipsPage(Student obj, List<InternshipData> list, String filter) {
+    public FilteredInternshipsPage (User obj, List<Internship> list, String filter) {
         this.obj = obj;
         this.filter = filter;
         this.list = list;
+    }
+
+    private PageAction ForStudent(User Obj) {
+
+        if (obj instanceof Student s){
+            System.out.println("[1] Proceed To Application");
+            System.out.println("[2] Back");
+            int opt = UniversalFunctions.readIntInRange(1, 2);
+            return switch (opt) {
+                case 1 -> PageAction.push(new ApplyToInternshipPage(s, list));
+                case 2 -> PageAction.pop();
+                default -> PageAction.pop();
+            };
+        }
+        System.out.println("Enter [1] to return: ");
+            int opt = UniversalFunctions.readIntInRange(1, 1);
+            return switch (opt) {
+                    case 1 -> PageAction.pop();
+                    default -> PageAction.pop();
+                };
     }
 
     @Override
@@ -34,15 +55,32 @@ public class FilteredInternshipsPage implements Page {
     @Override
     public PageAction next() {
 
-        int YearOfStudy = obj.getYearOfStudy();
-        List<InternshipData> InternshipList2 = new ArrayList<>();
+        int YearOfStudy;
+
+        if (obj instanceof Student s){YearOfStudy = s.getYearOfStudy();}
+        else {YearOfStudy = 0; /* 0 for company and careerstaff */}
+
+        List<Internship> InternshipList2 = new ArrayList<>();
 
         return switch (filter) {
-            case "level" -> {
-                if (YearOfStudy <= 2) {
+
+            case "none" -> {
+                if (YearOfStudy <= 2 && YearOfStudy > 0) {
                     System.out.println("You can only view BASIC Internships");
                     UniversalFunctions.printInternshipList(list);
-                    yield PageAction.pop();
+                    yield ForStudent(obj);
+                }
+                else {
+                    UniversalFunctions.printInternshipList(list);
+                    yield ForStudent(obj);
+                }
+
+            }
+            case "level" -> {
+                if (YearOfStudy <= 2 && YearOfStudy > 0) {
+                    System.out.println("You can only view BASIC Internships");
+                    UniversalFunctions.printInternshipList(list);
+                    yield ForStudent(obj);
                 }
                 else {
                     //pass list as param to further filter 
@@ -53,19 +91,18 @@ public class FilteredInternshipsPage implements Page {
                     System.out.print("Enter your choice: ");
                     switch (UniversalFunctions.readIntInRange(1, 3)) {
                         case 1 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.BASIC, list);
+                            InternshipList2 = Filters.filterByInternshipLevel(InternshipLevel.BASIC, list);
                         }
                         case 2 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.INTERMEDIATE, list);
+                            InternshipList2 = Filters.filterByInternshipLevel(InternshipLevel.INTERMEDIATE, list);
                         }
                         case 3 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.ADVANCED, list);
+                            InternshipList2 = Filters.filterByInternshipLevel(InternshipLevel.ADVANCED, list);
                         }
                     }
                     System.out.println();
                     UniversalFunctions.printInternshipList(InternshipList2);
-                    yield PageAction.pop();
-
+                    yield ForStudent(obj);
                 }
             }
             case "date" -> {
@@ -90,33 +127,33 @@ public class FilteredInternshipsPage implements Page {
                     }
 
                 }
-                InternshipList2 = SystemData.filterByClosingDate(date);
+                InternshipList2 = Filters.filterByClosingDate(date);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                yield ForStudent(obj);
 
             }
             case "name" -> {
                 
                 System.out.print("Enter the Company name: ");
                 String name = UniversalFunctions.readString();
-                InternshipList2 = SystemData.filterByCompanyName(name);
+                InternshipList2 = Filters.filterByCompanyName(name);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                yield ForStudent(obj);
                 
             }
             case "slots" -> {
                 System.out.print("Enter the number of slots left: ");
                 int slots = UniversalFunctions.readIntInRange(1, 10);
-                InternshipList2 = SystemData.filterBySlotsLeft(slots);
+                InternshipList2 = Filters.filterBySlotsLeft(slots);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                yield ForStudent(obj);
             }
             case "words" -> {
                 System.out.print("Enter one Keyword to search for: ");
                 String word = UniversalFunctions.readString();
-                InternshipList2 = SystemData.filterByKeyword(word);
+                InternshipList2 = Filters.filterByKeyword(word);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                yield ForStudent(obj);
             }
             default -> {
                 yield PageAction.pop();

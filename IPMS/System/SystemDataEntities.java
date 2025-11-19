@@ -97,21 +97,12 @@ public class SystemDataEntities {
         String CompanyName;
         String Department;
         String Position;
-<<<<<<< HEAD
-        String Email;
-=======
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
         CompanyApprovalStatus Status; // change to enumerators 
 
         public CompanyCSVData(){} // REQUIRED for reflection for universal loadcsv
 
-<<<<<<< HEAD
-        CompanyCSVData(String CompanyRepID, String Name, String CompanyName, String Department, 
-                       String Position, String Email, CompanyApprovalStatus Status) {
-=======
         CompanyCSVData(String CompanyRepID, String Name, String Email, String CompanyName, 
                        String Department, String Position, CompanyApprovalStatus Status) {
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
             this.CompanyRepID = CompanyRepID;
             this.Name = Name;
             this.Email = Email;
@@ -127,11 +118,7 @@ public class SystemDataEntities {
         public String getDepartment() { return Department; }
         public String getPosition() { return Position; }
         public String getEmail() { return Email; }
-<<<<<<< HEAD
-        public String getStatus() { return Status; }
-=======
         public CompanyApprovalStatus getStatus() { return Status; }
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
     }
     // under company rep in assignment pdf
@@ -158,18 +145,18 @@ public class SystemDataEntities {
         String PrefferedMajors; //assume 1 will do
         LocalDate OpeningDate;
         LocalDate ClosingDate;
-        String Status; //(“Pending”, “Approved”, “Rejected”, “Filled”) approved by staff 
+        InternshipStatus Status; //(“Pending”, “Approved”, “Rejected”, “Filled”) approved by staff 
         String CompanyName;
         String CompanyRepInCharge; //(automatically assigned)?
         int NumberofSlots; //max 10
-        String Visibility; //?
+        boolean Visibility; //?
 
         InternshipData() {} // no arg com
 
         InternshipData(String uniqueID, String internshipTitle, String description, InternshipLevel internshipLevel,
                        String prefferedMajors, LocalDate openingDate, LocalDate closingDate,
-                       String status, String companyName, String companyRepInCharge,
-                       int numberofSlots) {
+                       InternshipStatus status, String companyName, String companyRepInCharge,
+                       int numberofSlots, boolean Visibility) {
 
             this.UniqueID = uniqueID;
             this.InternshipTitle = internshipTitle;
@@ -182,6 +169,7 @@ public class SystemDataEntities {
             this.CompanyName = companyName;
             this.CompanyRepInCharge = companyRepInCharge;
             this.NumberofSlots = numberofSlots;
+            this.Visibility = Visibility;
         }
 
         public String getUniqueID() { return UniqueID; }
@@ -191,11 +179,11 @@ public class SystemDataEntities {
         public String getPrefferedMajors() { return PrefferedMajors; }
         public LocalDate getOpeningDate() { return OpeningDate; }
         public LocalDate getClosingDate() { return ClosingDate; }
-        public String getStatus() { return Status; }
+        public InternshipStatus getStatus() { return Status; }
         public String getCompanyName() { return CompanyName; }
         public String getCompanyRepInCharge() { return CompanyRepInCharge; }
         public int getNumberofSlots() { return NumberofSlots; }
-        public String getVisibility() { return Visibility; }
+        public boolean getVisibility() { return Visibility; }
         
     }
     // for student?
@@ -211,13 +199,13 @@ public class SystemDataEntities {
         String StudentID;
         String InternshipID;
         ApplicationStatus Status; //whether company accepts students application (inbcludes withdrawal)
-        boolean AcceptedByStudent;
+        AcceptedByStudentStatus AcceptedByStudent;
         //boolean Withdraw; //True --> want to withdraw //no need?
 
         ApplicationData() {} // no arg con 
 
         ApplicationData(String uniqueID, String studentID, String internshipID, 
-                        ApplicationStatus status, boolean acceptedByStudent /*boolean withdraw*/) {
+                        ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent /*boolean withdraw*/) {
             this.UniqueID = uniqueID;
             this.StudentID = studentID;
             this.InternshipID = internshipID;
@@ -231,7 +219,7 @@ public class SystemDataEntities {
         public String getStudentID() { return StudentID; }
         public String getInternshipID() { return InternshipID; }
         public ApplicationStatus getStatus() { return Status; }
-        public boolean  getAcceptedByStudent() { return AcceptedByStudent; }
+        public AcceptedByStudentStatus  getAcceptedByStudent() { return AcceptedByStudent; }
         
     }
     // for staff 
@@ -248,18 +236,18 @@ public class SystemDataEntities {
         private String ApplicationID; // application ID uniqueID        
         private String StudentID;               
         private WithdrawalStatus Status; // enum WithdrawalStatus       
-        private LocalDate RequestTime;
+        private LocalDate RequestDate;
         private String Remarks; 
 
         WithdrawalData() {}  // no arg constructor
 
         WithdrawalData(String uniqueID, String applicationId, String studentId, 
-                       WithdrawalStatus status, LocalDate requestTime, String remarks) {
+                       WithdrawalStatus status, LocalDate requestDate, String remarks) {
             this.UniqueID = uniqueID;
             this.ApplicationID = applicationId;
             this.StudentID = studentId;
             this.Status = status;
-            this.RequestTime = requestTime;
+            this.RequestDate = requestDate;
             this.Remarks = remarks;
 
         }
@@ -268,11 +256,7 @@ public class SystemDataEntities {
         public String getApplicationID() { return ApplicationID; }
         public String getStudentID() { return StudentID; }
         public WithdrawalStatus getStatus() { return Status; }
-<<<<<<< HEAD
-        public LocalDateTime getRequestTime() { return RequestTime; }
-=======
-        public LocalDate getRequestTime() { return RequestTime; }
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
+        public LocalDate getRequestDate() { return RequestDate; }
         public String getRemarks() { return Remarks; }
 
     }
