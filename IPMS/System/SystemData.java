@@ -39,7 +39,7 @@ public class SystemData {
     private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     
     // Key --> Comp rep ID --> change to username?
-    private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
+    public static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
     public static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
     public static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
     
@@ -69,7 +69,7 @@ public class SystemData {
     private static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
 
     // Key --> Username --> string before @ of email 
-    private static HashMap<String, Credentials> LoginMap = new HashMap<>();
+    public static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
    
 
@@ -202,8 +202,10 @@ public class SystemData {
                         Field f = clazz.getDeclaredField("Email");
                         f.setAccessible(true);
                         String email = (String) f.get(obj);
-                        key = (email == null) ? "" : email.split("@")[0];
-                    } 
+
+                        key = (email == null) ? "" : email.split("@")[0];  // ← THIS IS CORRECT
+                    }
+
                     else {
                         // Fallback: first column
                         key = parts[0];
@@ -347,24 +349,27 @@ public class SystemData {
             case "student" -> {
                 for (StudentCSVData data : StudentCSVMap.values()) {
                     Student s = SystemConverter.toStudent(data);
+                    String username = s.getEmail().split("@")[0];
                     if (s != null) {
-                        StudentMap.put(s.getUserId(), s);
+                        StudentMap.put(username, s);
                     }
                 }
             }
             case "staff" -> {
                 for (StaffCSVData data : StaffCSVMap.values()) {
                     CareerCenter s = SystemConverter.toCareerCenter(data);
+                    String username = s.getEmail().split("@")[0];
                     if (s != null) {
-                        StaffMap.put(s.getUserId(), s);
+                        StaffMap.put(username, s);
                     }
                 }
             }
             case "company" -> {
                 for (CompanyCSVData data : RepresentativeCSVMap.values()) {
                     CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+                    String username = rep.getEmail().split("@")[0];
                     if (rep != null) {
-                        RepresentativeMap.put(rep.getUserId(), rep);
+                        RepresentativeMap.put(username, rep);
                     }
                 }
             }
@@ -415,6 +420,7 @@ public class SystemData {
         loadIntoMap("internship", InternshipData.class);
         loadIntoMap("application",ApplicationData.class);
         loadIntoMap("withdrawal", WithdrawalData.class);
+        loadIntoMap("password", Credentials.class);
         // no need to load login? --> have to load before running app alr?
 
         // Build runtime object maps
@@ -437,19 +443,22 @@ public class SystemData {
             case "student" -> {
                 for (Student student : StudentMap.values()) {
                     StudentCSVData row = SystemConverter.toStudentCSV(student);
-                    StudentCSVMap.put(student.getUserId(), row);
+                    String username = row.getEmail().split("@")[0];
+                    StudentCSVMap.put(username, row);
                 }
             }
             case "staff" -> {
                  for (CareerCenter staff : StaffMap.values()) {
                     StaffCSVData row = SystemConverter.toStaffCSV(staff);
-                    StaffCSVMap.put(staff.getUserId(), row);
+                    String username = row.getEmail().split("@")[0];
+                    StaffCSVMap.put(username, row);
                 }
             }
             case "company" -> {
                 for (CompanyRepresentative rep : RepresentativeMap.values()) {
                     CompanyCSVData row = SystemConverter.toCompanyCSV(rep);
-                    RepresentativeCSVMap.put(rep.getUserId(), row);
+                    String username = row.getEmail().split("@")[0];
+                    RepresentativeCSVMap.put(username, row);
                 }
             }
         }

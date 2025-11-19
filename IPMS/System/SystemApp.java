@@ -25,8 +25,8 @@ public class SystemApp {
 
         // things to run before the start of the code 
         UserManager.UsernameCSVGenerator();
-        SystemData.MainPageOnlyload();
-        
+        SystemData.loadAll("company");
+
         Stack<Page> nav = new Stack<>();
         nav.push(new MainPage());   // Start at the main menu
 
@@ -46,8 +46,8 @@ public class SystemApp {
                 case STAY -> nav.peek(); //???? need for stay?
             }
         }
-
-
+        System.out.println(SystemData.RepresentativeMap);
+        System.out.println(SystemData.RepresentativeCSVMap);
         
     }       
 

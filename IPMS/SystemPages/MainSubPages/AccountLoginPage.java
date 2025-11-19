@@ -27,11 +27,6 @@ public class AccountLoginPage implements Page{
         if (username.equals("NIL"))
             return PageAction.pop(); // go back to main menu
 
-        // load relevant maps
-        SystemData.loadIntoMap("internship", InternshipData.class);
-        SystemData.loadIntoMap("application", ApplicationData.class);
-        SystemData.loadIntoMap("withdrawal", WithdrawalData.class);
-
         String type = SystemData.getCredentialsType(username).toLowerCase();
 
         return switch (type) {
