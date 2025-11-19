@@ -475,6 +475,11 @@ public class SystemData {
 
     }
 
+    public static void MainPageOnlyload() {
+        SystemData.loadIntoMap("password", Credentials.class);
+        SystemData.loadIntoMap("company", CompanyCSVData.class);
+    }
+
     // gets password and firsttime login based on suername 
     /*public static SystemDataEntities.Credentials getCredentials(String username) {
         SystemDataEntities.Credentials c = LoginMap.get(username); 
