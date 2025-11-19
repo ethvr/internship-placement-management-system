@@ -1,5 +1,6 @@
 package IPMS.SystemPages.MainSubPages;
 
+import IPMS.System.SystemData;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
@@ -23,7 +24,10 @@ public class CompanyStatusPage implements Page{
 
         return switch (opt) {
             case 1 -> PageAction.pop();
-            case 2 -> PageAction.exit();
+            case 2 -> {
+                SystemData.saveAll("company");
+                yield PageAction.exit();
+            }
             default -> PageAction.pop();
         };
     }

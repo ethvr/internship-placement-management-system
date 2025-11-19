@@ -4,6 +4,7 @@ import IPMS.SystemPages.MainSubPages.*;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.System.*;
 
 public class MainPage implements Page {
 
@@ -25,7 +26,10 @@ public class MainPage implements Page {
             case 1 -> PageAction.push(new AccountLoginPage());
             case 2 -> PageAction.push(new CompanyRegisterPage());
             case 3 -> PageAction.push(new CompanyStatusPage());
-            case 4 -> PageAction.exit();
+            case 4 -> {
+                SystemData.saveAll("company");
+                yield PageAction.exit();
+            }
             default -> PageAction.push(this);
         };
     }
