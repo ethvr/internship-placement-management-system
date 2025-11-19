@@ -60,9 +60,9 @@ public class SystemData {
         //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        File PasswordFolder = new File("/Users/auminove/Documents/GitHub/IPMS/IPMS/PasswordCSVFolder");
+        File OtherFolder = new File("/Users/auminove/Documents/GitHub/IPMS/IPMS/PeopleCSVFolder");
+        File PeopleFolder = new File("/Users/auminove/Documents/GitHub/IPMS/IPMS/PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
