@@ -27,7 +27,6 @@ public class CareerCenter extends User {
         this.role = role;
         this.staffDepartment = staffDepartment;
         pendingCompanies = new ArrayList<>();
-        pendingCompanies
     }
 
     
