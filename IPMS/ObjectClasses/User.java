@@ -36,9 +36,12 @@ public abstract class User {
         String nil = "NIL";
         
         System.out.println();
-        System.out.print("Enter your Username: ");
+        System.out.print("Enter your Username (Type EXIT to cancel): ");
         String NameInput = sc.nextLine();
         String pwInput = null;
+        if (NameInput.equalsIgnoreCase("exit")) {
+        return "NIL";
+        }
 
         while (true) {
             if(SystemData.checkUsername(NameInput)) {

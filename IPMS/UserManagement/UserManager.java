@@ -140,40 +140,54 @@ public class UserManager {
         // checks if email has already been registered 
         while (true) {
             System.out.print("Enter your Email (or type EXIT to leave): ");
-            emailInput = sc.nextLine();
+            emailInput = sc.nextLine().trim();
+
             if (emailInput.equalsIgnoreCase("exit")) {
                 return EmptyList;
             }
 
+            // === EMAIL FORMAT VALIDATION ===
+            if (!emailInput.contains("@") ||
+                emailInput.startsWith("@") ||
+                emailInput.endsWith("@") ||
+                emailInput.contains(" ") ||
+                emailInput.indexOf('@') == emailInput.length() - 1) {
+
+                System.out.println("Invalid email format. Please enter a valid email.\n");
+                continue;
+            }
+
+            // extract username before @
             username = emailInput.substring(0, emailInput.indexOf('@')).trim();
+
+            // check if already exists
             if (map.containsKey(username)) {
-                System.out.println("An Account with the Email " + emailInput + " already exists\n");
+                System.out.println("An account with the Email " + emailInput + " already exists\n");
                 return EmptyList;
             }
-            else {
-                System.out.println("Email does not exists");
-                System.out.println("Do you wish to proceed with registration?\n");
-                System.out.println("[1] Re-enter Email");
-                System.out.println("[2] Continue with this email");
-                System.out.println("[3] Exit");
-                System.out.print("Enter an option: ");
-                
-                int option = UniversalFunctions.readIntInRange(1,2);
 
-                if (option == 1) {
-                    System.out.println("\nPlease re-enter your email.\n");
-                    continue; // goes back to start of the email loop
-                }
+            // email not in system
+            System.out.println("Email does not exist in system");
+            System.out.println("Do you wish to proceed with registration?\n");
+            System.out.println("[1] Re-enter Email");
+            System.out.println("[2] Continue with this email");
+            System.out.println("[3] Exit");
+            System.out.print("Enter an option: ");
 
-                if (option == 2) {
-                    System.out.println("\nProceeding with registration.\n");
-                    break; // exit the email loop and continue registration
-                }
+            int option = UniversalFunctions.readIntInRange(1, 3);
 
-                if (option == 3) {
-                    return EmptyList;
-                }
-                            
+            if (option == 1) {
+                System.out.println("\nPlease re-enter your email.\n");
+                continue; // restart email input
+            }
+
+            if (option == 2) {
+                System.out.println("\nProceeding with registration.\n");
+                break; // exit loop, valid email provided
+            }
+
+            if (option == 3) {
+                return EmptyList;
             }
         }
         
@@ -245,15 +259,15 @@ public class UserManager {
                     }*/
 
                     CompanyRepresentative rep = new CompanyRepresentative(
-                        //id self generated
-                        RegistrationInput.get(1),   // name
-                        RegistrationInput.get(2),   // email
-                        RegistrationInput.get(3),   // company
-                        RegistrationInput.get(4),   // department
-                        RegistrationInput.get(5)    // position
+                        RegistrationInput.get(4),   // email
+                        RegistrationInput.get(0),   // name
+                        RegistrationInput.get(1),   // company
+                        RegistrationInput.get(2),   // department
+                        RegistrationInput.get(3)    // position
                     );
 
                     // adds new runtime creation to map
+
                     SystemData.CompRepCreation(rep);
 
                     System.out.println("Registration complete, please wait for your account to be approved");
@@ -297,9 +311,7 @@ public class UserManager {
 
         String username = email.substring(0, email.indexOf('@')).trim();
 
-        Map<String, CompanyRepresentative> map = SystemData.getCompanyMap();
-
-        CompanyRepresentative data = map.get(username);
+        CompanyRepresentative data = SystemData.getCompanyValue(username);
 
         CompanyApprovalStatus status;
 

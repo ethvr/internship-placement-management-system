@@ -9,7 +9,7 @@ public class CompanyRegisterPage implements Page {
 
     @Override
     public void showMenu() {
-        System.out.println("======= ACCOUNT REGISTRATION =======");
+        System.out.println("\n======= ACCOUNT REGISTRATION =======\n");
 
     }
 

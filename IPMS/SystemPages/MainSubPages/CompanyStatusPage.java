@@ -9,7 +9,7 @@ public class CompanyStatusPage implements Page{
 
     @Override
     public void showMenu() {
-        System.out.println("======= STATUS CHECKER =======");
+        System.out.println("\n======= STATUS CHECKER =======\n");
 
     }
 

@@ -40,8 +40,8 @@ public class SystemData {
     
     // Key --> Comp rep ID --> change to username?
     private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
-    private static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
-    private static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
+    public static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
+    public static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
     
     // Key --> comp rep id 
     private static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
@@ -517,7 +517,8 @@ public class SystemData {
     // SETTERS FOR THE MAPS --> SHOULD ONLY BE FOR THOSE THAT ARE CREATED DURING RUNTIME
     public static void CompRepCreation(CompanyRepresentative obj) {
         String compRepID = obj.getUserId();
-        RepresentativeMap.put(compRepID, obj);
+        String username = compRepID.split("@")[0];
+        RepresentativeMap.put(username, obj);
         // unapproved list
         UnapprovedRepList.add(obj);
     }
@@ -587,8 +588,8 @@ public class SystemData {
         Internship i = InternshipMap.get(internshipid);
         String CompRepID = i.getCompRepID();
         List<Application> list2 = ALMcompany.get(CompRepID);
-        if (list != null) {
-            list.remove(obj); 
+        if (list2 != null) {
+            list2.remove(obj); 
         }
 
         String studentID = obj.getStudentId();
