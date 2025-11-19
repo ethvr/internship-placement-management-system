@@ -91,6 +91,13 @@ public abstract class User {
     }
 
     public void logout() {
+        String email = getEmail();
+        String username = email.split("@")[0];
+
+        String type = SystemData.getCredentialsType(username);
+
+        SystemData.saveAll(type);
+
         SystemApp.setCurrentUser(null);
         System.out.println("Logging out...");
     }

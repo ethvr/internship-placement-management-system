@@ -154,7 +154,7 @@ public class UserManager {
                 System.out.println("Email does not exists");
                 System.out.println("Do you wish to proceed with registration?\n");
                 System.out.println("[1] Re-enter Email");
-                System.out.println("[2] Continue with this email\n");
+                System.out.println("[2] Continue with this email");
                 System.out.println("[3] Exit");
                 System.out.print("Enter an option: ");
                 
@@ -190,13 +190,12 @@ public class UserManager {
                 continue;
             }
             else if (field.equalsIgnoreCase("email")) {
-                System.out.print("Enter your " + field + ": ");
-                String answer = sc.nextLine();
-                String answer2 = field.toUpperCase() + ": " + answer;
+                String email = emailInput;
+                String answer2 = field.toUpperCase() + ": " + email;
                 String answer3 = "USERNAME: " + username;
                 printer.add(answer2);
                 printer.add(answer3);
-                RegistrationInput.add(answer);
+                RegistrationInput.add(email);
                 continue;
 
             }
@@ -219,7 +218,7 @@ public class UserManager {
         
         int option;
 
-        System.out.println("Please confirm your details,");
+        System.out.println("\n== Please confirm your detail ==\n");
         for (String a : printer) {
             System.out.println(a);
         }
