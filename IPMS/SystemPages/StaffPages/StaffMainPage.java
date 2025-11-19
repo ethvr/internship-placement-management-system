@@ -35,7 +35,8 @@ public class StaffMainPage implements Page{
         System.out.println("[7] Back");
         System.out.println("[8] Logout\n");
 
-        System.out.print("Enter an option (1-5): ");
+        System.out.print("Enter an option (1-8): ");
+        System.out.println(SystemData.LoginMap.get("sng001").Password);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class StaffMainPage implements Page{
 
         CareerCenter staffObj = SystemData.getStaffValue(username);
 
-        int opt = UniversalFunctions.readIntInRange(1, 5);
+        int opt = UniversalFunctions.readIntInRange(1, 8);
 
         return switch (opt) {
             case 1 -> PageAction.push(new ViewAccountRequestPage(staffObj));
@@ -56,8 +57,10 @@ public class StaffMainPage implements Page{
             case 6 -> PageAction.push(new PasswordChangePage(staffObj));
             case 7 -> PageAction.pop();
             case 8 -> {
+                System.out.println(SystemData.LoginMap.get("sng001").Password +"before");
                 staffObj.logout();
-                yield PageAction.pop();
+                System.out.println(SystemData.LoginMap.get("sng001").Password +"after");
+                yield PageAction.exit();
             }
             default -> PageAction.pop();
         };

@@ -43,6 +43,8 @@ public class SystemApp {
                 case STAY -> nav.peek(); //???? need for stay?
             }
         }
+        System.out.print("sng001 pw: ");
+        System.out.println(SystemData.LoginMap.get("sng001").Password);
         System.out.println(SystemData.RepresentativeMap);
         System.out.println(SystemData.RepresentativeCSVMap);
         

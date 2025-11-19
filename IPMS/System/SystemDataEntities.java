@@ -13,7 +13,7 @@ public class SystemDataEntities {
     //✅ 
     // key for hash map is username 
     public static class Credentials {
-        String Password;
+        public String Password;
         boolean Firsttimelogin; // true --> means have not logged iny et --> first time logging in 
         String Type;
         //boolean AccountActivated; // to check if alread enrolled into system?

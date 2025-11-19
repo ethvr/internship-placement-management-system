@@ -35,8 +35,6 @@ public abstract class User {
         int PWTries = 5;
         String nil = "NIL";
         
-        System.out.println();
-        System.out.println(SystemData.LoginMap);
         System.out.print("Enter your Username (Type EXIT to cancel): ");
         String NameInput = sc.nextLine();
         String pwInput = null;
@@ -57,10 +55,10 @@ public abstract class User {
                         System.out.println("Login successful!");
                         if (SystemData.getFirsttimelogin(NameInput)) {
                             System.out.println("First time login. Please change your password");
+                            SystemData.setFirsttimelogin(false, NameInput);
                             changePassword(NameInput);
                             //sc.close();
                             pwInput = "break";
-                            SystemData.setFirsttimelogin(false, NameInput);
                             //System.out.println("exiting login");
                             return NameInput;
                         }
@@ -124,6 +122,7 @@ public abstract class User {
             if (!pending) {
                 break;
             }
+            System.out.println("=== CHANGE YOUR PASSWORD ===\n");
 
             System.out.println("You have " + numberoftries + " tries left");
             System.out.print("Enter your current password: ");
