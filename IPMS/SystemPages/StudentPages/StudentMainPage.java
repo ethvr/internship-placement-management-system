@@ -1,6 +1,5 @@
 package IPMS.SystemPages.StudentPages;
 
-import java.util.Map;
 
 import IPMS.System.SystemData;
 import IPMS.ObjectClasses.*;
@@ -12,7 +11,7 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
 public class StudentMainPage implements Page {
 
-    private String username;
+    private final String username;
 
     public StudentMainPage(String username) {
         this.username = username;

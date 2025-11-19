@@ -6,7 +6,6 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.Enums.ApplicationStatus;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemData;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class OfferAcceptancePage implements Page{
         this.indexMap = new HashMap<>();
     }
 
+    @Override
     public void showMenu() {
 
         indexMap.clear();
@@ -36,7 +36,7 @@ public class OfferAcceptancePage implements Page{
 
             if (a.getStatus() == ApplicationStatus.SUCCESSFUL) {
 
-                indexMap.put(index, a.getId());
+                indexMap.put(index, a.getApplicationID());
 
                 System.out.printf("[%d] %s - %s\n", 
                     index, 
@@ -54,6 +54,7 @@ public class OfferAcceptancePage implements Page{
 
     }
 
+    @Override
     public PageAction next() {
         System.out.printf("\nChoose a Application to Accept (1-%d): ", index);
         int opt = UniversalFunctions.readIntInRange(1, index);

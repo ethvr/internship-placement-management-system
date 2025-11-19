@@ -5,7 +5,6 @@ import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemData;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import IPMS.Enums.*;
@@ -21,6 +20,7 @@ public class WithdrawalRequestPage implements Page{
         this.indexMap = new HashMap<>();
     }
 
+    @Override
     public void showMenu() {
 
         indexMap.clear();
@@ -53,6 +53,7 @@ public class WithdrawalRequestPage implements Page{
 
     }
 
+    @Override
     public PageAction next() {
 
         System.out.printf("\nChoose a application to withdraw from (1-%d): ", index);
