@@ -44,8 +44,6 @@ public class CompanyMainPage implements Page{
     @Override
     public PageAction next() {
 
-        SystemData.loadAll("company");
-
         CompanyRepresentative obj = SystemData.getCompanyValue(username);
         int opt = UniversalFunctions.readIntInRange(1, 5);
 

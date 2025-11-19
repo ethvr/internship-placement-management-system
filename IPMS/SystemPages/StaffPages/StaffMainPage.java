@@ -36,7 +36,7 @@ public class StaffMainPage implements Page{
         System.out.println("[8] Logout\n");
 
         System.out.print("Enter an option (1-8): ");
-        System.out.println(SystemData.LoginMap.get("sng001").Password);
+        //System.out.println(SystemData.LoginMap.get("sng001").Password);
     }
 
     /** 
