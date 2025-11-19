@@ -14,21 +14,10 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.*;
 
-<<<<<<< HEAD
 import IPMS.System.SystemApp;
 import IPMS.System.SystemData;
 import IPMS.System.SystemDataEntities;
 import IPMS.System.SystemDataEntities.*;
-=======
-import IPMS.Enums.CompanyApprovalStatus;
-import IPMS.ObjectClasses.CompanyRepresentative;
-import IPMS.System.SystemApp;
-import IPMS.System.SystemConverter;
-import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities;
-import IPMS.System.SystemDataEntities.*;
-import java.awt.SystemColor;
->>>>>>> 071a7f7e66cc371b2eb40ec6247ad244aad11744
 
 public class UserManager {
     

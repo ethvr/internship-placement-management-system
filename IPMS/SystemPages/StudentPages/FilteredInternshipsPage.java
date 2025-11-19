@@ -4,131 +4,142 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import IPMS.ObjectClasses.Student;
+import IPMS.ObjectClasses.Internship;
+import IPMS.System.SystemData;
 import IPMS.SystemPages.Page;
 import IPMS.SystemPages.PageAction;
-import IPMS.System.SystemDataEntities.*;
-import IPMS.System.SystemData;
-import IPMS.Enums.InternshipLevel;
-import IPMS.ObjectClasses.*;
 import IPMS.SystemPages.UniversalFunctions;
-
+import IPMS.Enums.InternshipLevel;
+import IPMS.System.SystemDataEntities.InternshipData;
 
 public class FilteredInternshipsPage implements Page {
-    private Student obj;
-    private String filter;
-    private List<InternshipData> list;
 
-    public FilteredInternshipsPage(Student obj, List<InternshipData> list, String filter) {
-        this.obj = obj;
-        this.filter = filter;
-        this.list = list;
+    private final Student student;
+    private final String filterType;
+    private List<InternshipData> baseList;
+
+    public FilteredInternshipsPage(Student student, List<InternshipData> list, String filterType) {
+        this.student = student;
+        this.baseList = list;
+        this.filterType = filterType;
     }
 
     @Override
     public void showMenu() {
-        System.out.println("======= FILTERED INTERNSHIPS =======");
-        
+        System.out.println("\n===== FILTERED INTERNSHIPS =====");
     }
 
     @Override
     public PageAction next() {
 
-        int YearOfStudy = obj.getYearOfStudy();
-        List<InternshipData> InternshipList2 = new ArrayList<>();
+        List<InternshipData> filtered = new ArrayList<>();
 
-        return switch (filter) {
+        switch (filterType) {
+
+            /* ------------------ Filter by LEVEL ------------------ */
             case "level" -> {
-                if (YearOfStudy <= 2) {
-                    System.out.println("You can only view BASIC Internships");
-                    UniversalFunctions.printInternshipList(list);
-                    yield PageAction.pop();
+                if (student.getYearOfStudy() <= 2) {
+                    System.out.println("You may only view BASIC internships.");
+                    UniversalFunctions.printInternshipList(baseList);
+                    return PageAction.pop();
                 }
-                else {
-                    //pass list as param to further filter 
-                    //print list 
-                    System.out.println("[1] Basic");
-                    System.out.println("[2] Intermediate");
-                    System.out.println("[3] Advanced");
-                    System.out.print("Enter your choice: ");
-                    switch (UniversalFunctions.readIntInRange(1, 3)) {
-                        case 1 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.BASIC, list);
-                        }
-                        case 2 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.INTERMEDIATE, list);
-                        }
-                        case 3 -> {
-                            InternshipList2 = SystemData.filterByInternshipLevel(InternshipLevel.ADVANCED, list);
-                        }
-                    }
-                    System.out.println();
-                    UniversalFunctions.printInternshipList(InternshipList2);
-                    yield PageAction.pop();
 
-                }
+                System.out.println("[1] Basic");
+                System.out.println("[2] Intermediate");
+                System.out.println("[3] Advanced");
+                System.out.print("Enter choice: ");
+                int level = UniversalFunctions.readIntInRange(1, 3);
+
+                InternshipLevel chosen = switch (level) {
+                    case 1 -> InternshipLevel.BASIC;
+                    case 2 -> InternshipLevel.INTERMEDIATE;
+                    default -> InternshipLevel.ADVANCED;
+                };
+
+                filtered = SystemData.filterByInternshipLevel(chosen, baseList);
             }
+
+            /* ------------------ Filter by DATE ------------------ */
             case "date" -> {
                 LocalDate date;
-                while (true) { 
-                    System.out.println("Enter a year: ");
-                    int year = UniversalFunctions.readIntInRange(2025, 9999);
-
-                    System.out.println("Enter a month: ");
-                    int month = UniversalFunctions.readIntInRange(1, 12);
-
-                    System.out.println("Enter a day: ");
-                    int day = UniversalFunctions.readIntInRange(1, 31);
-
+                while (true) {
                     try {
-                        date = LocalDate.of(year, month, day); 
-                        // If this fails, the catch block runs
-                        System.out.println("Valid date entered: " + date);
-                        break; // Exit the loop because date is valid
+                        System.out.print("Enter year: ");
+                        int y = UniversalFunctions.readIntInRange(2024, 9999);
+
+                        System.out.print("Enter month: ");
+                        int m = UniversalFunctions.readIntInRange(1, 12);
+
+                        System.out.print("Enter day: ");
+                        int d = UniversalFunctions.readIntInRange(1, 31);
+
+                        date = LocalDate.of(y, m, d);
+                        break;
                     } catch (DateTimeException e) {
-                        System.out.println("Invalid date. Please try again.\n");
+                        System.out.println("Invalid date. Try again.\n");
                     }
-
                 }
-                InternshipList2 = SystemData.filterByClosingDate(date);
-                UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
 
+                filtered = SystemData.filterByClosingDate(date);
             }
+
+            /* ------------------ Filter by COMPANY NAME ------------------ */
             case "name" -> {
-                
-                System.out.print("Enter the Company name: ");
+                System.out.print("Enter company name: ");
                 String name = UniversalFunctions.readString();
-                InternshipList2 = SystemData.filterByCompanyName(name);
-                UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
-                
+                filtered = SystemData.filterByCompanyName(name);
             }
+
+            /* ------------------ Filter by SLOTS ------------------ */
             case "slots" -> {
-                System.out.print("Enter the number of slots left: ");
-                int slots = UniversalFunctions.readIntInRange(1, 10);
-                InternshipList2 = SystemData.filterBySlotsLeft(slots);
-                UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                System.out.print("Enter number of slots: ");
+                int s = UniversalFunctions.readIntInRange(1, 100);
+                filtered = SystemData.filterBySlotsLeft(s);
             }
+
+            /* ------------------ Filter by KEYWORD ------------------ */
             case "words" -> {
-                System.out.print("Enter one Keyword to search for: ");
+                System.out.print("Enter keyword: ");
                 String word = UniversalFunctions.readString();
-                InternshipList2 = SystemData.filterByKeyword(word);
-                UniversalFunctions.printInternshipList(InternshipList2);
-                yield PageAction.pop();
+                filtered = SystemData.filterByKeyword(word);
             }
+
             default -> {
-                yield PageAction.pop();
+                return PageAction.pop();
             }
-        };
+        }
+
+        // Print the results
+        UniversalFunctions.printInternshipList(filtered);
+
+        if (filtered.isEmpty()) {
+            System.out.println("No internships matched this filter.");
+            return PageAction.pop();
+        }
+
+        // Option to select internship
+        System.out.println("[1] Select Internship");
+        System.out.println("[2] Back");
+        System.out.print("Enter choice: ");
+
+        int action = UniversalFunctions.readIntInRange(1, 2);
+
+        if (action == 2) return PageAction.pop();
+
+        // Select internship
+        System.out.print("Enter internship number: ");
+        int idx = UniversalFunctions.readIntInRange(1, filtered.size());
+
+        InternshipData chosen = filtered.get(idx - 1);
+        Internship real = SystemData.getInternshipValue(chosen.getUniqueID());
+
+        if (real == null) {
+            System.out.println("Error loading internship.");
+            return PageAction.stay();
+        }
+
+        return PageAction.push(new InternshipDetailsPage(student, real));
     }
-
 }
-
-
-
-
-
-
-
