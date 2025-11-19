@@ -86,6 +86,7 @@ public class SystemData {
         }
 
         //reading from csv file and writing into hashmap
+        //write student object back
         try {
             BufferedReader br = new BufferedReader(new FileReader(targetFile));
             String line = br.readLine(); // skip header line
@@ -98,7 +99,7 @@ public class SystemData {
                 int year = Integer.parseInt(parts[3]);
                 String email = parts[4];
                 String username = email.split("@")[0];
-                StudentMap.put(username, new StudentCSVData(studentID, name, role, year, email));
+                StudentMap.put(username, new Student(studentID, name, role, year, email));
             }
 
             br.close();
