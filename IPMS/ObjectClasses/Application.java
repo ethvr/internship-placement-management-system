@@ -4,24 +4,23 @@ import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 
 public class Application {
-    private String applicationID;                  
+    private String id;                  
     private String studentId;           
     private String internshipId;        
-    private ApplicationStatus status; // status on whether the company has accepted 
-    private AcceptedByStudentStatus acceptedByStudent; // status of whether student has accepted after company has accepted 
+    private ApplicationStatus status;   
+    private AcceptedByStudentStuatus acceptedByStudent;
     
     // CONSTRUCTOR FOR CREATING THE OBJ AT THE START
     public Application(String studentId, String internshipId) {
-        this.applicationID = IdGenerator.nextAppId();
+        this.id = IdGenerator.nextAppId();
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = ApplicationStatus.PENDING;
-        this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
+        this.AcceptedByStudentStuatus = AcceptedByStudentStuatus.PENDING;
     }
     // constructor for creating obj from map 
-    public Application(String applicationID, String studentId, String internshipId, 
-                       ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
-        this.applicationID = applicationID;
+    public Application(String id, String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
+        this.id = id;
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
@@ -30,29 +29,24 @@ public class Application {
     }
 
     //getters
-    public String getApplicationID() {
-        return applicationID;
-    }
+    public String getId() {
+        return id;}
 
     public String getStudentId() {
-        return studentId;
-    }
+        return studentId;}
 
     public String getInternshipId() {
-        return internshipId;
-    }
+        return internshipId;}
 
     public ApplicationStatus getStatus() {
-        return status;
-    }
+        return status;}
 
-    public AcceptedByStudentStatus getAcceptedByStudent() {
-        return acceptedByStudent;
-    }
+    public boolean isAcceptedByStudent() {
+        return acceptedByStudent;}
         
     //setters
-    public void setId(String applicationID) {
-        this.applicationID = applicationID;}
+    public void setId(String id) {
+        this.id = id;}
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;}
@@ -63,15 +57,14 @@ public class Application {
     public void setStatus(ApplicationStatus status) {
         this.status = status;}
 
-    public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
+    public void setAcceptedByStudent(boolean acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
     public boolean isActive() {
         return status != ApplicationStatus.WITHDRAWN;}
 
     public boolean isConfirmedPlacement() {
-        return (status == ApplicationStatus.SUCCESSFUL && acceptedByStudent == AcceptedByStudentStatus.ACCEPTED);
-    }
+        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent;}
 
     public boolean isUnsuccessful() {
         return status == ApplicationStatus.UNSUCCESSFUL;}
@@ -80,7 +73,7 @@ public class Application {
     public String toString() {
         return String.format(
             "Application[%s] Student=%s, Internship=%s, Status=%s, Accepted=%s",
-            applicationID, studentId, internshipId, status, acceptedByStudent
+            id, studentId, internshipId, status, acceptedByStudent
         );
     }
 }
