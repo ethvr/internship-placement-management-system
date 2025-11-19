@@ -42,8 +42,6 @@ public class StaffMainPage implements Page{
     @Override
     public PageAction next() {
 
-        SystemData.loadAll("staff");
-
         CareerCenter staffObj = SystemData.getStaffValue(username);
 
         int opt = UniversalFunctions.readIntInRange(1, 8);
