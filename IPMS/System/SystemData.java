@@ -71,42 +71,7 @@ public class SystemData {
     // Key --> Username --> string before @ of email 
     private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
-    // try with hash map
-    public static void loadStudentMap() {
-
-        File folder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\IPMS\\PeopleCSVFolder");
-        File[] files = folder.listFiles();
-        File targetFile = null;
-
-        for(File f : files) {
-            if(f.getName().contains("student")) {
-                targetFile = f;
-                break;
-            }
-        }
-
-        //reading from csv file and writing into hashmap
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(targetFile));
-            String line = br.readLine(); // skip header line
-            
-            while((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String studentID = parts[0];
-                String name = parts[1];
-                String role = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                String email = parts[4];
-                String username = email.split("@")[0];
-                StudentMap.put(username, new Student(studentID, name, email, year, role));
-            }
-
-            br.close();
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + e);
-        }
-
-    }
+   
 
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     // clazz --> CSVdata class
@@ -587,7 +552,7 @@ public class SystemData {
     }
 
     public static void ApplicationCreation(Application obj) {
-        String appID = obj.getID();
+        String appID = obj.getApplicationID();
         ApplicationMap.put(appID, obj);
 
         String internshipid = obj.getInternshipId();

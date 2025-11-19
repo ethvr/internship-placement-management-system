@@ -4,23 +4,23 @@ import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 
 public class Application {
-    private String id;                  
+    private String ApplicationID;                  
     private String studentId;           
     private String internshipId;        
     private ApplicationStatus status;   
-    private AcceptedByStudentStuatus acceptedByStudent;
+    private AcceptedByStudentStatus acceptedByStudent;
     
     // CONSTRUCTOR FOR CREATING THE OBJ AT THE START
     public Application(String studentId, String internshipId) {
-        this.id = IdGenerator.nextAppId();
+        this.ApplicationID = IdGenerator.nextAppId();
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = ApplicationStatus.PENDING;
-        this.AcceptedByStudentStuatus = AcceptedByStudentStuatus.PENDING;
+        this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
     }
     // constructor for creating obj from map 
-    public Application(String id, String studentId, String internshipId, ApplicationStatus status, boolean acceptedByStudent) {
-        this.id = id;
+    public Application(String ApplicationID, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
+        this.ApplicationID = ApplicationID;
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
@@ -29,8 +29,8 @@ public class Application {
     }
 
     //getters
-    public String getId() {
-        return id;}
+    public String getApplicationID() {
+        return ApplicationID;}
 
     public String getStudentId() {
         return studentId;}
@@ -42,7 +42,7 @@ public class Application {
         return status;}
 
     public boolean isAcceptedByStudent() {
-        return acceptedByStudent;}
+        return acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
         
     //setters
     public void setId(String id) {
@@ -57,14 +57,14 @@ public class Application {
     public void setStatus(ApplicationStatus status) {
         this.status = status;}
 
-    public void setAcceptedByStudent(boolean acceptedByStudent) {
+    public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
     public boolean isActive() {
         return status != ApplicationStatus.WITHDRAWN;}
 
     public boolean isConfirmedPlacement() {
-        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent;}
+        return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
 
     public boolean isUnsuccessful() {
         return status == ApplicationStatus.UNSUCCESSFUL;}
