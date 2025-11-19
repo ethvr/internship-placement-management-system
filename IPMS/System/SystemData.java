@@ -393,7 +393,7 @@ public class SystemData {
         for (InternshipData data : InternshipCSVMap.values()) {
             Internship i = SystemConverter.toInternship(data);
             if (i != null) {
-                InternshipMap.put(i.getId(), i);
+                InternshipMap.put(i.getInternshipId(), i);
             }
         }
 
@@ -401,7 +401,7 @@ public class SystemData {
         for (ApplicationData data : ApplicationCSVMap.values()) {
             Application a = SystemConverter.toApplication(data);
             if (a != null) {
-                ApplicationMap.put(a.getId(), a);
+                ApplicationMap.put(a.getApplicationID(), a);
             }
         }
 
@@ -470,13 +470,13 @@ public class SystemData {
         // Internships
         for (Internship i : InternshipMap.values()) {
             InternshipData row = SystemConverter.toInternshipData(i);
-            InternshipCSVMap.put(i.getId(), row);
+            InternshipCSVMap.put(i.getInternshipId(), row);
         }
 
         // Applications
         for (Application app : ApplicationMap.values()) {
             ApplicationData row = SystemConverter.toApplicationData(app);
-            ApplicationCSVMap.put(app.getId(), row);
+            ApplicationCSVMap.put(app.getApplicationID(), row);
         }
 
         // Withdrawals
