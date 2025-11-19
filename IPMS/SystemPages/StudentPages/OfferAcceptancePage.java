@@ -36,7 +36,7 @@ public class OfferAcceptancePage implements Page{
 
             if (a.getStatus() == ApplicationStatus.SUCCESSFUL) {
 
-                indexMap.put(index, a.getApplicationID());
+                indexMap.put(index, a.getId());
 
                 System.out.printf("[%d] %s - %s\n", 
                     index, 

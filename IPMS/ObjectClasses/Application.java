@@ -1,6 +1,7 @@
 package IPMS.ObjectClasses;
 
 import IPMS.Enums.*;
+import IPMS.Enums.AcceptedByStudentStatus;
 import IPMS.UserManagement.IdGenerator;
 
 public class Application {
@@ -19,12 +20,17 @@ public class Application {
         this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
     }
     // constructor for creating obj from map 
+<<<<<<< HEAD
     public Application(String ApplicationID, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
         this.ApplicationID = ApplicationID;
+=======
+    public Application(String id, String studentId, String internshipId, ApplicationStatus status, AcceptedByStudentStatus acceptedByStudent) {
+        this.id = id;
+>>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
         this.studentId = studentId;
         this.internshipId = internshipId;
         this.status = status;
-        this.acceptedByStudent = acceptedByStudent;
+        this.acceptedByStudent = AcceptedByStudentStatus.PENDING;
 
     }
 
@@ -41,8 +47,13 @@ public class Application {
     public ApplicationStatus getStatus() {
         return status;}
 
+<<<<<<< HEAD
     public boolean isAcceptedByStudent() {
         return acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
+=======
+    public AcceptedByStudentStatus isAcceptedByStudent() {
+        return AcceptedByStudentStatus.ACCEPTED;}
+>>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
         
     //setters
     public void setId(String id) {
@@ -60,14 +71,19 @@ public class Application {
     public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
-    public boolean isActive() {
-        return status != ApplicationStatus.WITHDRAWN;}
+    public ApplicationStatus isActive() {
+        return status = ApplicationStatus.WITHDRAWN;}
 
+<<<<<<< HEAD
     public boolean isConfirmedPlacement() {
         return status == ApplicationStatus.SUCCESSFUL && acceptedByStudent == AcceptedByStudentStatus.ACCEPTED;}
+=======
+    public ApplicationStatus isConfirmedPlacement() {
+        return status = ApplicationStatus.SUCCESSFUL ;}
+>>>>>>> 8f0887162936b7c45899af861047ed3c894a3c8e
 
-    public boolean isUnsuccessful() {
-        return status == ApplicationStatus.UNSUCCESSFUL;}
+    public ApplicationStatus isUnsuccessful() {
+        return status = ApplicationStatus.UNSUCCESSFUL;}
 
     @Override
     public String toString() {

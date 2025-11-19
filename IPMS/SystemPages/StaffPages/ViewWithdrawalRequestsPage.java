@@ -15,13 +15,13 @@ import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 
-public class ViewWithdrawalsPage implements Page{
+public class ViewWithdrawalRequestsPage implements Page{
 
     private CareerCenter staffObj ;
     private int opt;
     final Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
 
-    public ViewWithdrawalsPage( CareerCenter obj){
+    public ViewWithdrawalRequestsPage( CareerCenter obj){
         this.staffObj = obj;
     }
 

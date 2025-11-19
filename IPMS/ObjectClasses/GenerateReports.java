@@ -3,7 +3,7 @@ package IPMS.ObjectClasses;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import IPMS.Companypackage.CompanyRepresentative;
+import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.Enums.InternshipLevel;
 import IPMS.Enums.InternshipStatus;
 import IPMS.System.SystemData;
@@ -36,7 +36,7 @@ public class GenerateReports{
                 data.getOpenDate(),
                 data.getCloseDate(),
                 data.getCompanyName(),
-                data.getCompRep(),
+                data.getCompRepID(),
                 data.getSlots()
             );
             list.add(internship);
@@ -59,7 +59,7 @@ public class GenerateReports{
 
         List<Application> ApplicationList = new ArrayList<>();
 
-        String internshipID = internship.getId();
+        String internshipID = internship.getInternshipId();
 
         for (Application data : applicationmap.values()) {
             if (data.getInternshipId().equalsIgnoreCase(internshipID)) {
@@ -117,7 +117,7 @@ public class GenerateReports{
                 data.getOpenDate(),
                 data.getCloseDate(),
                 data.getCompanyName(),
-                data.getCompRep(),
+                data.getCompRepID(),
                 data.getSlots());
 
             InternshipList.add(internship);
