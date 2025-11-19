@@ -10,7 +10,6 @@ import IPMS.System.*;
 import java.util.Map;
 
 import IPMS.ObjectClasses.*;
-import IPMS.OldFunctions.ViewInternshipsPage;
 import IPMS.SystemPages.CommonPages.*;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;

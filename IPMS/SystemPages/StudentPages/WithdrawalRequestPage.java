@@ -35,7 +35,7 @@ public class WithdrawalRequestPage implements Page{
             String internshipId = a.getInternshipId();
             Internship internship = SystemData.getInternshipValue(internshipId);
 
-            indexMap.put(index, a.getApplicationID());  // store index for selection
+            indexMap.put(index, a.getId());  // store index for selection
 
             System.out.printf("[%d] %s - %s\n", 
                 index, 

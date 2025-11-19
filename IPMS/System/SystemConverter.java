@@ -192,11 +192,11 @@ public class SystemConverter {
         if (app == null) return null;
 
         return new ApplicationData(
-                app.getApplicationID(),
+                app.getId(),
                 app.getStudentId(),
                 app.getInternshipId(),
                 app.getStatus(),
-                app.getAcceptedByStudent()
+                app.isAcceptedByStudent()
         );
     }
 

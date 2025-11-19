@@ -61,14 +61,14 @@ public class Application {
     public void setAcceptedByStudent(AcceptedByStudentStatus acceptedByStudent) {
         this.acceptedByStudent = acceptedByStudent;}
 
-    public boolean isActive() {
-        return status != ApplicationStatus.WITHDRAWN;}
+    public ApplicationStatus isActive() {
+        return status = ApplicationStatus.WITHDRAWN;}
 
-    public boolean isConfirmedPlacement() {
-        return status == ApplicationStatus.SUCCESSFUL ;}
+    public ApplicationStatus isConfirmedPlacement() {
+        return status = ApplicationStatus.SUCCESSFUL ;}
 
-    public boolean isUnsuccessful() {
-        return status == ApplicationStatus.UNSUCCESSFUL;}
+    public ApplicationStatus isUnsuccessful() {
+        return status = ApplicationStatus.UNSUCCESSFUL;}
 
     @Override
     public String toString() {

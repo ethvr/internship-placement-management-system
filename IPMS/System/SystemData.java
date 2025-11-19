@@ -611,7 +611,7 @@ public class SystemData {
     }
 
     public static void removeApplication(Application obj) {
-        String appID = obj.getApplicationID();
+        String appID = obj.getId();
         ApplicationMap.remove(appID);
 
         String internshipid = obj.getInternshipId();
