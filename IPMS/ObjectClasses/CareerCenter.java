@@ -26,12 +26,8 @@ public class CareerCenter extends User {
         super(staffId, name, email);
         this.role = role;
         this.staffDepartment = staffDepartment;
-<<<<<<< HEAD
-        pendingCompanies = new ArrayList<>();
-=======
         //pendingCompanies = new ArrayList<>();
         //pendingCompanies
->>>>>>> 6c2f860ee0b567bec427fd1856b631e3ae80f042
     }
 
     

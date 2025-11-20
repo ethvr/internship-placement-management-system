@@ -151,7 +151,6 @@ public class UserManager {
     // return List<String> or return SystemDataEntities.CompanyCSVData
     public static List<String> CompanyRepRegistrationInput() {
 
-        SystemData.loadIntoMap("company", CompanyCSVData.class);
         Map<String, CompanyRepresentative> map = SystemData.getCompanyMap();
         RegistrationInput.clear();
         List<String> EmptyList = new ArrayList<>();

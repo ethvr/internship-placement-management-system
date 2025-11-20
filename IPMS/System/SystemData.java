@@ -353,7 +353,6 @@ public class SystemData {
             String username = rep.getEmail().split("@")[0];
             if (rep != null) {
                 RepresentativeMap.put(username, rep);
-<<<<<<< HEAD
             }
         }
 
@@ -361,12 +360,6 @@ public class SystemData {
         for (CompanyRepresentative rep : RepresentativeMap.values()) {
             if (rep.isStatusPending()) {
                 UnapprovedRepList.add(rep);
-=======
-            System.out.println("DEBUG: Loaded company rep: " + username + " | Status: " + rep.getStatus() + " | isPending: " + rep.isStatusPending());
-            if (rep.isStatusPending()) {
-                UnapprovedRepList.add(rep);///////////////////////////////////addedsthhere
-            }
->>>>>>> 6c2f860ee0b567bec427fd1856b631e3ae80f042
             }
         }
         System.out.println("DEBUG: Total in UnapprovedRepList: " + UnapprovedRepList.size());
