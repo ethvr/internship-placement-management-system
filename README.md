@@ -13,7 +13,7 @@ INSTRUCTIONS TO RUN THE APP
 
 PART OF CODE TO CHANGE 
 
-UserManager
+IPMS --> UserManagement --> UserManager
 
 File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
 File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
@@ -21,7 +21,7 @@ File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\I
 
 
 
-SystemData ( 1 under writebackCSV func and 1 under loadIntoMap func)
+IPMS --> System --> SystemData ( 1 under writebackCSV func and 1 under loadIntoMap func)
 
 File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
 File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
