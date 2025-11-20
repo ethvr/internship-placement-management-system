@@ -30,12 +30,12 @@ public class SystemData {
     // changed student and staff to hashmap for faster lookup when instantiating
     
     // Key --> student ID --> change to username?
-    private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
-    private static HashMap<String, Student> StudentMap = new HashMap<>();
+    public static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
+    public static HashMap<String, Student> StudentMap = new HashMap<>();
     
     // Key --> staff ID --> change to username?
-    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
-    private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
+    public static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
+    public static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     
     // Key --> Comp rep ID --> change to username?
     public static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
@@ -43,29 +43,29 @@ public class SystemData {
     public static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
     
     // Key --> comp rep id 
-    private static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
+    public static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
     // key --> internshipID?
-    private static HashMap<String, Internship> InternshipMap = new HashMap<>();
+    public static HashMap<String, Internship> InternshipMap = new HashMap<>();
     // comp rep id key
-    private static HashMap<String, List<Internship>> ILMcompany = new HashMap<>();
+    public static HashMap<String, List<Internship>> ILMcompany = new HashMap<>();
     
     // Key --> ID generator
-    private static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
+    public static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
     // key --> application ID
-    private static HashMap<String, Application> ApplicationMap = new HashMap<>();
+    public static HashMap<String, Application> ApplicationMap = new HashMap<>();
     // KEY --> CompRepID
-    private static HashMap<String, List<Application>> ALMcompany = new HashMap<>();
+    public static HashMap<String, List<Application>> ALMcompany = new HashMap<>();
     // key --> StudentID
-    private static HashMap<String, List<Application>> ALMstudent = new HashMap<>();
+    public static HashMap<String, List<Application>> ALMstudent = new HashMap<>();
     // key --> intenrshipID
-    private static HashMap<String, List<Application>> ALMinternship = new HashMap<>();
+    public static HashMap<String, List<Application>> ALMinternship = new HashMap<>();
 
     // Key --> ID generator
-    private static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
+    public static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
     // key --> application ID
-    private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
+    public static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
     // key --> studentID
-    private static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
+    public static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
 
     // Key --> Username --> string before @ of email 
     public static HashMap<String, Credentials> LoginMap = new HashMap<>();
@@ -85,16 +85,15 @@ public class SystemData {
         //HashMap<String,T> map;
 
         // file path for desktop
-        
-       File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
-       File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
-       File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+        //File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
+        //File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
+        //File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
 
         // file path for laptop
-        //ile PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
+        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
+        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -233,15 +232,15 @@ public class SystemData {
     // map parameter --> pass using the get method (immutable map)
     public static <T> void writeBackCSV(String filename, Map<String,T> map) {
 
-        // file path for desktop
-        File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
-        File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
-        File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+        // jiashun path
+        //File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
+        //File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
+        //File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
-        // file path for laptop
-        //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
-        //File OtherFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\OtherCSVFolder");
-        //File PeopleFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PeopleCSVFolder");
+        // Luther path
+        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
+        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
+        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -508,7 +507,7 @@ public class SystemData {
         writeBackCSV("student",    StudentCSVMap);
         writeBackCSV("company",    RepresentativeCSVMap);
         writeBackCSV("internship", InternshipCSVMap);
-        writeBackCSV("application",ApplicationCSVMap);
+        writeBackCSV("application", ApplicationCSVMap);
         writeBackCSV("withdrawal", WithdrawalCSVMap);
         writeBackCSV("password",   LoginMap);
 

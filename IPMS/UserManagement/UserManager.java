@@ -32,10 +32,10 @@ public class UserManager {
 
     public static void UsernameCSVGenerator() {
         
-        // File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        // File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
-        File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
-        File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
+        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        //File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
+        //File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -66,6 +66,15 @@ public class UserManager {
             if (needHeader) {
                 bw.write("Username,Password,Firsttimelogin,Type");
                 bw.newLine();
+            } else if (outputFile.length() > 0) {
+                // Ensure a newline before appending if file does not end with one
+                try (RandomAccessFile raf = new RandomAccessFile(outputFile, "r")) {
+                    raf.seek(outputFile.length() - 1);
+                    int lastChar = raf.read();
+                    if (lastChar != '\n' && lastChar != '\r') {
+                        bw.newLine();
+                    }
+                }
             }
 
             // 4) Process each input file and append only NEW usernames

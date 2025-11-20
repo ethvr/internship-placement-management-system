@@ -45,8 +45,6 @@ public class ViewAccountRequestPage implements Page{
           return switch (opt) {
                     case 1 -> {
                         //pending = CareerCenter.viewPendingCompanyReps();
-
-
                         //print list of pending companies
                         List<CompanyRepresentative> pending = CareerCenter.getPendingCompanies();
                         if (pending.isEmpty()){
@@ -65,22 +63,44 @@ public class ViewAccountRequestPage implements Page{
                      
                     case 2 -> {
                         //approve account
-                        System.out.print("Enter email to approve account creation: ");
-                        String emailString = UniversalFunctions.readString();
-                        CompanyRepresentative compRep = companymap.get(emailString);
-                        staffObj.approveCompanyRep(compRep);
-                        System.out.printf("%s acount has been approved", compRep.getEmail());
-                        yield PageAction.pop();
+                        CompanyRepresentative compRep = null;
+                        while (true) {
+                            System.out.print("Enter email to approve account creation (leave blank to cancel): ");
+                            String emailString = UniversalFunctions.readString();
+                            if (emailString == null || emailString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+                            compRep = companymap.get(emailString.trim());
+                            if (compRep == null) {
+                                System.out.println("No pending account found for that email. Please try again.");
+                                continue;
+                            }
+                            staffObj.approveCompanyRep(compRep);
+                            System.out.printf("%s account has been approved%n", compRep.getEmail());
+                            yield PageAction.pop();
+                        }
                     }
 
                     case 3 -> {
                         //reject account
-                        System.out.print("Enter email to reject account creation: ");
-                        String emailString = UniversalFunctions.readString();
-                        CompanyRepresentative compRep = companymap.get(emailString);
-                        staffObj.rejectCompanyRep(compRep);
-                        System.out.printf("%s acount has been approved", compRep.getEmail());
-                        yield PageAction.pop();
+                        CompanyRepresentative compRep = null;
+                         while (true) {
+                            System.out.print("Enter email to reject account creation (leave blank to cancel): ");
+                            String emailString = UniversalFunctions.readString();
+                            if (emailString == null || emailString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+                            compRep = companymap.get(emailString.trim());
+                            if (compRep == null) {
+                                System.out.println("No pending account found for that email. Please try again.");
+                                continue;
+                            }
+                            staffObj.rejectCompanyRep(compRep);
+                            System.out.printf("%s account has been rejected%n", compRep.getEmail());
+                            yield PageAction.pop();
+                        }
 
                     }
                     case 4 -> PageAction.pop();

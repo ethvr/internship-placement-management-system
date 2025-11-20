@@ -49,61 +49,112 @@ public class ViewInternshipRequestPage implements Page{
             
           return switch (opt) {
                     case 1 -> {
-                // ✅ View all pending internships across ALL companies
-                List<Internship> pendingInternships = new ArrayList<>();
-                
-                // Collect all pending internships from InternshipMap
-                for (Internship internship : internshipmap.values()) {
-                    if (internship.getStatus() == InternshipStatus.PENDING) {
-                        pendingInternships.add(internship);
+                                    // ✅ View all pending internships across ALL companies
+                        List<Internship> pendingInternships = new ArrayList<>();
+
+                        for (Internship internship : internshipmap.values()) {
+                            if (internship.getStatus() == InternshipStatus.PENDING) {
+                                pendingInternships.add(internship);
+                            }
+                        }
+
+                        if (pendingInternships.isEmpty()) {
+                            System.out.println("\nNo pending internship requests.");
+                        } else {
+                            System.out.println("\nPending Internship Requests:");
+                            int index = 1;
+                            for (Internship i : pendingInternships) {
+                                System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n",
+                                    index++,
+                                    i.getInternshipId(),
+                                    i.getInternshipTitle(),
+                                    i.getCompanyName(),
+                                    i.getSlots()
+                                );
+                            }
+                        }
+                        yield PageAction.stay();  // Stay on the page
                     }
-                }
-                
-                if (pendingInternships.isEmpty()) {
-                    System.out.println("\n No pending internship requests.");
-                } else {
-                    System.out.println("\n Pending Internship Requests:");
-                    int index = 1;
-                    for (Internship i : pendingInternships) {
-                        System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n", 
-                            index++, 
-                            i.getInternshipId(),
-                            i.getInternshipTitle(),
-                            i.getCompanyName(),
-                            i.getSlots());
-                    }
-                }
-                yield PageAction.stay();  // ✅ Stay on page
-            }
                      
                     case 2 -> {
-                        //approve internship
-                        System.out.print("Enter internship ID to approve: ");
-                        String internIDString = UniversalFunctions.readString();
-                        Internship internship = internshipmap.get(internIDString);
+                        Internship internship = null;
+
+                        while (true) {
+                            System.out.print("Enter internship ID to approve (leave blank to cancel): ");
+                            String internIDString = UniversalFunctions.readString();
+
+                            // Cancel
+                            if (internIDString == null || internIDString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+
+                            internship = internshipmap.get(internIDString.trim());
+
+                            if (internship == null) {
+                                System.out.println("Invalid internship ID. Please try again.");
+                                continue;
+                            }
+
+                            if (internship.getStatus() != InternshipStatus.PENDING) {
+                                System.out.println("This internship request is not pending. Please choose another.");
+                                continue;
+                            }
+
+                            break;
+                        }
+
                         staffObj.approveInternship(internship);
-                        System.out.printf("%s - %s internship has been approved", internship.getInternshipId(), internship.getInternshipTitle());
+                        System.out.printf("%s - %s internship has been approved\n",
+                                internship.getInternshipId(),
+                                internship.getInternshipTitle());
+
                         yield PageAction.pop();
                     }
 
                     case 3 -> {
                         //reject internship
-                        System.out.print("Enter internship ID to reject: ");
-                        String internIDString = UniversalFunctions.readString();
-                        Internship internship = internshipmap.get(internIDString);
+                        Internship internship = null;
+
+                        while (true) {
+                            System.out.print("Enter internship ID to reject (leave blank to cancel): ");
+                            String internIDString = UniversalFunctions.readString();
+
+                            // Cancel
+                            if (internIDString == null || internIDString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+
+                            internship = internshipmap.get(internIDString.trim());
+
+                            if (internship == null) {
+                                System.out.println("Invalid internship ID. Please try again.");
+                                continue;
+                            }
+
+                            if (internship.getStatus() != InternshipStatus.PENDING) {
+                                System.out.println("This internship request is not pending. Please choose another.");
+                                continue;
+                            }
+
+                            break;
+                        }
+
                         staffObj.rejectInternship(internship);
-                        System.out.printf("%s - %s internship has been rejected", internship.getInternshipId(), internship.getInternshipTitle());
-                        yield PageAction.pop();
+                        System.out.printf("%s - %s internship has been rejected\n",
+                                internship.getInternshipId(),
+                                internship.getInternshipTitle());
 
-                    }
-                    case 4 -> PageAction.pop();
-                    case 5 -> {
-                        staffObj.logout();
                         yield PageAction.pop();
                     }
-                    default -> PageAction.pop();
-        };
 
 
-    }
+                        case 4 -> PageAction.pop(); 
+                        
+                        case 5 -> { staffObj.logout(); yield PageAction.pop(); } default -> PageAction.pop(); };
+
+
+}
+
 }

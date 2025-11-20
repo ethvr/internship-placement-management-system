@@ -66,23 +66,62 @@ public class ViewWithdrawalRequestsPage implements Page{
                      
                     case 2 -> {
                         //approve withdrawal
-                        System.out.print("Enter withdrawal ID to approve: ");
-                        String withdrawalString = UniversalFunctions.readString();
-                        WithdrawalRequest withdrawal = withdrawalmap.get(withdrawalString);
+                        WithdrawalRequest withdrawal = null;
+
+                        while (true) {
+                            System.out.print("Enter withdrawal ID to approve (leave blank to cancel): ");
+                            String withdrawalString = UniversalFunctions.readString();
+
+                            // Cancel operation
+                            if (withdrawalString == null || withdrawalString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+
+                            withdrawal = withdrawalmap.get(withdrawalString.trim());
+                            if (withdrawal == null) {
+                                System.out.println("No withdrawal found for that ID. Please try again.");
+                                continue;
+                            }
+
+                            break;
+                        }
+
                         staffObj.approveWithdrawal(withdrawal);
-                        System.out.printf("%s withdrawal for student %s has been approved \n", withdrawal.getId(), withdrawal.getStudentId());
+                        System.out.printf("%s withdrawal for student %s has been approved\n",
+                                withdrawal.getId(), withdrawal.getStudentId());
+
                         yield PageAction.pop();
-                    }
+                                        }
 
                     case 3 -> {
                         //reject withdrawal
-                       System.out.print("Enter withdrawal ID to reject: ");
-                        String withdrawalString = UniversalFunctions.readString();
-                        WithdrawalRequest withdrawal = withdrawalmap.get(withdrawalString);
-                        staffObj.rejectWithdrawal(withdrawal);
-                        System.out.printf("%s withdrawal for student %s has been rejected \n", withdrawal.getId(), withdrawal.getStudentId());
-                        yield PageAction.pop();
+                       WithdrawalRequest withdrawal = null;
 
+                        while (true) {
+                            System.out.print("Enter withdrawal ID to reject (leave blank to cancel): ");
+                            String withdrawalString = UniversalFunctions.readString();
+
+                            // Cancel operation
+                            if (withdrawalString == null || withdrawalString.trim().isEmpty()) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+
+                            withdrawal = withdrawalmap.get(withdrawalString.trim());
+                            if (withdrawal == null) {
+                                System.out.println("No withdrawal found for that ID. Please try again.");
+                                continue;
+                            }
+
+                            break;
+                        }
+
+                        staffObj.rejectWithdrawal(withdrawal);
+                        System.out.printf("%s withdrawal for student %s has been rejected\n",
+                                withdrawal.getId(), withdrawal.getStudentId());
+
+                        yield PageAction.pop();
                     }
                     case 4 -> PageAction.pop();
                     case 5 -> {

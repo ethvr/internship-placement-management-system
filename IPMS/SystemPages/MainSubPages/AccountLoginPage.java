@@ -24,6 +24,8 @@ public class AccountLoginPage implements Page{
     public PageAction next() {
         String username = User.login(); // you already have this
 
+        System.out.println(username);
+
         if (username.equals("NIL"))
             return PageAction.pop(); // go back to main menu
 
