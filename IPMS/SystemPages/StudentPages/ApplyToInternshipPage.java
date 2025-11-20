@@ -46,6 +46,9 @@ public class ApplyToInternshipPage implements Page {
 
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

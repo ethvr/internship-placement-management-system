@@ -18,6 +18,13 @@ public class GenerateReports{
     static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
     static Map<String, Application> applicationmap = SystemData.getApplicationMap();
 
+    /** 
+     * @param status
+     * @param major
+     * @param level
+     * @param companyName
+     * @return List<Internship>
+     */
     public List<Internship> loadInternships(
         InternshipStatus status,
         String major,
@@ -54,6 +61,9 @@ public class GenerateReports{
             .collect(Collectors.toList());
     }
 
+    /** 
+     * @param internship
+     */
     // generate reports with applicants?
     public void printApplicants(Internship internship) {
 
@@ -154,6 +164,9 @@ public class GenerateReports{
 
     }
 
+    /** 
+     * @param status
+     */
     public void generateReportByStatus(InternshipStatus status) {
         List<Internship> filtered = loadInternships(status, null, null, null);
 
@@ -169,6 +182,9 @@ public class GenerateReports{
         }
     }
 
+    /** 
+     * @param major
+     */
     public void generateReportByMajor(String major) {
         List<Internship> filtered = loadInternships(null, major, null, null);
 
@@ -184,6 +200,9 @@ public class GenerateReports{
         }
     }
 
+    /** 
+     * @param level
+     */
     public void generateReportByLevel(InternshipLevel level) {
         List<Internship> filtered = loadInternships(null, null, level, null);
 
@@ -199,6 +218,9 @@ public class GenerateReports{
         }
     }
 
+    /** 
+     * @param company
+     */
     public void generateReportByCompany(String company) {
         List<Internship> filtered = loadInternships(null, null, null, company);
 
@@ -214,6 +236,12 @@ public class GenerateReports{
         }
     }
 
+    /** 
+     * @param status
+     * @param major
+     * @param level
+     * @param company
+     */
     public void generateCustomReport(InternshipStatus status, String major,
                                  InternshipLevel level, String company) {
 

@@ -72,6 +72,10 @@ public class SystemData {
 
    
 
+    /** 
+     * @param filename
+     * @param clazz
+     */
     // universal CSV load (name of file to load from, type of object to store in value pair of map, the map)
     // clazz --> CSVdata class
     public static <T> void loadIntoMap(String filename, Class<T> clazz) {
@@ -81,9 +85,11 @@ public class SystemData {
         //HashMap<String,T> map;
 
         // file path for desktop
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        
+       File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
+       File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
+       File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+
 
         // file path for laptop
         //ile PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
@@ -219,14 +225,18 @@ public class SystemData {
     
 
 
+    /** 
+     * @param filename
+     * @param map
+     */
     // dynamic writeback only for hashmaps 
     // map parameter --> pass using the get method (immutable map)
     public static <T> void writeBackCSV(String filename, Map<String,T> map) {
 
         // file path for desktop
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        File PasswordFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder");
+        File OtherFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/OtherCSVFolder");
+        File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // file path for laptop
         //File PasswordFolder = new File("C:\\Users\\Luther\\Desktop\\VScode\\Java file\\github pull push\\IPMS\\PasswordCSVFolder");
@@ -320,7 +330,10 @@ public class SystemData {
         }
     }
 
-    public static void buildObjectMapsFromEntities() {
+    /** 
+     * @param usertype
+     */
+    public static void buildObjectMapsFromEntities() {////deleted stringusertype input parameter
         StudentMap.clear();
         StaffMap.clear();
         RepresentativeMap.clear();
@@ -340,6 +353,7 @@ public class SystemData {
             String username = rep.getEmail().split("@")[0];
             if (rep != null) {
                 RepresentativeMap.put(username, rep);
+<<<<<<< HEAD
             }
         }
 
@@ -347,8 +361,21 @@ public class SystemData {
         for (CompanyRepresentative rep : RepresentativeMap.values()) {
             if (rep.isStatusPending()) {
                 UnapprovedRepList.add(rep);
+=======
+            System.out.println("DEBUG: Loaded company rep: " + username + " | Status: " + rep.getStatus() + " | isPending: " + rep.isStatusPending());
+            if (rep.isStatusPending()) {
+                UnapprovedRepList.add(rep);///////////////////////////////////addedsthhere
+            }
+>>>>>>> 6c2f860ee0b567bec427fd1856b631e3ae80f042
             }
         }
+        System.out.println("DEBUG: Total in UnapprovedRepList: " + UnapprovedRepList.size());
+        // for (CompanyCSVData data : RepresentativeCSVMap.values()) {
+        //     CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+        //     if (rep.isStatusPending()) {
+        //         UnapprovedRepList.add(rep);///////////////////////////////////addedsthhere
+        //     }
+        // }. combined into above for loop
 
         // STAFF csv to object
         for (StaffCSVData data : StaffCSVMap.values()) {

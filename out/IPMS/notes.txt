@@ -1,0 +1,107 @@
+
+GIHUB copy and paste ✅
+git add .
+git commit -m "Luther 2100"
+git push
+
+When main updates:
+git checkout Luther
+git fetch origin
+git merge origin/main   
+
+
+
+Qns
+    1. change company rep status to string instead of boolean inside object class 
+
+
+TO DO LIST (7/11/26 ONWARDS)
+    1. understand load and read csv function data and code and no arg constructor✅
+    2. finalize what to store for internship (entities)✅
+    3. finalize what to store for withdrawal (entities)✅
+    4. finalize what to store for application (entities)✅
+        - check how they are used and stored in obj classes 
+    5. finalize load and write csv ✅
+        - test the load and write functions 
+        - understand the code (in func and no arg con)
+    6. start filters 
+        - All users can use filters to view internship opportunities 
+          (Status, Preferred Majors, Internship Level, Closing Date, etc.) 
+          Assume that default is by alphabetical order. 
+          User filter settings are saved when they switch menu pages.
+    7. check test cases in assignment pdf 
+    8. complete app main
+        - complete main menu display function 
+        - complete different menu options for diff users  
+            - students
+            - staff 
+            - rep
+    9. write down partial logic flow of whole program 
+    10. ID generator? ✅
+        - what it is used for and how it is stored ✅
+    11. HashMap to ArrayList conversion? --> better sorting for filter? --> but can it sort multiple things tgt?
+    12. consider code merging between everything (by 9th Nov) even if incomplete 
+        - abstract top class? (user) --> what will happen to the abstract methods 
+    13. MapStore function?
+
+    09112025
+    - create function to load hashmap into a array list? for filterting?
+        - just do it in the functions itself?
+    - create main menu display functions 
+
+    10112025 
+    - function that check if username already exists?✅
+        - no test case to check in assignment PDF so no need?
+        - gmail itself should not allow the same email --> so always unique username?
+
+    11112025
+    - create a function to register as comp rep during runtime  (usermanager)
+        - func under app or under systemdata or under user manager?
+    - menu inputs --> handle cases if not whole number or not a number?
+
+    12112025 
+    - menu2 functions for all users 
+    - create systemdata func to move company rep data from list into map 
+    - check if can reduce params passed in load and write CSV function ✅
+    - if condition to check if company user already exists ✅
+        - is it only one account per company?
+        - or each person can have 1 account 
+    - how to go back 
+
+    13112025
+    - what is the company rep ID 
+        - generate own ID or company's own ID 
+            - most likely generate own id?
+    - approve checker?
+        - added but change option keys 
+        - what identifer to use to check for status?
+        - prompt to remeber companyrepID?
+    - change option back to enums?
+    - status checker --> make get methods --> where else should i make get methods 
+    - where to make getter methods and who to make them for?
+    - visibility for internship data?
+
+    16112025 changes 
+    - added printfunc in generatereport
+    - updated generateFullReport() in generatereport
+    - add acceptedByStudent to application constructor (remove?)
+    - general load in ugeneratereport 
+    - altered aplication constructors 
+
+
+    16112025 qns 
+    - cannot have default in obj params? --> multiple constructors \
+    - Company Representatives ID change to idgenerator?
+
+
+    16112025 todo 
+    - continue to make changes to usermanagement company rep registration
+    - conversion 
+    - upon completing password change (change password option on main page of each obj) where does it go?
+        - make new page for password?
+    - simple password encryption?
+
+
+
+    problems 
+    - system converted getdate func for withdrawal

@@ -1,0 +1,11 @@
+IPMS.Enums
+IPMS.ObjectClasses
+IPMS.OldFunctions
+IPMS.System
+IPMS.SystemPages.CommonPages
+IPMS.SystemPages.CompanyPages
+IPMS.SystemPages.MainSubPages
+IPMS.SystemPages.PageUtilities
+IPMS.SystemPages.StaffPages
+IPMS.SystemPages.StudentPages
+IPMS.UserManagement

@@ -54,6 +54,9 @@ public class OfferAcceptancePage implements Page{
 
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
         System.out.printf("\nChoose a Application to Accept (1-%d): ", index);

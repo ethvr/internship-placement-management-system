@@ -14,6 +14,9 @@ public class CompanyStatusPage implements Page{
 
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
         UserManager.CompanyStatusCheck();

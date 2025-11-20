@@ -2,9 +2,12 @@ package IPMS.SystemPages.StaffPages;
 
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.SystemPages.StudentPages.*;
+import IPMS.Enums.InternshipStatus;
 import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import IPMS.ObjectClasses.*;
@@ -36,6 +39,9 @@ public class ViewInternshipRequestPage implements Page{
         System.out.print("Enter an option (1-5): ");
     }
 
+    /** 
+     * @return PageAction
+     */
     @SuppressWarnings("unchecked")
     @Override
     public PageAction next() {
@@ -43,24 +49,32 @@ public class ViewInternshipRequestPage implements Page{
             
           return switch (opt) {
                     case 1 -> {
-                        //print list of pending internship opportunities
-                        System.out.print("Enter email to approve account creation: ");
-                        String emailString = UniversalFunctions.readString();
-                        CompanyRepresentative compRep = companymap.get(emailString);
-                        List<Internship> pending = compRep.getInternshipsCreated();
-                        if (pending.isEmpty()){
-                            System.out.println("\n No pending internship requests.");
-                        } else{
-                            System.out.println("\n Pending internship requests: ");
-                            int x =1;
-                            // for every pending request, [print internship id, title]
-                            for (Internship i : pending){
-                            System.out.printf("[%d] %s - %s \n", x++, i.getInternshipId(), i.getInternshipTitle());
-                            }
-                        }
-                        //exit printing
-                        yield PageAction.pop();
+                // ✅ View all pending internships across ALL companies
+                List<Internship> pendingInternships = new ArrayList<>();
+                
+                // Collect all pending internships from InternshipMap
+                for (Internship internship : internshipmap.values()) {
+                    if (internship.getStatus() == InternshipStatus.PENDING) {
+                        pendingInternships.add(internship);
                     }
+                }
+                
+                if (pendingInternships.isEmpty()) {
+                    System.out.println("\n No pending internship requests.");
+                } else {
+                    System.out.println("\n Pending Internship Requests:");
+                    int index = 1;
+                    for (Internship i : pendingInternships) {
+                        System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n", 
+                            index++, 
+                            i.getInternshipId(),
+                            i.getInternshipTitle(),
+                            i.getCompanyName(),
+                            i.getSlots());
+                    }
+                }
+                yield PageAction.stay();  // ✅ Stay on page
+            }
                      
                     case 2 -> {
                         //approve internship

@@ -117,6 +117,9 @@ public class CompanyRegistrationManager { //or comp controller i didnt see that 
         System.out.println("DEPARTMENT: " + compRep.getDepartment());
         System.out.println("POSITION: " + compRep.getPosition());
     }
+    /** 
+     * @param scanner
+     */
     public static void checkCompanyStatus(Scanner scanner) {
         System.out.print("Enter your email: ");
         String email = scanner.nextLine().trim();

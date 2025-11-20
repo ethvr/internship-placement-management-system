@@ -20,6 +20,9 @@ public class PasswordChangePage implements Page {
 
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

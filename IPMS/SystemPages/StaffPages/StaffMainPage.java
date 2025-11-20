@@ -39,6 +39,9 @@ public class StaffMainPage implements Page{
         //System.out.println(SystemData.LoginMap.get("sng001").Password);
     }
 
+    /** 
+     * @return PageAction
+     */
     @Override
     public PageAction next() {
 

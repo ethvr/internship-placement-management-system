@@ -22,6 +22,10 @@ public class Student extends User {
         this.major = major;
     }
 
+    /** 
+     * @param getEligibleInternships(
+     * @return int
+     */
     // Getters / Setters
 
     public int getYearOfStudy() { return yearOfStudy; }
@@ -32,6 +36,9 @@ public class Student extends User {
 
     public void setMajor(String major) { this.major = major; }
 
+    /** 
+     * @return List<Internship>
+     */
     // Internship Eligibility
     public List<Internship> getEligibleInternships() {
         List<Internship> result = new ArrayList<>();
@@ -44,6 +51,9 @@ public class Student extends User {
         return result;
     }
 
+    /** 
+     * @param internshipId
+     */
     // Applying to Internship
     public void applyTo(String internshipId) {
         Internship internship = SystemData.getInternshipValue(internshipId);
@@ -82,6 +92,9 @@ public class Student extends User {
         target.addApplication(app);*/
     }
 
+    /** 
+     * @return int
+     */
     // Count Active Applications
     public int countActiveApplications() {
         List<Application> list = SystemData.getALMstudent(this.getUserId());
@@ -89,6 +102,9 @@ public class Student extends User {
         else return list.size();
     }
 
+    /** 
+     * @param applicationId
+     */
     // Accepting Internship
     public void acceptPlacement(String applicationId) {
         Application application = SystemData.getApplicationValue(applicationId);
@@ -119,6 +135,9 @@ public class Student extends User {
             }
         }
     }
+        /** 
+         * @param applicationId
+         */
         // Update internship filled status
         /*Internship internship = SystemData.getInternshipMap().get(chosen.getInternshipId());
             if (internship != null)
@@ -138,6 +157,10 @@ public class Student extends User {
         application.setStatus(ApplicationStatus.WITHDRAWN);
     }
 
+    /** 
+     * @param applicationId
+     * @param remarks
+     */
     // Request Withdrawal (goes to Career Center for approval)
     public void requestWithdrawal(String applicationId, String remarks) {
         Application application = SystemData.getApplicationValue(applicationId);
@@ -179,6 +202,9 @@ public class Student extends User {
         System.out.println("Withdrawal request created." );
     }
 
+    /** 
+     * @return List<Application>
+     */
     // View All My Applications
     public List<Application> getAllMyApplications() {
         List<Application> list = new ArrayList<>();
@@ -188,6 +214,9 @@ public class Student extends User {
 
     }
 
+    /** 
+     * @return List<WithdrawalRequest>
+     */
     public List<WithdrawalRequest> getAllMyWithdrawalRequests() {
         List<WithdrawalRequest> list = new ArrayList<>();
 
