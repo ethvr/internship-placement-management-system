@@ -2,6 +2,7 @@ package IPMS.ObjectClasses;
 
 import IPMS.Enums.*;
 import IPMS.Enums.AcceptedByStudentStatus;
+import IPMS.System.SystemData;
 import IPMS.UserManagement.IdGenerator;
 
 public class Application {
@@ -54,12 +55,17 @@ public class Application {
     public ApplicationStatus getStatus() {
         return status;}
 
-        /** 
-         * @return AcceptedByStudentStatus
-         */
-        //????????
+    /** 
+     * @return AcceptedByStudentStatus
+     */
     public AcceptedByStudentStatus getAcceptedByStudent() {
         return acceptedByStudent;}
+
+    public String getInternshipTitleFromApp() {
+        String internshgipID = getInternshipId();
+        Internship i = SystemData.getInternshipValue(internshgipID);
+        return i.getInternshipTitle();
+    }
         
     /** 
      * @param ApplicationID

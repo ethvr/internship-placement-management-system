@@ -33,17 +33,15 @@ public class ViewApplicationsPage implements Page{
         int index = 1;
         for (Application a : list) {
             System.out.printf("[%d] Application ID: %s\n", index++, a.getApplicationID());
-            System.out.println("    Internship ID : " + a.getInternshipId());
-            System.out.println("    Status        : " + a.getStatus());
-            System.out.println("    Accepted?     : " + a.getAcceptedByStudent());
+            System.out.println("    Internship Title : " + a.getInternshipTitleFromApp());
+            System.out.println("    Internship ID    : " + a.getInternshipId());
+            System.out.println("    Status           : " + a.getStatus());
+            System.out.println("    Accepted?        : " + a.getAcceptedByStudent());
             System.out.println();
             appList.add(a);
         }
 
-        System.out.println("[1] Accept Offer");
-        System.out.println("[2] Request Withdrawal");
-        System.out.println("[3] Back");
-        System.out.print("Enter an option: ");
+
     }
 
     /** 
@@ -75,6 +73,11 @@ public class ViewApplicationsPage implements Page{
                 }
             };
         }
+
+        System.out.println("[1] Accept Offer");
+        System.out.println("[2] Request Withdrawal");
+        System.out.println("[3] Back");
+        System.out.print("Enter an option: ");
 
         int opt = UniversalFunctions.readIntInRange(1, 3);
 

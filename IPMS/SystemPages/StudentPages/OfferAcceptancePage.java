@@ -46,7 +46,10 @@ public class OfferAcceptancePage implements Page{
             }          
             index++;
         }
-         System.out.printf("[%d] %s\n", 
+        if (index == 2) {
+            System.out.println("You have no offers to accept at the moment.");
+        }
+        else System.out.printf("[%d] %s\n", 
                 index, 
                 "Cancel" 
             );
@@ -59,6 +62,11 @@ public class OfferAcceptancePage implements Page{
      */
     @Override
     public PageAction next() {
+
+        if (index == 2) {
+            return PageAction.pop();   // no offers to accept
+        }
+        
         System.out.printf("\nChoose a Application to Accept (1-%d): ", index);
         int opt = UniversalFunctions.readIntInRange(1, index);
 
