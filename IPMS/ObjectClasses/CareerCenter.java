@@ -26,8 +26,7 @@ public class CareerCenter extends User {
         super(staffId, name, email);
         this.role = role;
         this.staffDepartment = staffDepartment;
-        //pendingCompanies = new ArrayList<>();
-        //pendingCompanies
+        pendingCompanies = new ArrayList<>();
     }
 
     
@@ -53,11 +52,9 @@ public class CareerCenter extends User {
     //     }
     // }
 
-    
-
     //add pending company
-    public void addPendingCompany(CompanyRepresentative companyRep){ 
-        if (!SystemData.UnapprovedRepList.contains(companyRep)){
+    public void addPendingCompany(CompanyRepresentative companyRep){
+        if (!pendingCompanies.contains(companyRep)){
             pendingCompanies.add(companyRep);
         }
         else{
@@ -207,6 +204,7 @@ public class CareerCenter extends User {
     /** 
      * @return List
      */
+
     public static List<CompanyRepresentative> getPendingCompanies(){
         return SystemData.UnapprovedRepList;
     }

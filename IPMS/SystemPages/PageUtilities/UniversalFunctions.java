@@ -46,6 +46,36 @@ public class UniversalFunctions {
         return input;
     }
 
+    public static String readStringAllowEmpty() {
+        sc.nextLine(); // clear leftover newline if needed
+        return sc.nextLine();   // <-- do NOT trim or force a re-entry
+    }
+
+    public static boolean isValidEmail(String email) {
+        if (email == null) return false;
+        email = email.trim();
+        // Basic checks: contains one '@', not at start/end, no spaces
+        return email.contains("@")
+            && !email.startsWith("@")
+            && !email.endsWith("@")
+            && email.indexOf('@') == email.lastIndexOf('@')
+            && !email.contains(" ");
+    }
+
+    public static String readStringEmail() {
+
+        sc.nextLine(); // clear leftover newline if needed
+        String input = sc.nextLine().trim();
+
+        while (input.isEmpty() || !isValidEmail(input)) {
+            System.out.println("Invalid email format. Try again.");
+            input = sc.nextLine().trim();
+        }
+
+        return input;
+    }
+
+
 
     /** 
      * @param enumType

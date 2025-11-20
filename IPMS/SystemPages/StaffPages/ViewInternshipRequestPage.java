@@ -20,8 +20,7 @@ public class ViewInternshipRequestPage implements Page{
 
     private CareerCenter staffObj ;
     private int opt;
-    final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
-    final Map<String, Internship> internshipmap = SystemData.getInternshipMap();
+    //final Map<String, Internship> internshipmap = SystemData.getInternshipMap();
 
     public ViewInternshipRequestPage(CareerCenter obj){
         this.staffObj = obj;
@@ -52,7 +51,7 @@ public class ViewInternshipRequestPage implements Page{
                                     // ✅ View all pending internships across ALL companies
                         List<Internship> pendingInternships = new ArrayList<>();
 
-                        for (Internship internship : internshipmap.values()) {
+                        for (Internship internship : SystemData.getInternshipMap().values()) {
                             if (internship.getStatus() == InternshipStatus.PENDING) {
                                 pendingInternships.add(internship);
                             }
@@ -81,7 +80,7 @@ public class ViewInternshipRequestPage implements Page{
 
                         while (true) {
                             System.out.print("Enter internship ID to approve (leave blank to cancel): ");
-                            String internIDString = UniversalFunctions.readString();
+                            String internIDString = UniversalFunctions.readStringAllowEmpty();
 
                             // Cancel
                             if (internIDString == null || internIDString.trim().isEmpty()) {
@@ -89,7 +88,7 @@ public class ViewInternshipRequestPage implements Page{
                                 yield PageAction.pop();
                             }
 
-                            internship = internshipmap.get(internIDString.trim());
+                            internship = SystemData.getInternshipValue(internIDString.trim());
 
                             if (internship == null) {
                                 System.out.println("Invalid internship ID. Please try again.");
@@ -118,7 +117,7 @@ public class ViewInternshipRequestPage implements Page{
 
                         while (true) {
                             System.out.print("Enter internship ID to reject (leave blank to cancel): ");
-                            String internIDString = UniversalFunctions.readString();
+                            String internIDString = UniversalFunctions.readStringAllowEmpty();
 
                             // Cancel
                             if (internIDString == null || internIDString.trim().isEmpty()) {
@@ -126,7 +125,7 @@ public class ViewInternshipRequestPage implements Page{
                                 yield PageAction.pop();
                             }
 
-                            internship = internshipmap.get(internIDString.trim());
+                            internship = SystemData.getInternshipValue(internIDString.trim());
 
                             if (internship == null) {
                                 System.out.println("Invalid internship ID. Please try again.");
@@ -155,6 +154,6 @@ public class ViewInternshipRequestPage implements Page{
                         case 5 -> { staffObj.logout(); yield PageAction.pop(); } default -> PageAction.pop(); };
 
 
-}
+    }
 
 }

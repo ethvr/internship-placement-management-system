@@ -16,7 +16,7 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 public class ViewAccountRequestPage implements Page{
 
     private final CareerCenter staffObj;
-    final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
+    //final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
 
     public ViewAccountRequestPage(CareerCenter obj){
         this.staffObj = obj;
@@ -65,14 +65,13 @@ public class ViewAccountRequestPage implements Page{
                         //approve account
                         CompanyRepresentative compRep = null;
                         while (true) {
-                            System.out.print("Enter email to approve account creation (leave blank to cancel): ");
-                            String emailString = UniversalFunctions.readString();
-                            if (emailString == null || emailString.trim().isEmpty()) {
+                            System.out.print("Enter email to approve account creation (type EXIT to cancel): ");
+                            String emailString = UniversalFunctions.readStringEmail();
+                            if (emailString.equalsIgnoreCase(emailString)) {
                                 System.out.println("Operation cancelled.");
                                 yield PageAction.pop();
                             }
-                            
-                            compRep = companymap.get(emailString.trim());
+                            compRep = SystemData.getCompanyValue(emailString.trim());
                             if (compRep == null) {
                                 System.out.println("No pending account found for that email. Please try again.");
                                 continue;
@@ -87,13 +86,13 @@ public class ViewAccountRequestPage implements Page{
                         //reject account
                         CompanyRepresentative compRep = null;
                          while (true) {
-                            System.out.print("Enter email to reject account creation (leave blank to cancel): ");
-                            String emailString = UniversalFunctions.readString();
-                            if (emailString == null || emailString.trim().isEmpty()) {
+                            System.out.print("Enter email to reject account creation (type EXIT to cancel): ");
+                            String emailString = UniversalFunctions.readStringEmail();
+                            if (emailString.equalsIgnoreCase(emailString)) {
                                 System.out.println("Operation cancelled.");
                                 yield PageAction.pop();
                             }
-                            compRep = companymap.get(emailString.trim());
+                            compRep = SystemData.getCompanyValue(emailString.trim());
                             if (compRep == null) {
                                 System.out.println("No pending account found for that email. Please try again.");
                                 continue;

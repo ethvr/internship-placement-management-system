@@ -54,7 +54,7 @@ public class ViewGenerateReportsPage implements Page {
 
                 while (true) {
                     System.out.print("Enter status (PENDING / APPROVED / REJECTED)  (leave blank to cancel): ");
-                    String input = UniversalFunctions.readString();
+                    String input = UniversalFunctions.readStringAllowEmpty();
 
                     if (input == null || input.trim().isEmpty()) {
                         System.out.println("Operation cancelled.");
@@ -77,7 +77,7 @@ public class ViewGenerateReportsPage implements Page {
             // Report by Major
             case 3 -> {
                 System.out.print("Enter major (leave blank to cancel): ");
-                String major = UniversalFunctions.readString();
+                String major = UniversalFunctions.readStringAllowEmpty();
 
                 if (major == null || major.trim().isEmpty()) {
                     System.out.println("Operation cancelled.");
@@ -94,7 +94,7 @@ public class ViewGenerateReportsPage implements Page {
 
                 while (true) {
                     System.out.print("Enter internship level (BASIC / INTERMEDIATE / ADVANCED) (leave blank to cancel): ");
-                    String input = UniversalFunctions.readString();
+                    String input = UniversalFunctions.readStringAllowEmpty();
 
                     if (input == null || input.trim().isEmpty()) {
                         System.out.println("Operation cancelled.");
@@ -117,7 +117,7 @@ public class ViewGenerateReportsPage implements Page {
             // Report by Company
             case 5 -> {
                 System.out.print("Enter company name (leave blank to cancel): ");
-                String company = UniversalFunctions.readString();
+                String company = UniversalFunctions.readStringAllowEmpty();
 
                 if (company == null || company.trim().isEmpty()) {
                     System.out.println("Operation cancelled.");
@@ -134,7 +134,7 @@ public class ViewGenerateReportsPage implements Page {
                 InternshipStatus status = null;
                 while (true) {
                     System.out.print("Enter status (PENDING / APPROVED / REJECTED) (leave blank to cancel): ");
-                    String s = UniversalFunctions.readString();
+                    String s = UniversalFunctions.readStringAllowEmpty();
 
                     if (s == null || s.trim().isEmpty()) {
                         System.out.println("Operation cancelled.");
@@ -151,7 +151,7 @@ public class ViewGenerateReportsPage implements Page {
 
                 // MAJOR
                 System.out.print("Enter major (leave blank to cancel): ");
-                String major = UniversalFunctions.readString();
+                String major = UniversalFunctions.readStringAllowEmpty();
                 if (major == null || major.trim().isEmpty()) {
                     System.out.println("Operation cancelled.");
                     yield PageAction.pop();
@@ -161,7 +161,7 @@ public class ViewGenerateReportsPage implements Page {
                 InternshipLevel level = null;
                 while (true) {
                     System.out.print("Enter internship level (BASIC / INTERMEDIATE / ADVANCED) (leave blank to cancel): ");
-                    String lvl = UniversalFunctions.readString();
+                    String lvl = UniversalFunctions.readStringAllowEmpty();
 
                     if (lvl == null || lvl.trim().isEmpty()) {
                         System.out.println("Operation cancelled.");
@@ -178,7 +178,7 @@ public class ViewGenerateReportsPage implements Page {
 
                 // COMPANY
                 System.out.print("Enter company name (leave blank to cancel): ");
-                String company = UniversalFunctions.readString();
+                String company = UniversalFunctions.readStringAllowEmpty();
                 if (company == null || company.trim().isEmpty()) {
                     System.out.println("Operation cancelled.");
                     yield PageAction.pop();

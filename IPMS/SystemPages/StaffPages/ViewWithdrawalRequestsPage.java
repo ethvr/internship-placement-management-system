@@ -70,7 +70,7 @@ public class ViewWithdrawalRequestsPage implements Page{
 
                         while (true) {
                             System.out.print("Enter withdrawal ID to approve (leave blank to cancel): ");
-                            String withdrawalString = UniversalFunctions.readString();
+                            String withdrawalString = UniversalFunctions.readStringAllowEmpty();
 
                             // Cancel operation
                             if (withdrawalString == null || withdrawalString.trim().isEmpty()) {
@@ -100,7 +100,7 @@ public class ViewWithdrawalRequestsPage implements Page{
 
                         while (true) {
                             System.out.print("Enter withdrawal ID to reject (leave blank to cancel): ");
-                            String withdrawalString = UniversalFunctions.readString();
+                            String withdrawalString = UniversalFunctions.readStringAllowEmpty();
 
                             // Cancel operation
                             if (withdrawalString == null || withdrawalString.trim().isEmpty()) {
