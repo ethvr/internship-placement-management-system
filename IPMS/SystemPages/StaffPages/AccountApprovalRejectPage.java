@@ -10,7 +10,7 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 public class AccountApprovalRejectPage implements Page{
     
     private final CareerCenter obj;
-    private HashMap<Integer, CompanyRepresentative> indexMap;
+    private final HashMap<Integer, CompanyRepresentative> indexMap;
     private int size;
 
     public AccountApprovalRejectPage(CareerCenter obj){

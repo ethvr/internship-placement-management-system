@@ -26,7 +26,7 @@ public class StudentMainPage implements Page {
         System.out.println("[4] Change Password");
         System.out.println("[5] Logout\n");
 
-        System.out.print("Enter an option (1-5): ");;
+        System.out.print("Enter an option (1-5): ");
     }
 
     /** 

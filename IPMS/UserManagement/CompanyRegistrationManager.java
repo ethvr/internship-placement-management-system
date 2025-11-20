@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities.Credentials;
 
 public class CompanyRegistrationManager { //or comp controller i didnt see that class at first so i replaced it with this class
     private Scanner scanner;

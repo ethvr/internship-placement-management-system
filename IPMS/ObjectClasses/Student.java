@@ -1,14 +1,10 @@
 package IPMS.ObjectClasses;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import IPMS.Enums.*;
 import IPMS.System.SystemData;
-import IPMS.UserManagement.IdGenerator;
 
 public class Student extends User {
 
@@ -207,10 +203,8 @@ public class Student extends User {
      */
     // View All My Applications
     public List<Application> getAllMyApplications() {
-        List<Application> list = new ArrayList<>();
-
         String key = this.getUserId();
-        return list = SystemData.getALMstudent(key);
+        return SystemData.getALMstudent(key);
 
     }
 
@@ -230,10 +224,8 @@ public class Student extends User {
      * @return List<WithdrawalRequest>
      */
     public List<WithdrawalRequest> getAllMyWithdrawalRequests() {
-        List<WithdrawalRequest> list = new ArrayList<>();
-
         String key = this.getUserId();
-        return list = SystemData.getWLMstudent(key);
+        return SystemData.getWLMstudent(key);
     }
 
     public void viewApplications() {

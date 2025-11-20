@@ -3,9 +3,7 @@ package IPMS.System;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import IPMS.Enums.*;
-import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
 
 public class Filters {

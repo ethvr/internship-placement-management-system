@@ -2,44 +2,10 @@ package IPMS.System;
 
 import IPMS.System.SystemDataEntities.*;
 import IPMS.ObjectClasses.*;
-import IPMS.Enums.*;
-import java.time.LocalDate;
+
 
 
 public class SystemConverter {
-
-    /** 
-     * @return Student
-     */
-    /* ==============================
-       HELPER PARSERS
-       ============================== */
-
-    /*private static InternshipStatus parseInternshipStatus(String status) {
-        if (status == null) return InternshipStatus.PENDING;
-        try {
-            return InternshipStatus.valueOf(status.toUpperCase());
-        } catch (Exception e) {
-            return InternshipStatus.PENDING;
-        }
-    }
-
-    private static boolean parseVisibility(String v) {
-        if (v == null) return false;
-        return v.equalsIgnoreCase("true")
-            || v.equalsIgnoreCase("yes")
-            || v.equalsIgnoreCase("visible")
-            || v.equalsIgnoreCase("1");
-    }
-
-    private static CompanyApprovalStatus parseCompanyRepStatus(String s) {
-        if (s == null) return CompanyApprovalStatus.PENDING;
-        try {
-            return CompanyApprovalStatus.valueOf(s.toUpperCase());
-        } catch (Exception e) {
-            return CompanyApprovalStatus.PENDING;
-        }
-    }*/
 
     /* ==============================
        STUDENT

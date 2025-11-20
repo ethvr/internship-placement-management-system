@@ -1,11 +1,8 @@
 package IPMS.ObjectClasses;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Scanner;
 import IPMS.System.SystemData;
 import IPMS.System.SystemApp;
-import IPMS.System.SystemDataEntities.*;
 
 public abstract class User {
     private String userID;
@@ -48,7 +45,7 @@ public abstract class User {
         while (true) {
             if(SystemData.checkUsername(NameInput)) {
 
-                while(PWTries > 0 || !pwInput.equals("break")) {
+                while(PWTries > 0) {
 
                     System.out.println("You have " + PWTries + " tries left, type \"0\" to exit");
                     System.out.print("Enter your password: ");
