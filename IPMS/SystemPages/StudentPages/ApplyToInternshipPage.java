@@ -1,5 +1,6 @@
 package IPMS.SystemPages.StudentPages;
 
+import IPMS.ObjectClasses.Application;
 import IPMS.ObjectClasses.Student;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class ApplyToInternshipPage implements Page {
     public PageAction next() {
 
 
-        System.out.print("Select one Internship to apply to: ");
+        System.out.print("\nSelect one Internship to apply to: ");
         int opt = UniversalFunctions.readIntInRange(1, index);
 
         if (opt == index) {
@@ -61,8 +62,12 @@ public class ApplyToInternshipPage implements Page {
         } else {
 
             Internship internship = indexMap.get(opt);
-
             String internshipid = internship.getInternshipId();
+
+            if (obj.CheckifApplicationExists(internshipid)) {
+                System.out.println("You have already applied to this internship.");
+                return PageAction.pop();
+            }
 
             obj.applyTo(internshipid);
             return PageAction.pop();

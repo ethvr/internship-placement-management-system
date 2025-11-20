@@ -35,6 +35,7 @@ public class FilteredInternshipsPage implements Page {
         if (obj instanceof Student s){
             System.out.println("[1] Proceed To Application");
             System.out.println("[2] Back");
+            System.out.println("Enter an option: ");
             int opt = UniversalFunctions.readIntInRange(1, 2);
             return switch (opt) {
                 case 1 -> PageAction.push(new ApplyToInternshipPage(s, list));

@@ -61,8 +61,8 @@ public class Student extends User {
         if (internship == null)
             throw new IllegalArgumentException("No such internship");
 
-        if (!internship.isVisibleTo(this))
-            throw new IllegalStateException("Internship not available for you");
+        /*if (!internship.isVisibleTo(this))
+            throw new IllegalStateException("Internship not available for you");*/
 
         if (countActiveApplications() >= 3)
             throw new IllegalStateException("You already have 3 active applications");
@@ -212,6 +212,18 @@ public class Student extends User {
         String key = this.getUserId();
         return list = SystemData.getALMstudent(key);
 
+    }
+
+    public boolean CheckifApplicationExists(String internshipId) {
+
+        List<Application> list = getAllMyApplications();
+        if (list == null) {return false;}
+        for (Application app : list) {
+            if (app.getInternshipId().equals(internshipId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** 
