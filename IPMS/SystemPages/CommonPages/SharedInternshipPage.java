@@ -36,7 +36,7 @@ public class SharedInternshipPage implements Page {
                 System.out.println("[8] Logout");
             } else {
                 System.out.println("[6] Back");
-                System.out.println("[7] Logout");
+                //System.out.println("[7] Logout");
             }
 
             System.out.print("Enter an option: ");
@@ -67,8 +67,8 @@ public class SharedInternshipPage implements Page {
         
 
         int opt = isRep
-                ? UniversalFunctions.readIntInRange(1, 6)     // CompanyRep menu
-                : UniversalFunctions.readIntInRange(1, 7);    // Student/Staff menu
+                ? UniversalFunctions.readIntInRange(1, 7)     // CompanyRep menu
+                : UniversalFunctions.readIntInRange(1, 8);    // Student/Staff menu
 
         return switch (opt) {
 

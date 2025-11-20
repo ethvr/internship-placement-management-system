@@ -11,12 +11,8 @@ public class CompanyStatusPage implements Page{
     @Override
     public void showMenu() {
         System.out.println("\n======= STATUS CHECKER =======\n");
-
     }
 
-    /** 
-     * @return PageAction
-     */
     @Override
     public PageAction next() {
         UserManager.CompanyStatusCheck();
@@ -28,11 +24,14 @@ public class CompanyStatusPage implements Page{
         return switch (opt) {
             case 1 -> PageAction.pop();
             case 2 -> {
+                // ✅ Save before exit
+                System.out.println("\nSaving data...");
+                SystemData.saveAll();
+                System.out.println("Data saved. Goodbye!");
                 yield PageAction.exit();
             }
             default -> PageAction.pop();
         };
     }
-
 }
 

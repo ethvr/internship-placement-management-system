@@ -32,10 +32,10 @@ public class UserManager {
 
     public static void UsernameCSVGenerator() {
         
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
-        //File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
-        //File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+        // File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
+        // File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
+        File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -160,6 +160,7 @@ public class UserManager {
     // return List<String> or return SystemDataEntities.CompanyCSVData
     public static List<String> CompanyRepRegistrationInput() {
 
+        SystemData.loadIntoMap("company", CompanyCSVData.class);
         Map<String, CompanyRepresentative> map = SystemData.getCompanyMap();
         RegistrationInput.clear();
         List<String> EmptyList = new ArrayList<>();
@@ -305,6 +306,11 @@ public class UserManager {
 
                     SystemData.CompRepCreation(rep);
 
+                    String email = RegistrationInput.get(4);
+                    String username = email.substring(0, email.indexOf('@'));
+                    Credentials creds = new Credentials("password", true, "company");
+                    SystemData.LoginMap.put(username, creds);
+
                     System.out.println("Registration complete, please wait for your account to be approved");
 
                     return 3; // return to main menu
@@ -327,7 +333,14 @@ public class UserManager {
         String email;
 
         while (true) {
-            email = sc.nextLine().trim();
+        System.out.print("Enter your Email used for registration (or type EXIT to cancel): ");
+        email = sc.nextLine().trim();
+
+        // ✅ Allow user to exit
+            if (email.equalsIgnoreCase("exit")) {
+            System.out.println("Returning to main menu...");
+            return;
+            }
 
             if (email.isEmpty()) {
                 System.out.println("Email cannot be empty. Please try again:");

@@ -42,7 +42,7 @@ public class CompanyRepresentative extends User {
      }
 
      
-     /* 
+     
      public void requestRegistration(CareerCenter careerCenter) {
           careerCenter.addPendingCompany(this);
      }*/
