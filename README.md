@@ -1,13 +1,13 @@
 INSTRUCTIONS TO RUN THE APP
 
 1. Go into IPMS folder 
-2. go into System folder
-3. go into SystemData folder, under the loadIntoMap and writeBackCSV functions
-4. change the file paths of the respective folders to that of your desktop
-5. go back into the IPMS folder and find the Usermanagement folder
+2. Go into System folder
+3. Go into SystemData folder, find the loadIntoMap and writeBackCSV functions
+4. Change the file paths of the respective folders to that of your desktop
+5. Go back into the IPMS folder and find the Usermanagement folder
 6. Find the UsernameCSVGenerator function under UserManager and change the file paths to that of the desktop
 7. Go into the SystemApp file inside the System folder
-8. run main
+8. Run main
 
 
 
