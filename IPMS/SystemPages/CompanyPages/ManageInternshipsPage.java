@@ -1,11 +1,8 @@
 package IPMS.SystemPages.CompanyPages;
-import java.util.List;
-import java.util.Scanner;
 
+import java.util.Scanner;
 import IPMS.UserManagement.*;
 import IPMS.ObjectClasses.CompanyRepresentative;
-import IPMS.ObjectClasses.Internship;
-import IPMS.System.SystemData;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
@@ -14,12 +11,10 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 public class ManageInternshipsPage implements Page {
     private final CompanyRepresentative obj;
     private CompanyController controller;
-    private List<Internship> intenrshipList;
 
     public ManageInternshipsPage(CompanyRepresentative obj) {
         this.obj = obj;
         this.controller = new CompanyController(new Scanner(System.in));
-        this.intenrshipList = intenrshipList;
     }
 
     @Override

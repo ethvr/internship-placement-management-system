@@ -1,14 +1,12 @@
 package IPMS.ObjectClasses;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import IPMS.Enums.*;
 import IPMS.UserManagement.IdGenerator;
 import IPMS.System.*;
-import jdk.jfr.Description;
 //import Companypackage.CompanyRepresentative;
 
 public class Internship {

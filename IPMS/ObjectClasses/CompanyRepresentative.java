@@ -6,8 +6,6 @@ import java.util.List;
 
 //import Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
-import IPMS.ObjectClasses.*;
-import IPMS.Enums.*;
 import IPMS.System.SystemData;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -170,16 +168,6 @@ public class CompanyRepresentative extends User {
           this.status = status;
      }
 
-
-
-     /** 
-      * @return String
-      */
-     // public void setApproved(boolean approved) { this.isApproved = approved; }
-     
-     // public boolean isApproved() { //the comp rep's account status
-     //      return this.status == CompanyApprovalStatus.APPROVED; 
-     // }
 
      public String getCompanyName() {
           return companyName;
