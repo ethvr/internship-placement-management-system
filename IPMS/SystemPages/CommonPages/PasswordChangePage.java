@@ -33,7 +33,6 @@ public class PasswordChangePage implements Page {
             return PageAction.pop();
         }
         else username = email.split("@")[0];
-        System.out.println("user is " + username);
 
         User.changePassword(username);
 

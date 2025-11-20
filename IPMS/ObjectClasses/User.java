@@ -42,8 +42,8 @@ public abstract class User {
         String NameInput = sc.nextLine();
         String pwInput = null;
         if (NameInput.equalsIgnoreCase("exit")) {
-        return "NIL";
-        }
+            return "NIL";
+            }
 
         while (true) {
             if(SystemData.checkUsername(NameInput)) {
@@ -129,8 +129,13 @@ public abstract class User {
             System.out.println("=== CHANGE YOUR PASSWORD ===\n");
 
             System.out.println("You have " + numberoftries + " tries left");
-            System.out.print("Enter your current password: ");
+            System.out.print("Enter your current password (type BACK to cancel): ");
             String oldPW = scanner.nextLine();
+
+            if (oldPW.equalsIgnoreCase("back")) {
+                System.out.println("Exiting password change.");
+                return;
+            }
 
             // checks if password match before changing based on hash map
             //if (!oldPW.equals(SystemData.getCredentials(username).Password))
