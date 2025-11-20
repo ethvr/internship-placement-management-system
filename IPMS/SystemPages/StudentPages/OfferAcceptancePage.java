@@ -50,7 +50,11 @@ public class OfferAcceptancePage implements Page{
                 index, 
                 "Cancel" 
             );
+        
+        System.out.printf("[%d] Back\n", index);               // back
+        System.out.printf("[%d] Logout\n", index + 1);         // logout
 
+        System.out.printf("\nChoose an option (1-%d): ", index + 1);
 
     }
 
@@ -59,18 +63,24 @@ public class OfferAcceptancePage implements Page{
      */
     @Override
     public PageAction next() {
-        System.out.printf("\nChoose a Application to Accept (1-%d): ", index);
-        int opt = UniversalFunctions.readIntInRange(1, index);
+        
+        //System.out.printf("\nChoose a Application to Accept (1-%d): ", index);
+        int opt = UniversalFunctions.readIntInRange(1, index+1);
 
         if (opt == index) {
-            return PageAction.pop();   // cancel
-        } else {
-
-            String key = indexMap.get(opt);
-            
-            obj.acceptPlacement(key);
-
-            return PageAction.pop();
+            return PageAction.pop();   // back
+        } 
+        if (opt == index + 1) {          //logout
+            obj.logout();
+            return PageAction.exit();
         }
+        
+
+        String key = indexMap.get(opt);
+        
+        obj.acceptPlacement(key);
+
+        return PageAction.pop();
+        
     }
 }

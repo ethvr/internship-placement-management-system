@@ -42,8 +42,10 @@ public class ApplyToInternshipPage implements Page {
             index++;
         }
 
-        System.out.printf("[%d] Cancel", index);
-
+        System.out.printf("[%d] Back", index);
+        System.out.printf("[%d] Logout\n", index + 1);
+        
+        System.out.printf("\nChoose an option (1-%d): ", index + 1);
     }
 
     /** 
@@ -53,19 +55,24 @@ public class ApplyToInternshipPage implements Page {
     public PageAction next() {
 
 
-        System.out.print("Select one Internship to apply to: ");
-        int opt = UniversalFunctions.readIntInRange(1, index);
+        //System.out.print("Select one Internship to apply to: ");
+        int opt = UniversalFunctions.readIntInRange(1, index+1);
 
         if (opt == index) {
-            return PageAction.pop();   // cancel
-        } else {
+            return PageAction.pop();   // back
+        } 
+        if (opt == index + 1) {         //logout
+            obj.logout();
+            return PageAction.exit();
+        }   
+        
 
-            Internship internship = indexMap.get(opt);
+        Internship internship = indexMap.get(opt);
 
-            String internshipid = internship.getInternshipId();
+        String internshipid = internship.getInternshipId();
 
-            obj.applyTo(internshipid);
-            return PageAction.pop();
-        }
+        obj.applyTo(internshipid);
+        return PageAction.pop();
+        
     }
 }

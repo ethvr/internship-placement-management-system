@@ -42,6 +42,7 @@ public class ViewApplicationsPage implements Page{
         System.out.println("[1] Accept Offer");
         System.out.println("[2] Request Withdrawal");
         System.out.println("[3] Back");
+        System.out.println("[4] Logout");
         System.out.print("Enter an option: ");
     }
 
@@ -51,7 +52,7 @@ public class ViewApplicationsPage implements Page{
     @Override
     public PageAction next() {
 
-        int opt = UniversalFunctions.readIntInRange(1, 3);
+        int opt = UniversalFunctions.readIntInRange(1, 4);
 
         return switch (opt) {
             case 1 -> PageAction.push(new OfferAcceptancePage(obj));

@@ -57,7 +57,11 @@ public class ViewWithdrawalsPage implements Page{
 
         return switch (opt) {
             case 1 -> PageAction.pop();
-            case 2 -> PageAction.exit();
+            case 2 -> {
+                obj.logout();
+                yield PageAction.exit();
+            }
+            
             default -> PageAction.pop();
         };
     }

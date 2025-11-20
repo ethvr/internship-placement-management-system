@@ -33,7 +33,8 @@ public class CompanyMainPage implements Page{
         System.out.println("[2] View Internships Created");
         System.out.println("[3] Manage Applications (View/Approve/Reject)");
         System.out.println("[4] Change Password");
-        System.out.println("[5] Logout\n");
+        System.out.println("[5] Back ");
+        System.out.println("[6] Logout\n");
 
         System.out.print("Enter an option (1-5): ");
     }
@@ -45,14 +46,15 @@ public class CompanyMainPage implements Page{
     public PageAction next() {
 
         CompanyRepresentative obj = SystemData.getCompanyValue(username);
-        int opt = UniversalFunctions.readIntInRange(1, 5);
+        int opt = UniversalFunctions.readIntInRange(1, 6);
 
         return switch (opt) {
             case 1 -> PageAction.push(new ManageInternshipsPage(obj));
             case 2 -> PageAction.push(new SharedInternshipPage(obj));
             case 3 -> PageAction.push(new ManageApplicationsPage(obj));
             case 4 -> PageAction.push(new PasswordChangePage(obj));
-            case 5 -> {
+            case 5 -> PageAction.pop();
+            case 6 -> {
                 obj.logout();
                 yield PageAction.pop();
             }

@@ -45,10 +45,12 @@ public class WithdrawalRequestPage implements Page{
 
             index++;
         }
-        System.out.printf("[%d] %s\n", 
-                index, 
-                "Cancel" 
-            );
+
+        System.out.printf("[%d] Back\n", index);
+        System.out.printf("[%d] Logout\n", index + 1);
+
+        System.out.printf("\n Choose an option (1-%d): ", index + 1);
+
 
 
     }
@@ -59,19 +61,26 @@ public class WithdrawalRequestPage implements Page{
     @Override
     public PageAction next() {
 
-        System.out.printf("\nChoose a application to withdraw from (1-%d): ", index);
-        int opt = UniversalFunctions.readIntInRange(1, index);
+        //System.out.printf("\nChoose a application to withdraw from (1-%d): ", index);
+        int opt = UniversalFunctions.readIntInRange(1, index+1);
 
         if (opt == index) {
-            return PageAction.pop();   // cancel
-        } else {
-            System.out.print("Enter your reason for withdrawal: ");
-            String remarks = UniversalFunctions.readString();
-
-            String appID = indexMap.get(opt);
-            obj.requestWithdrawal(appID, remarks);
-
-            return PageAction.pop();
+            return PageAction.pop();   // back
+        } 
+        
+        if (opt == index + 1) {          //logout
+            obj.logout();
+            return PageAction.exit();
         }
+        
+        
+        System.out.print("Enter your reason for withdrawal: ");
+        String remarks = UniversalFunctions.readString();
+
+        String appID = indexMap.get(opt);
+        obj.requestWithdrawal(appID, remarks);
+
+        return PageAction.pop();
+        
     }
 }

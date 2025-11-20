@@ -24,9 +24,10 @@ public class StudentMainPage implements Page {
         System.out.println("[2] View your Internship Applications");
         System.out.println("[3] View your Withdrawal Applications");
         System.out.println("[4] Change Password");
-        System.out.println("[5] Logout\n");
+        System.out.println("[5] Back");
+        System.out.println("[6] Logout\n");
 
-        System.out.print("Enter an option (1-5): ");;
+        System.out.print("Enter an option (1-6): ");;
     }
 
     /** 
@@ -35,7 +36,7 @@ public class StudentMainPage implements Page {
     @Override 
     public PageAction next() {
 
-        int opt = UniversalFunctions.readIntInRange(1, 5);
+        int opt = UniversalFunctions.readIntInRange(1, 6);
         Student Obj = SystemData.getStudentObj(username);
 
         return switch (opt) {
@@ -43,7 +44,8 @@ public class StudentMainPage implements Page {
             case 2 -> PageAction.push(new ViewApplicationsPage(Obj));
             case 3 -> PageAction.push(new ViewWithdrawalsPage(Obj));
             case 4 -> PageAction.push(new PasswordChangePage(Obj));
-            case 5 -> {
+            case 5 -> PageAction.pop();
+            case 6 -> {
                 Obj.logout();
                 yield PageAction.exit();
             }
