@@ -72,6 +72,9 @@ public class CompanyRepresentative extends User {
      public boolean isApproved() {
           return status == CompanyApprovalStatus.APPROVED;
      }
+     public boolean isStatusPending() {
+          return this.status == CompanyApprovalStatus.PENDING;
+     }
 
      /** 
       * @param internship

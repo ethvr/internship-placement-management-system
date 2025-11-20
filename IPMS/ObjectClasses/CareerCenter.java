@@ -16,7 +16,7 @@ public class CareerCenter extends User {
 
     private String role;
     private String staffDepartment;
-    public static List<CompanyRepresentative> pendingCompanies; 
+    //public static List<CompanyRepresentative> pendingCompanies; 
     static Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
     static Map<String, Application> applicationmap = SystemData.getApplicationMap();
     static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
@@ -26,8 +26,8 @@ public class CareerCenter extends User {
         super(staffId, name, email);
         this.role = role;
         this.staffDepartment = staffDepartment;
-        pendingCompanies = new ArrayList<>();
-        pendingCompanies
+        //pendingCompanies = new ArrayList<>();
+        //pendingCompanies
     }
 
     
@@ -205,8 +205,8 @@ public class CareerCenter extends User {
     /** 
      * @return List
      */
-    public static List getPendingCompanies(){
-        return pendingCompanies;
+    public static List<CompanyRepresentative> getPendingCompanies(){
+        return SystemData.UnapprovedRepList;
     }
 
 }

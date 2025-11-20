@@ -32,8 +32,10 @@ public class UserManager {
 
     public static void UsernameCSVGenerator() {
         
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        // File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
+        // File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
+        File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -77,6 +79,7 @@ public class UserManager {
                         if (line.isEmpty()) continue;
                         String[] parts = line.split(",", -1);
 
+                        // Decide email column index by file type
                         int emailIdx;
                         String type;
 
@@ -121,6 +124,8 @@ public class UserManager {
                         // Add to output
                         bw.write(username + ",password,true," + type);
                         bw.newLine();
+
+                        // Track so later files don’t duplicate
                         existing.add(username);
                     }
                 } catch (IOException e) {
