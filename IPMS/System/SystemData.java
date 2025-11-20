@@ -738,7 +738,7 @@ public class SystemData {
         return ALMstudent.getOrDefault(studentid, new ArrayList<>());
     }
     public static List<Application> getALMinternship(String internshipid) {
-        return ALMstudent.getOrDefault(internshipid, new ArrayList<>());
+        return ALMinternship.getOrDefault(internshipid, new ArrayList<>());
     }
     
     public static WithdrawalRequest getWithdrawalValue(String appID) {

@@ -108,14 +108,27 @@ public class CompanyRepresentative extends User {
      public void viewApplications(Internship internship) {
           System.out.println("Applications for " + internship.getTitle() + ":");
           String key = internship.getInternshipId();
+          System.out.println(SystemData.ALMinternship);
           List<Application> appList = SystemData.getALMinternship(key);
+          System.out.println(appList);
           if (appList == null) {
                System.out.println("No Applications as of this time");
           }
           else {
+              System.out.printf("%-10s %-12s %-12s %-15s %-10s%n",
+                              "AppID", "StudentID", "InternID", "Status", "StudentAcc");
+
+               System.out.println("------------------------------------------------------------");
+
                for (Application app : appList) {
-                    System.out.println(app);
+               System.out.printf("%-10s %-12s %-12s %-15s %-10s%n",
+                    app.getApplicationID(),
+                    app.getStudentId(),
+                    app.getInternshipId(),
+                    app.getStatus(),
+                    app.getAcceptedByStudent());
                }
+
           }
      }
 

@@ -281,7 +281,7 @@ public class CompanyController {
     
         if (choice == index) return;
 
-        Internship selectedInternship = indexMap.get(choice - 1);
+        Internship selectedInternship = indexMap.get(choice);
         
         // Use the existing method to view applications
         System.out.println();

@@ -44,6 +44,7 @@ public class ManageApplicationsPage implements Page {
 
         switch (opt) {
             case 1 -> {
+                System.out.println(SystemData.ALMinternship);
                 controller.handleViewApplications(obj);
                 return PageAction.push(this);
             }
