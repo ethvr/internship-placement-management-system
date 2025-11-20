@@ -47,12 +47,12 @@ public class CompanyController {
         String preferredMajor = scanner.nextLine().trim();
 
         System.out.print("Enter Opening Date (YYYY-MM-DD): ");
-        String openDateinput = scanner.nextLine().trim();
-        LocalDate openDate = LocalDate.parse(openDateinput);
+        LocalDate openDateinput = UniversalFunctions.readValidDate();
+        LocalDate openDate = openDateinput;
 
         System.out.print("Enter Closing Date (YYYY-MM-DD): ");
-        String closeDateinput = scanner.nextLine().trim();
-        LocalDate closeDate = LocalDate.parse(closeDateinput);
+        LocalDate closeDateinput = UniversalFunctions.readValidDate();
+        LocalDate closeDate = closeDateinput;
 
         System.out.print("Enter Number of Slots (max 10): ");
         int slots = UniversalFunctions.readIntInRange(1, 10);
@@ -63,6 +63,9 @@ public class CompanyController {
         
         System.out.println();
     }
+
+    
+
 
     /**
      * Handle editing an existing internship

@@ -1,6 +1,0 @@
-InternshipID,InternshipTitle,CompanyName,CompRepID,Major,Vacancy,Level,ClosingDate,Description,Status,Visibility
-INT001,Software QA Internship,ByteWorks Pte Ltd,jasonlim,Computer Science,5,BASIC,2025-12-30,Entry-level QA testing role,APPROVED,true
-INT002,Data Analytics Internship,CloudWave Systems,aliciatan,Data Science & AI,3,INTERMEDIATE,2025-12-25,Analyze datasets and build dashboards,APPROVED,true
-INT003,Robotics R&D Internship,CyberNet Global,sarahong,Computer Engineering,2,ADVANCED,2025-12-20,Advanced robotics system development,APPROVED,true
-INT004,Internal Cybersecurity Internship,CyberNet Global,sarahong,IT,3,BASIC,2025-12-15,Security auditing and monitoring,PENDING,false
-INT005,Marketing Associate Internship,AlphaTech Solutions,luther123,Marketing,4,BASIC,2025-12-31,Marketing content and outreach,PENDING,true

@@ -54,7 +54,7 @@ public class CompanyMainPage implements Page{
             case 4 -> PageAction.push(new PasswordChangePage(obj));
             case 5 -> {
                 obj.logout();
-                yield PageAction.pop();
+                yield PageAction.exit();
             }
             default -> PageAction.pop();
         };

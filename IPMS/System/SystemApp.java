@@ -25,13 +25,13 @@ public class SystemApp {
         SystemData.loadAll();
         //SystemData.loadIntoMap("password", Credentials.class);
         
-        System.out.println(SystemData.StudentCSVMap);
-        System.out.println(SystemData.StaffCSVMap);
-        System.out.println(SystemData.RepresentativeCSVMap);
+        //System.out.println(SystemData.StudentCSVMap);
+        //System.out.println(SystemData.StaffCSVMap);
+        //System.out.println(SystemData.RepresentativeCSVMap);
         System.out.println(SystemData.InternshipCSVMap);
-        System.out.println(SystemData.ApplicationCSVMap);
-        System.out.println(SystemData.WithdrawalCSVMap);
-        System.out.println(SystemData.LoginMap);
+        //System.out.println(SystemData.ApplicationCSVMap);
+        //System.out.println(SystemData.WithdrawalCSVMap);
+        //System.out.println(SystemData.LoginMap);
         
         Stack<Page> nav = new Stack<>();
         nav.push(new MainPage());   // Start at the main menu

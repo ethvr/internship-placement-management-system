@@ -62,6 +62,8 @@ public class CompanyRepresentative extends User {
                                                openDate, closeDate, companyName, compRepID, slots);
           internshipsCreated.add(internship);
 
+          System.out.println(internship);
+
           SystemData.InternshipCreation(internship);
           System.out.println("Internship created and awaiting Career Center approval.");
      }

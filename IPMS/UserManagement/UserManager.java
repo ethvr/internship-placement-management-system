@@ -32,10 +32,10 @@ public class UserManager {
 
     public static void UsernameCSVGenerator() {
         
-        // File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        // File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
-        File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
-        File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
+        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        //File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
+        //File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
@@ -78,68 +78,91 @@ public class UserManager {
             }
 
             // 4) Process each input file and append only NEW usernames
-            for (File f : csvFiles) {
+           for (File f : csvFiles) {
                 String fname = f.getName().toLowerCase();
 
                 try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     br.readLine(); // skip header
                     String line;
+
                     while ((line = br.readLine()) != null) {
                         if (line.isEmpty()) continue;
+
                         String[] parts = line.split(",", -1);
+                        int emailIdx = -1;
+                        String type = null;
 
-                        // Decide email column index by file type
-                        int emailIdx;
-                        String type;
-
-                        boolean skip = false;
-
+                        // ===========================
+                        // 1. Identify FILE TYPE
+                        // ===========================
                         if (fname.contains("company")) {
                             emailIdx = 5;
                             type = "company";
-                            String statusStr = parts[6].trim().toUpperCase();
-                            // Only allow approved companies
-                            if (statusStr.equals("APPROVED")) {
-                                skip = false;
-                            }
-                            else {
-                                skip = true;
+
+                            // Must have status column
+                            if (parts.length <= 6) {
+                                //System.out.println("SKIP (company missing status): " + Arrays.toString(parts));
+                                continue;
                             }
 
+                            String statusStr = parts[6].trim().toUpperCase();
+                            if (!statusStr.equals("APPROVED")) {
+                                //System.out.println("SKIP (company not approved): " + Arrays.toString(parts));
+                                continue;
+                            }
                         }
                         else if (fname.contains("staff")) {
                             emailIdx = 4;
                             type = "staff";
-                        } 
+                        }
                         else if (fname.contains("student")) {
                             emailIdx = 4;
                             type = "student";
-                        } 
+                        }
                         else {
+                            continue; // unrelated file
+                        }
+
+                        // ===========================
+                        // 2. Validate EMAIL INDEX
+                        // ===========================
+                        if (emailIdx == -1 || parts.length <= emailIdx) {
+                            //System.out.println("SKIP (missing email index): " + Arrays.toString(parts));
                             continue;
                         }
 
-                        if (skip) continue; // <-- SKIP PENDING/REJECTED COMPANIES
-
-                        if (parts.length <= emailIdx) continue;
                         String email = parts[emailIdx].trim();
+                        if (email.isEmpty() || !email.contains("@")) {
+                            //System.out.println("SKIP (invalid email): " + Arrays.toString(parts));
+                            continue;
+                        }
 
-                        if (email.isEmpty() || !email.contains("@")) continue;
-
+                        // ===========================
+                        // 3. Generate USERNAME
+                        // ===========================
                         String username = email.substring(0, email.indexOf('@')).trim();
-                        if (username.isEmpty() || existing.contains(username)) continue;
+                        if (username.isEmpty()) {
+                            //System.out.println("SKIP (empty username): " + Arrays.toString(parts));
+                            continue;
+                        }
 
-                        // Add to output
+                        if (existing.contains(username)) {
+                            //System.out.println("SKIP (duplicate username): " + username);
+                            continue;
+                        }
+
+                        // ===========================
+                        // 4. WRITE NEW USER
+                        // ===========================
                         bw.write(username + ",password,true," + type);
                         bw.newLine();
-
-                        // Track so later files don’t duplicate
                         existing.add(username);
+
+                        System.out.println("ADDED USER: " + username + " (" + type + ")");
                     }
-                } catch (IOException e) {
-                    System.out.println("Error reading " + f.getName() + ": " + e.getMessage());
                 }
             }
+
         } catch (IOException e) {
             System.out.println("Error writing output: " + e.getMessage());
         }

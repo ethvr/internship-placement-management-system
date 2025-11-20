@@ -266,10 +266,49 @@ public class SystemData {
             File targetFile = null;
             for (File f : Objects.requireNonNull(folder.listFiles())) {
                 if (f.getName().toLowerCase().contains(filename.toLowerCase())) {
-                    targetFile = f; break;
+                    targetFile = f;
+                    break;
                 }
             }
-            if (targetFile == null) throw new FileNotFoundException("CSV not found for: " + filename);
+
+            // =====================================================================
+            // If CSV FILE DOES NOT EXIST → CREATE the file WITH PROPER HEADERS
+            // =====================================================================
+            if (targetFile == null) {
+
+                // Create new file inside the existing folder
+                targetFile = new File(folder, filename + ".csv");
+                System.out.println("Auto-creating missing CSV: " + targetFile.getAbsolutePath());
+
+                // Select CSVData class based on filename
+                Class<?> clazz = switch (filename.toLowerCase()) {
+                    case "internship" -> InternshipData.class;
+                    case "application" -> ApplicationData.class;
+                    case "withdrawal" -> WithdrawalData.class;
+                    default -> throw new IllegalArgumentException("Auto-create not allowed for: " + filename);
+                };
+
+                // Build header line using reflection
+                Field[] fields = clazz.getDeclaredFields();
+                StringBuilder header = new StringBuilder();
+
+                // "UniqueID" should always come first
+                header.append("UniqueID");
+
+                for (Field f : fields) {
+                    String h = f.getName();
+                    if (!h.equals("UniqueID")) {
+                        header.append(",").append(h);
+                    }
+                }
+
+                // Write header into newly created file
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(targetFile))) {
+                    bw.write(header.toString());
+                    bw.newLine();
+                }
+            }
+
 
             // Read header to preserve column order
             String headerLine;

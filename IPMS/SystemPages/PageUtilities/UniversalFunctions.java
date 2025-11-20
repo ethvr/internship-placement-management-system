@@ -1,5 +1,6 @@
 package IPMS.SystemPages.PageUtilities;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import IPMS.ObjectClasses.*;
@@ -79,7 +80,18 @@ public class UniversalFunctions {
         return input;
     }
 
+    public static LocalDate readValidDate() {
+            while (true) {
 
+                String input = sc.nextLine().trim();
+
+                try {
+                    return LocalDate.parse(input); // auto-throws if invalid
+                } catch (Exception e) {
+                    System.out.println("Invalid date format! Please enter in YYYY-MM-DD (e.g., 2025-03-21).\n");
+                }
+            }
+        }
 
     /** 
      * @param enumType
