@@ -97,17 +97,16 @@ public class UserManager {
                         if (fname.contains("company")) {
                             emailIdx = 5;
                             type = "company";
-
-                            // === READ STATUS COLUMN (index 6) ===
-                            if (parts.length > 6) {
-                                String statusStr = parts[6].trim().toUpperCase();
-
-                                // Only allow approved companies
-                                if (!statusStr.equals("APPROVED")) {
-                                    skip = true;
-                                }
+                            String statusStr = parts[6].trim().toUpperCase();
+                            // Only allow approved companies
+                            if (statusStr.equals("APPROVED")) {
+                                skip = false;
                             }
-                        } 
+                            else {
+                                skip = true;
+                            }
+
+                        }
                         else if (fname.contains("staff")) {
                             emailIdx = 4;
                             type = "staff";
