@@ -35,6 +35,11 @@ public class FilteredInternshipsPage implements Page {
      */
     private PageAction UserIdentifier(User obj, List<Internship> list) {
 
+        if (list.isEmpty()) {
+            System.out.println("No internships found with the applied filter(s).");
+            return PageAction.pop();
+        }
+
         if (obj instanceof Student s){
             System.out.println("[1] Proceed To Application");
             System.out.println("[2] Back");
