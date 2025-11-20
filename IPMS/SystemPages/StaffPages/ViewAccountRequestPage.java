@@ -71,6 +71,7 @@ public class ViewAccountRequestPage implements Page{
                                 System.out.println("Operation cancelled.");
                                 yield PageAction.pop();
                             }
+                            
                             compRep = companymap.get(emailString.trim());
                             if (compRep == null) {
                                 System.out.println("No pending account found for that email. Please try again.");

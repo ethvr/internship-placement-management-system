@@ -36,13 +36,18 @@ public class SharedInternshipPage implements Page {
                 System.out.println("[8] Logout");
             } else {
                 System.out.println("[6] Back");
-                //System.out.println("[7] Logout");
+                System.out.println("[7] Logout");
             }
 
             System.out.print("Enter an option: ");
         }
         else {
             System.out.println("There are currently no Internships applicable to you");
+            if (!InternshipExists(Obj)) {
+                System.out.println("[1] Back");
+                System.out.println("[2] Logout");
+                System.out.print("Enter an option: ");
+            }
         }
         
     }
@@ -55,6 +60,19 @@ public class SharedInternshipPage implements Page {
 
         List<Internship> InternshipList;
         boolean isRep = Obj instanceof CompanyRepresentative;
+        if (!InternshipExists(Obj)){
+            int opt = UniversalFunctions.readIntInRange(1, 2);
+            return switch (opt) {
+                case 1 -> {
+                    yield PageAction.pop();
+                }
+                case 2 -> {
+                    Obj.logout();
+                    yield PageAction.exit();
+                }
+                default -> PageAction.pop();
+            };
+        }
 
         if (Obj instanceof Student s) {
             InternshipList = Filters.filterByYearOfStudy(s.getYearOfStudy());
@@ -62,9 +80,7 @@ public class SharedInternshipPage implements Page {
         else if (Obj instanceof CompanyRepresentative cr) {
             InternshipList = Filters.filterByCompanyName(cr.getCompanyName());
         }
-        else InternshipList = Filters.getAllInternships();
-
-        
+        else InternshipList = Filters.getAllInternships();    
 
         int opt = isRep
                 ? UniversalFunctions.readIntInRange(1, 7)     // CompanyRep menu

@@ -305,12 +305,6 @@ public class UserManager {
                     // adds new runtime creation to map
 
                     SystemData.CompRepCreation(rep);
-
-                    String email = RegistrationInput.get(4);
-                    String username = email.substring(0, email.indexOf('@'));
-                    Credentials creds = new Credentials("password", true, "company");
-                    SystemData.LoginMap.put(username, creds);
-
                     System.out.println("Registration complete, please wait for your account to be approved");
 
                     return 3; // return to main menu

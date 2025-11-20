@@ -27,6 +27,7 @@ public class ViewApplicationsPage implements Page{
 
         if (list.isEmpty()) {
             System.out.println("You have not applied to any internships.");
+            return;
         }
 
         int index = 1;
@@ -50,6 +51,30 @@ public class ViewApplicationsPage implements Page{
      */
     @Override
     public PageAction next() {
+
+        String key = obj.getUserId();
+        List<Application> list = SystemData.getALMstudent(key);
+
+        if (list.isEmpty()) {
+            System.out.println("\n[1] Back");
+            System.out.println("[2] Logout\n");
+            System.out.print("Enter an option: ");
+            
+            int opt = UniversalFunctions.readIntInRange(1, 2);
+
+            return switch (opt) {
+                case 1 -> {
+                    yield PageAction.pop();
+                }
+                case 2 -> {
+                    obj.logout();
+                    yield PageAction.exit();
+                }
+                default -> {
+                    yield PageAction.pop();
+                }
+            };
+        }
 
         int opt = UniversalFunctions.readIntInRange(1, 3);
 

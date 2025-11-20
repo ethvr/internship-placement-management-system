@@ -16,7 +16,7 @@ public class CareerCenter extends User {
 
     private String role;
     private String staffDepartment;
-    //public static List<CompanyRepresentative> pendingCompanies; 
+    public static List<CompanyRepresentative> pendingCompanies; 
     static Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
     static Map<String, Application> applicationmap = SystemData.getApplicationMap();
     static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
@@ -56,8 +56,8 @@ public class CareerCenter extends User {
     
 
     //add pending company
-    public void addPendingCompany(CompanyRepresentative companyRep){
-        if (!pendingCompanies.contains(companyRep)){
+    public void addPendingCompany(CompanyRepresentative companyRep){ 
+        if (!SystemData.UnapprovedRepList.contains(companyRep)){
             pendingCompanies.add(companyRep);
         }
         else{
