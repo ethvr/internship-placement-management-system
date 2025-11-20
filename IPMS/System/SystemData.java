@@ -474,6 +474,9 @@ public class SystemData {
         writeBackCSV("company", RepresentativeCSVMap);
     }
 
+    /** 
+     * @return boolean
+     */
     // gets password and firsttime login based on suername 
     /*public static SystemDataEntities.Credentials getCredentials(String username) {
         SystemDataEntities.Credentials c = LoginMap.get(username); 
@@ -486,6 +489,11 @@ public class SystemData {
         return LoginMap.containsKey(username);
     }
 
+    /** 
+     * @param username
+     * @param password
+     * @return boolean
+     */
     public static boolean checkPassword(String username, String password) {
         Credentials c = LoginMap.get(username);
         String mapPassword = c.Password;
@@ -493,26 +501,45 @@ public class SystemData {
 
     }
 
+    /** 
+     * @param username
+     * @return boolean
+     */
     public static boolean getFirsttimelogin(String username) {
         Credentials c = LoginMap.get(username);
         return c.Firsttimelogin;
     }
 
+    /** 
+     * @param Password
+     * @param username
+     */
     // changes the password based on new input passwrod and matches via username
     public static void setPassword(String Password, String username) {
         LoginMap.get(username).Password = Password;
     }
 
+    /** 
+     * @param flag
+     * @param username
+     */
     // checks for first time login, match with username 
     public static void setFirsttimelogin(boolean flag, String username) {
         LoginMap.get(username).Firsttimelogin = flag;
     }
 
+    /** 
+     * @param username
+     * @return String
+     */
     public static String getCredentialsType(String username) {
         String type = LoginMap.get(username).Type;
         return type;
     }
 
+    /** 
+     * @param obj
+     */
     // SETTERS FOR THE MAPS --> SHOULD ONLY BE FOR THOSE THAT ARE CREATED DURING RUNTIME
     public static void CompRepCreation(CompanyRepresentative obj) {
         String compRepID = obj.getUserId();
@@ -521,6 +548,10 @@ public class SystemData {
         // unapproved list
         UnapprovedRepList.add(obj);
     }
+    /** 
+     * @param obj
+     * @return boolean
+     */
     public static boolean removeUnapprovedRep(CompanyRepresentative obj) {
         if (UnapprovedRepList.contains(obj)){
             UnapprovedRepList.remove(obj);
@@ -529,6 +560,9 @@ public class SystemData {
         else return false;
     }
 
+    /** 
+     * @param obj
+     */
     //WHAT IS FIRST KEY??
     public static void InternshipCreation(Internship obj) {
         String internshipid = obj.getInternshipId();
@@ -539,6 +573,9 @@ public class SystemData {
             .computeIfAbsent(CompRepID, k -> new ArrayList<>())
             .add(obj);
     }
+    /** 
+     * @param obj
+     */
     public static void removeInternship(Internship obj) {
         // Remove from the single-internship map
         String internshipid = obj.getInternshipId();
@@ -551,6 +588,9 @@ public class SystemData {
         }
     }
 
+    /** 
+     * @param obj
+     */
     public static void ApplicationCreation(Application obj) {
         String appID = obj.getApplicationID();
         ApplicationMap.put(appID, obj);
@@ -574,6 +614,9 @@ public class SystemData {
        
     }
 
+    /** 
+     * @param obj
+     */
     public static void removeApplication(Application obj) {
         String appID = obj.getApplicationID();
         ApplicationMap.remove(appID);
@@ -600,19 +643,34 @@ public class SystemData {
     }
     
     
+    /** 
+     * @param username
+     * @param obj
+     */
     public static void setWithdrawalKeyValue(String username, WithdrawalRequest obj) {
         WithdrawalMap.put(username, obj);
     }
+    /** 
+     * @param key
+     * @param obj
+     */
     public static void setWLMstudent(String key, WithdrawalRequest obj) {
         WLMstudent
             .computeIfAbsent(key, k -> new ArrayList<>())
             .add(obj);
     }
 
+    /** 
+     * @param key
+     */
     public static void removeInternship(String key) {
         InternshipMap.remove(key);
     }
 
+    /** 
+     * @param username
+     * @return Student
+     */
     //===========================================
     // GETTERS 
     //===========================================
@@ -620,42 +678,86 @@ public class SystemData {
         return StudentMap.get(username);
     }
     
+    /** 
+     * @param username
+     * @return CareerCenter
+     */
     public static CareerCenter getStaffValue(String username) {
         return StaffMap.get(username);
     }
 
+    /** 
+     * @param username
+     * @return CompanyRepresentative
+     */
     //should only need this 
     public static CompanyRepresentative getCompanyValue(String username) {
         return RepresentativeMap.get(username);
     }
+    /** 
+     * @param username
+     * @return CompanyApprovalStatus
+     */
     public static CompanyApprovalStatus getCompanyStatus(String username) {
         CompanyRepresentative data = RepresentativeMap.get(username);
         return data.getStatus();
     }
 
+    /** 
+     * @param InternshipID
+     * @return Internship
+     */
     public static Internship getInternshipValue(String InternshipID) {
         return InternshipMap.get(InternshipID);
     }
+    /** 
+     * @param CompRepID
+     * @return List<Internship>
+     */
     public static List<Internship> getILMcompany(String CompRepID) {
         return ILMcompany.getOrDefault(CompRepID, new ArrayList<>());
     }
 
+    /** 
+     * @param appID
+     * @return Application
+     */
     public static Application getApplicationValue(String appID) {
         return ApplicationMap.get(appID);
     }
+    /** 
+     * @param comprepid
+     * @return List<Application>
+     */
     public static List<Application> getALMcompany(String comprepid) {
         return ALMcompany.getOrDefault(comprepid, new ArrayList<>());
     }
+    /** 
+     * @param studentid
+     * @return List<Application>
+     */
     public static List<Application> getALMstudent(String studentid) {
         return ALMstudent.getOrDefault(studentid, new ArrayList<>());
     }
+    /** 
+     * @param internshipid
+     * @return List<Application>
+     */
     public static List<Application> getALMinternship(String internshipid) {
         return ALMstudent.getOrDefault(internshipid, new ArrayList<>());
     }
     
+    /** 
+     * @param appID
+     * @return WithdrawalRequest
+     */
     public static WithdrawalRequest getWithdrawalValue(String appID) {
         return WithdrawalMap.get(appID);
     }
+    /** 
+     * @param studentID
+     * @return List<WithdrawalRequest>
+     */
     public static List<WithdrawalRequest> getWLMstudent(String studentID) {
         return WLMstudent.getOrDefault(studentID, new ArrayList<>());
     }
@@ -663,12 +765,18 @@ public class SystemData {
 
 
     
+    /** 
+     * @param ID
+     */
     //===========================================
 
     public static void removeinternship(String ID) {
         InternshipMap.remove(ID);
     }
 
+    /** 
+     * @return Map<String, Student>
+     */
     //===========================================
     // READ ONLY MAP GETTERS (to not break encapsulation)
     //===========================================
@@ -678,36 +786,54 @@ public class SystemData {
 
     }
 
+    /** 
+     * @return Map<String, CareerCenter>
+     */
     public static Map<String, CareerCenter> getStaffMap(){
         
         return Collections.unmodifiableMap(StaffMap);
 
     }
 
+    /** 
+     * @return Map<String, CompanyRepresentative>
+     */
     public static Map<String, CompanyRepresentative> getCompanyMap() {
 
         return Collections.unmodifiableMap(RepresentativeMap);
 
     }
 
+    /** 
+     * @return Map<String, Internship>
+     */
     public static Map<String, Internship> getInternshipMap(){
         
         return Collections.unmodifiableMap(InternshipMap);
 
     }
 
+    /** 
+     * @return Map<String, Application>
+     */
     public static Map<String, Application> getApplicationMap(){
         
         return Collections.unmodifiableMap(ApplicationMap);
 
     }
 
+    /** 
+     * @return Map<String, WithdrawalRequest>
+     */
     public static Map<String, WithdrawalRequest> getWithdrawalMap(){
         
         return Collections.unmodifiableMap(WithdrawalMap);
 
     }
 
+    /** 
+     * @return Map<String, Credentials>
+     */
     public static Map<String, Credentials> getLoginMap(){
         
         return Collections.unmodifiableMap(LoginMap);

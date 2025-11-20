@@ -204,8 +204,9 @@ public class CareerCenter extends User {
     /** 
      * @return List
      */
-    public static List getPendingCompanies(){
-        return pendingCompanies;
+
+    public static List<CompanyRepresentative> getPendingCompanies(){
+        return SystemData.UnapprovedRepList;
     }
 
 }

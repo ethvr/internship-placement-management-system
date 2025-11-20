@@ -20,7 +20,7 @@ public class SystemDataEntities {
 
         Credentials(){} // <-- REQUIRED for reflection for universal loadcsv
 
-        Credentials (String Password, boolean Firsttimelogin, String Type){
+        public Credentials (String Password, boolean Firsttimelogin, String Type){
             this.Password = Password;
             this.Firsttimelogin = Firsttimelogin;
             this.Type = Type;

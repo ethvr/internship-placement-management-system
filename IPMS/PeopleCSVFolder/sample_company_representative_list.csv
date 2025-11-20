@@ -1,2 +1,7 @@
 CompanyRepID,Name,CompanyName,Department,Position,Email,Status
+<<<<<<< Updated upstream
 luther123@gmail.com,a,a,a,a,luther123@gmail.com,PENDING
+=======
+maran001@ntu.edu.sg,maran,NTU,IT,Engineer,maran001@ntu.edu.sg,APPROVED
+ltang@gmail.com,a,a,a,a,ltang@gmail.com,PENDING
+>>>>>>> Stashed changes

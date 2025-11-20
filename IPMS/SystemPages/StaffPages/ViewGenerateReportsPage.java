@@ -50,7 +50,10 @@ public class ViewGenerateReportsPage implements Page{
     /** 
      * @return PageAction
      */
+<<<<<<< Updated upstream
     @SuppressWarnings("unchecked")
+=======
+>>>>>>> Stashed changes
     @Override
     public PageAction next() {
           int opt = UniversalFunctions.readIntInRange(1, 8);
@@ -129,7 +132,15 @@ public class ViewGenerateReportsPage implements Page{
 
     }
 
+<<<<<<< Updated upstream
     // add helper methods for parsing enums
+=======
+    /** 
+     * @param s
+     * @return InternshipStatus
+     */
+    // ====== ENUM PARSERS WITH VALIDATION ======
+>>>>>>> Stashed changes
     private InternshipStatus parseStatus(String s) {
         if (s == null) return InternshipStatus.REJECTED;
         try {
@@ -140,6 +151,10 @@ public class ViewGenerateReportsPage implements Page{
         }
     }
 
+    /** 
+     * @param s
+     * @return InternshipLevel
+     */
     private InternshipLevel parseLevel(String s) {
         if (s == null) return InternshipLevel.BASIC;
         try {
@@ -149,8 +164,11 @@ public class ViewGenerateReportsPage implements Page{
             return InternshipLevel.BASIC;
         }
     }
+<<<<<<< Updated upstream
 
 
 
 
+=======
+>>>>>>> Stashed changes
 }

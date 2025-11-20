@@ -16,7 +16,7 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 public class ViewAccountRequestPage implements Page{
 
     private final CareerCenter staffObj;
-    final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
+    //final Map<String, CompanyRepresentative> companymap = SystemData.getCompanyMap();
 
     public ViewAccountRequestPage(CareerCenter obj){
         this.staffObj = obj;
@@ -65,22 +65,64 @@ public class ViewAccountRequestPage implements Page{
                      
                     case 2 -> {
                         //approve account
+<<<<<<< Updated upstream
                         System.out.print("Enter email to approve account creation: ");
                         String emailString = UniversalFunctions.readString();
                         CompanyRepresentative compRep = companymap.get(emailString);
                         staffObj.approveCompanyRep(compRep);
                         System.out.printf("%s acount has been approved", compRep.getEmail());
                         yield PageAction.pop();
+=======
+                        CompanyRepresentative compRep = null;
+                        while (true) {
+                            System.out.print("Enter email to approve account creation (type EXIT to cancel): ");
+                            String emailString = UniversalFunctions.readStringEmail();
+                            if (emailString.equalsIgnoreCase("exit")) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+                            String username = emailString.substring(0, emailString.indexOf("@"));
+                            compRep = SystemData.getCompanyValue(username);
+                            if (compRep == null) {
+                                System.out.println("No pending account found for that email. Please try again.");
+                                continue;
+                            }
+                            staffObj.approveCompanyRep(compRep);
+                            System.out.printf("%s account has been approved%n", compRep.getEmail());
+                            yield PageAction.pop();
+                        }
+>>>>>>> Stashed changes
                     }
 
                     case 3 -> {
                         //reject account
+<<<<<<< Updated upstream
                         System.out.print("Enter email to reject account creation: ");
                         String emailString = UniversalFunctions.readString();
                         CompanyRepresentative compRep = companymap.get(emailString);
                         staffObj.rejectCompanyRep(compRep);
                         System.out.printf("%s acount has been approved", compRep.getEmail());
                         yield PageAction.pop();
+=======
+                        CompanyRepresentative compRep = null;
+                         while (true) {
+                            System.out.print("Enter email to reject account creation (type EXIT to cancel): ");
+                            String emailString = UniversalFunctions.readStringEmail();
+                            if (emailString.equalsIgnoreCase(emailString)) {
+                                System.out.println("Operation cancelled.");
+                                yield PageAction.pop();
+                            }
+                            String username = emailString.substring(0, emailString.indexOf("@"));
+                            compRep = SystemData.getCompanyValue(username);
+                            if (compRep == null) {
+                                System.out.println("No pending account found for that email. Please try again.");
+                                continue;
+                            }
+                            staffObj.rejectCompanyRep(compRep);
+                            System.out.printf("%s account has been rejected%n", compRep.getEmail());
+                            yield PageAction.pop();
+                        }
+>>>>>>> Stashed changes
 
                     }
                     case 4 -> PageAction.pop();

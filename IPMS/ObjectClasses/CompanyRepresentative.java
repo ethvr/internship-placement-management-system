@@ -42,11 +42,37 @@ public class CompanyRepresentative extends User {
      }
 
      
+<<<<<<< Updated upstream
      /* 
+=======
+     
+     /** 
+      * @param careerCenter
+      */
+>>>>>>> Stashed changes
      public void requestRegistration(CareerCenter careerCenter) {
           careerCenter.addPendingCompany(this);
-     }*/
+     }
 
+<<<<<<< Updated upstream
+=======
+     /** 
+      * @return boolean
+      */
+     public boolean isStatusPending() {
+          return this.status == CompanyApprovalStatus.PENDING;
+     }
+
+     /** 
+      * @param title
+      * @param description
+      * @param level
+      * @param preferredMajor
+      * @param openDate
+      * @param closeDate
+      * @param slots
+      */
+>>>>>>> Stashed changes
      public void createInternship(String title, String description, InternshipLevel level,
                                   String preferredMajor, LocalDate openDate, LocalDate closeDate, int slots) {
           if (!isApproved()) {
