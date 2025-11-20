@@ -1,8 +1,6 @@
 package IPMS.SystemPages.StudentPages;
 
-import IPMS.ObjectClasses.Application;
 import IPMS.ObjectClasses.Student;
-
 import java.util.HashMap;
 import java.util.List;
 import IPMS.ObjectClasses.Internship;
