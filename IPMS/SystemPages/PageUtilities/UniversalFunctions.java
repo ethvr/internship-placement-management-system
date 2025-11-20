@@ -67,8 +67,12 @@ public class UniversalFunctions {
         sc.nextLine(); // clear leftover newline if needed
         String input = sc.nextLine().trim();
 
+        if (input.equalsIgnoreCase("exit")) {
+            return input;
+        }
+
         while (input.isEmpty() || !isValidEmail(input)) {
-            System.out.println("Invalid email format. Try again.");
+            System.out.print("Invalid email format. Enter your email again:");
             input = sc.nextLine().trim();
         }
 

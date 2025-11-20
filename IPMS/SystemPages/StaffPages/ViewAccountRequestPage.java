@@ -67,11 +67,12 @@ public class ViewAccountRequestPage implements Page{
                         while (true) {
                             System.out.print("Enter email to approve account creation (type EXIT to cancel): ");
                             String emailString = UniversalFunctions.readStringEmail();
-                            if (emailString.equalsIgnoreCase(emailString)) {
+                            if (emailString.equalsIgnoreCase("exit")) {
                                 System.out.println("Operation cancelled.");
                                 yield PageAction.pop();
                             }
-                            compRep = SystemData.getCompanyValue(emailString.trim());
+                            String username = emailString.substring(0, emailString.indexOf("@"));
+                            compRep = SystemData.getCompanyValue(username);
                             if (compRep == null) {
                                 System.out.println("No pending account found for that email. Please try again.");
                                 continue;
@@ -92,7 +93,8 @@ public class ViewAccountRequestPage implements Page{
                                 System.out.println("Operation cancelled.");
                                 yield PageAction.pop();
                             }
-                            compRep = SystemData.getCompanyValue(emailString.trim());
+                            String username = emailString.substring(0, emailString.indexOf("@"));
+                            compRep = SystemData.getCompanyValue(username);
                             if (compRep == null) {
                                 System.out.println("No pending account found for that email. Please try again.");
                                 continue;
