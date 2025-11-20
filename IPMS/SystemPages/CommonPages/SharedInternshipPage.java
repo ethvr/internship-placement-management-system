@@ -43,6 +43,7 @@ public class SharedInternshipPage implements Page {
         }
         else {
             System.out.println("There are currently no Internships applicable to you");
+            PageAction.pop();
         }
         
     }

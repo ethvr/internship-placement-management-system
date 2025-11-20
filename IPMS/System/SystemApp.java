@@ -9,7 +9,7 @@ import IPMS.SystemPages.CommonPages.MainPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.UserManagement.UserManager;
-import IPMS.System.SystemData.*;
+import IPMS.System.SystemData;
 import IPMS.ObjectClasses.User;
 import java.io.*;
 
