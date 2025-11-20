@@ -46,12 +46,10 @@ public class CompanyController {
         System.out.print("Enter Preferred Major (e.g., CSC, EEE, MAE): ");
         String preferredMajor = scanner.nextLine().trim();
 
-        System.out.print("Enter Opening Date (YYYY-MM-DD): ");
-        LocalDate openDateinput = UniversalFunctions.readValidDate();
+        LocalDate openDateinput = UniversalFunctions.readValidDate("Enter Opening Date (YYYY-MM-DD): ");
         LocalDate openDate = openDateinput;
 
-        System.out.print("Enter Closing Date (YYYY-MM-DD): ");
-        LocalDate closeDateinput = UniversalFunctions.readValidDate();
+        LocalDate closeDateinput = UniversalFunctions.readValidDate("Enter Closing Date (YYYY-MM-DD): ");
         LocalDate closeDate = closeDateinput;
 
         System.out.print("Enter Number of Slots (max 10): ");

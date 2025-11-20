@@ -44,19 +44,19 @@ public class ManageInternshipsPage implements Page {
         switch (opt) {
             case 1 -> {
                 controller.handleCreateInternship(obj);
-                return PageAction.push(this);
+                return PageAction.stay();
             }
             case 2 -> {
                 controller.handleEditInternship(obj);
-                return PageAction.push(this);
+                return PageAction.stay();
             }
             case 3 -> {
                 controller.handleDeleteInternship(obj);
-                return PageAction.push(this);
+                return PageAction.stay();
             }
             case 4 -> {
                 controller.handleToggleVisibility(obj);
-                return PageAction.push(this);
+                return PageAction.stay();
             }
             case 5 -> {
                 return PageAction.pop();

@@ -32,8 +32,7 @@ public class StaffMainPage implements Page{
         // filtered list of submissions
         System.out.println("[5] View all available Internships");
         System.out.println("[6] Change password");
-        System.out.println("[7] Back");
-        System.out.println("[8] Logout\n");
+        System.out.println("[7] Logout\n");
 
         System.out.print("Enter an option (1-8): ");
         //System.out.println(SystemData.LoginMap.get("sng001").Password);
@@ -56,14 +55,13 @@ public class StaffMainPage implements Page{
             case 4 -> PageAction.push(new ViewGenerateReportsPage(staffObj));
             case 5 -> PageAction.push(new SharedInternshipPage(staffObj));
             case 6 -> PageAction.push(new PasswordChangePage(staffObj));
-            case 7 -> PageAction.pop();
-            case 8 -> {
+            case 7 -> {
                 //System.out.println(SystemData.LoginMap.get("sng001").Password +"before");
                 staffObj.logout();
                 //System.out.println(SystemData.LoginMap.get("sng001").Password +"after");
                 yield PageAction.exit();
             }
-            default -> PageAction.pop();
+            default -> PageAction.exit();
         };
     }
     

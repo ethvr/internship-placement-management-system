@@ -23,15 +23,6 @@ public class SystemApp {
         // things to run before the start of the code 
         UserManager.UsernameCSVGenerator();
         SystemData.loadAll();
-        //SystemData.loadIntoMap("password", Credentials.class);
-        
-        //System.out.println(SystemData.StudentCSVMap);
-        //System.out.println(SystemData.StaffCSVMap);
-        //System.out.println(SystemData.RepresentativeCSVMap);
-        System.out.println(SystemData.InternshipCSVMap);
-        //System.out.println(SystemData.ApplicationCSVMap);
-        //System.out.println(SystemData.WithdrawalCSVMap);
-        //System.out.println(SystemData.LoginMap);
         
         Stack<Page> nav = new Stack<>();
         nav.push(new MainPage());   // Start at the main menu
@@ -54,13 +45,6 @@ public class SystemApp {
         }
         
         SystemData.saveAll();
-        System.out.println(SystemData.StudentCSVMap);
-        System.out.println(SystemData.StaffCSVMap);
-        System.out.println(SystemData.RepresentativeCSVMap);
-        System.out.println(SystemData.InternshipCSVMap);
-        System.out.println(SystemData.ApplicationCSVMap);
-        System.out.println(SystemData.WithdrawalCSVMap);
-        System.out.println(SystemData.LoginMap);
         
     }       
 

@@ -79,19 +79,62 @@ public class UniversalFunctions {
 
         return input;
     }
+ 
 
-    public static LocalDate readValidDate() {
-            while (true) {
+    public static LocalDate readValidDate(String prompt) {
+        while (true) {
+            System.out.print(prompt);
 
-                String input = sc.nextLine().trim();
+            String input = sc.nextLine();   // <-- No extra nextLine() before
 
-                try {
-                    return LocalDate.parse(input); // auto-throws if invalid
-                } catch (Exception e) {
-                    System.out.println("Invalid date format! Please enter in YYYY-MM-DD (e.g., 2025-03-21).\n");
-                }
+            // 1. Validate basic YYYY-MM-DD structure
+            if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                System.out.println("Invalid format! Use YYYY-MM-DD (e.g., 2025-03-21).\n");
+                continue;
             }
+
+            // 2. Split into year, month, day
+            String[] parts = input.split("-");
+            int year  = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int day   = Integer.parseInt(parts[2]);
+
+            // 3. Year range check
+            if (year < 1900 || year > 2100) {
+                System.out.println("Year must be between 1900 and 2100.\n");
+                continue;
+            }
+
+            // 4. Month check
+            if (month < 1 || month > 12) {
+                System.out.println("Invalid month! Must be 01–12.\n");
+                continue;
+            }
+
+            // 5. Determine max valid day
+            int maxDay = switch (month) {
+                case 1,3,5,7,8,10,12 -> 31;
+                case 4,6,9,11 -> 30;
+                case 2 -> isLeapYear(year) ? 29 : 28;
+                default -> 0; // unreachable
+            };
+
+            // 6. Day check
+            if (day < 1 || day > maxDay) {
+                System.out.println("Invalid day! " + month + "/" + year + " has " + maxDay + " days.\n");
+                continue;
+            }
+
+            // 7. All checks passed → create LocalDate
+            return LocalDate.of(year, month, day);
         }
+    }
+
+    private static boolean isLeapYear(int year) {
+        return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
+    }
+
+
 
     /** 
      * @param enumType
