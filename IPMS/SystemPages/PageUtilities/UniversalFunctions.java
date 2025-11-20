@@ -1,6 +1,7 @@
 package IPMS.SystemPages.PageUtilities;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import IPMS.ObjectClasses.*;
@@ -188,6 +189,44 @@ public class UniversalFunctions {
 
         }
     }
+
+    public static HashMap<Integer, Internship> printInternshipListwithIndex(List<Internship> list) {
+
+        HashMap<Integer, Internship> indexedMap = new HashMap<>();
+
+        if (list == null || list.isEmpty()) {
+            System.out.println("\nNo internships found.\n");
+            return indexedMap; // return empty map
+        }
+
+        System.out.println("\n======= AVAILABLE INTERNSHIPS =======\n");
+
+        int index = 1;
+        for (Internship i : list) {
+
+            indexedMap.put(index, i);   // store mapping
+
+            System.out.printf("[%d] %s (%s)%n",
+                index,
+                i.getInternshipTitle(),
+                i.getLevel()
+            );
+
+            System.out.printf("  Company         : %s%n", i.getCompanyName());
+            System.out.printf("  Preferred Major : %s%n", i.getPreferredMajor());
+            System.out.printf("  Slots Available : %d%n", i.getSlots());
+            System.out.printf("  Closing Date    : %s%n", i.getCloseDate());
+            System.out.printf("  Description     : %s%n", i.getDescription());
+            System.out.println();
+
+            index++;
+        }
+
+        return indexedMap;
+    }
+
+
+    
 
 
 

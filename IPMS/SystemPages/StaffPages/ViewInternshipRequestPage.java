@@ -15,36 +15,57 @@ import IPMS.SystemPages.CompanyPages.CompanyMainPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import java.util.HashMap;
 
 public class ViewInternshipRequestPage implements Page{
 
     private CareerCenter staffObj ;
+    private List<Internship> pendingInternships;
     private int opt;
+    private int index;
+    private HashMap<Integer, Internship> indexMap;
     //final Map<String, Internship> internshipmap = SystemData.getInternshipMap();
 
-    public ViewInternshipRequestPage(CareerCenter obj){
+    public ViewInternshipRequestPage(CareerCenter obj, List<Internship> pendingInternships){
         this.staffObj = obj;
+        this.pendingInternships = pendingInternships;
+        indexMap = new HashMap<>();
     }
 
     @Override
     public void showMenu() {
-        System.out.println("===== VIEW INTERNSHIP SUBMISSIONS =====");
-        System.out.println("[1] View all pending internship requests");
-        System.out.println("[2] Approve internship opportunity");
-        System.out.println("[3] Reject internship opportunity");
-        System.out.println("[4] Back");
-        System.out.println("[5] Logout\n");
-
-        System.out.print("Enter an option (1-5): ");
+        if (pendingInternships.isEmpty()) {
+            System.out.println("\nNo pending internship requests.");
+        } else {
+            System.out.println("\nPending Internship Requests:");
+            index = 1;
+            for (Internship i : pendingInternships) {
+                System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n",
+                    index,
+                    i.getInternshipId(),
+                    i.getInternshipTitle(),
+                    i.getCompanyName(),
+                    i.getSlots()
+                    
+                );
+                indexMap.put(index, i);
+                index++;
+            }
+        }
+        System.out.printf("[%d] Cancel\n", index+1);
+        System.out.print("Select an Internshgip to Approve/Reject: ");
     }
 
     /** 
      * @return PageAction
      */
-    @SuppressWarnings("unchecked")
     @Override
     public PageAction next() {
-          int opt = UniversalFunctions.readIntInRange(1, 5);
+          int opt = UniversalFunctions.readIntInRange(1, index+1);
+
+          if (opt == index + 1) {
+              return PageAction.pop(); // Cancel option
+          }
             
           return switch (opt) {
                     case 1 -> {

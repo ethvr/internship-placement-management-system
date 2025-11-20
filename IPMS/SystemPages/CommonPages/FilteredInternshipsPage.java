@@ -8,6 +8,8 @@ import java.util.List;
 import IPMS.System.*;
 import IPMS.Enums.InternshipLevel;
 import IPMS.ObjectClasses.*;
+import IPMS.SystemPages.CompanyPages.ManageApplicationsPage;
+import IPMS.SystemPages.CompanyPages.ManageInternshipsPage;
 import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
@@ -31,7 +33,7 @@ public class FilteredInternshipsPage implements Page {
      * @param Obj
      * @return PageAction
      */
-    private PageAction ForStudent(User Obj) {
+    private PageAction UserIdentifier(User obj, List<Internship> list) {
 
         if (obj instanceof Student s){
             System.out.println("[1] Proceed To Application");
@@ -44,6 +46,32 @@ public class FilteredInternshipsPage implements Page {
                 default -> PageAction.pop();
             };
         }
+
+        else if (obj instanceof CareerCenter cc) {
+            System.out.println("[1] Proceed To Approve/Reject Internships");
+            System.out.println("[2] Back");
+            System.out.println("Enter an option: ");
+            int opt = UniversalFunctions.readIntInRange(1, 2);
+            return switch (opt) {
+                    case 1 -> PageAction.push(new ViewInternshipRequestPage(cc, list));
+                    case 2 -> PageAction.pop();
+                    default -> PageAction.pop();
+                };
+        }
+        
+        else if (obj instanceof CompanyRepresentative cr) {
+            System.out.println("[1] Manage Internships");
+            System.out.println("[2] View Internship Applications");
+            System.out.println("[3] Back");
+            System.out.println("Enter an option: ");
+            int opt = UniversalFunctions.readIntInRange(1, 3);
+            return switch (opt) {
+                    case 1 -> PageAction.push(new ManageInternshipsPage(cr));
+                    case 2 -> PageAction.push(new ManageApplicationsPage(cr, list));
+                    case 3 -> PageAction.pop();
+                    default -> PageAction.pop();
+                };
+        }
         System.out.println("Enter [0] to return: ");
             int opt = UniversalFunctions.readIntInRange(0, 0);
             return switch (opt) {
@@ -52,16 +80,9 @@ public class FilteredInternshipsPage implements Page {
                 };
     }
 
-    private PageAction ForCareerStaff(User Obj) {
-        System.out.println("[1] Proceed To Approve/Reject Internships");
-        System.out.println("[2] Back");
-        System.out.println("Enter an option: ");
-            int opt = UniversalFunctions.readIntInRange(1, 2);
-            return switch (opt) {
-                    case 1 -> PageAction.push(ViewInternshipRequestPage(obj, list));
-                    case 2 -> PageAction.pop();
-                    default -> PageAction.pop();
-                };
+    private void InternshipReturnForApplication() {
+
+
     }
 
     @Override
@@ -88,11 +109,11 @@ public class FilteredInternshipsPage implements Page {
                 if (YearOfStudy <= 2 && YearOfStudy > 0) {
                     System.out.println("You can only view BASIC Internships");
                     UniversalFunctions.printInternshipList(list);
-                    yield ForStudent(obj);
+                    yield UserIdentifier(obj, list);
                 }
                 else {
                     UniversalFunctions.printInternshipList(list);
-                    yield ForStudent(obj);
+                    yield UserIdentifier(obj, list);
                 }
 
             }
@@ -100,7 +121,7 @@ public class FilteredInternshipsPage implements Page {
                 if (YearOfStudy <= 2 && YearOfStudy > 0) {
                     System.out.println("You can only view BASIC Internships");
                     UniversalFunctions.printInternshipList(list);
-                    yield ForStudent(obj);
+                    yield UserIdentifier(obj, list);
                 }
                 else {
                     //pass list as param to further filter 
@@ -122,7 +143,7 @@ public class FilteredInternshipsPage implements Page {
                     }
                     System.out.println();
                     UniversalFunctions.printInternshipList(InternshipList2);
-                    yield ForStudent(obj);
+                    yield UserIdentifier(obj, InternshipList2);
                 }
             }
 
@@ -148,7 +169,7 @@ public class FilteredInternshipsPage implements Page {
                 }
                 InternshipList2 = Filters.filterByClosingDate(date);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield ForStudent(obj);
+                yield UserIdentifier(obj, InternshipList2);
             }
 
             /* ------------------ Filter by COMPANY NAME ------------------ */
@@ -157,7 +178,7 @@ public class FilteredInternshipsPage implements Page {
                 String name = UniversalFunctions.readString();
                 InternshipList2 = Filters.filterByCompanyName(name);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield ForStudent(obj);
+                yield UserIdentifier(obj, InternshipList2);
                 
             }
 
@@ -167,7 +188,7 @@ public class FilteredInternshipsPage implements Page {
                 int slots = UniversalFunctions.readIntInRange(1, 10);
                 InternshipList2 = Filters.filterBySlotsLeft(slots);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield ForStudent(obj);
+                yield UserIdentifier(obj, InternshipList2);
             }
 
             /* ------------------ Filter by KEYWORD ------------------ */
@@ -176,7 +197,7 @@ public class FilteredInternshipsPage implements Page {
                 String word = UniversalFunctions.readString();
                 InternshipList2 = Filters.filterByKeyword(word);
                 UniversalFunctions.printInternshipList(InternshipList2);
-                yield ForStudent(obj);
+                yield UserIdentifier(obj, InternshipList2);
             }
 
             default -> {

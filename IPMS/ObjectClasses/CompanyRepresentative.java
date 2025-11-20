@@ -10,6 +10,7 @@ import IPMS.ObjectClasses.*;
 import IPMS.Enums.*;
 import IPMS.System.SystemData;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class CompanyRepresentative extends User {
 
@@ -103,32 +104,47 @@ public class CompanyRepresentative extends User {
       * @param internship
       */
      // views applications for a specific internship 
-     public void viewApplications(Internship internship) {
-          System.out.println("Applications for " + internship.getTitle() + ":");
-          String key = internship.getInternshipId();
-          System.out.println(SystemData.ALMinternship);
-          List<Application> appList = SystemData.getALMinternship(key);
-          System.out.println(appList);
-          if (appList == null) {
-               System.out.println("No Applications as of this time");
+     public HashMap<Integer, Application> viewApplications(Internship internship) {
+
+          System.out.println("\nApplications for: " + internship.getInternshipTitle());
+          String internshipId = internship.getInternshipId();
+
+          List<Application> appList = SystemData.getALMinternship(internshipId);
+
+          // Return empty map if no applications
+          if (appList == null || appList.isEmpty()) {
+               System.out.println("No applications at this time.\n");
+               return new HashMap<>();
           }
-          else {
-              System.out.printf("%-10s %-12s %-12s %-15s %-10s%n",
-                              "AppID", "StudentID", "InternID", "Status", "StudentAcc");
 
-               System.out.println("------------------------------------------------------------");
+          HashMap<Integer, Application> indexedApps = new HashMap<>();
 
+               System.out.println();
+               System.out.printf("%-5s %-10s %-12s %-12s %-15s %-12s%n",
+                         "No.", "AppID", "StudentID", "InternID", "Status", "StudAcc");
+               System.out.println("----------------------------------------------------------------------");
+
+               int index = 1;
                for (Application app : appList) {
-               System.out.printf("%-10s %-12s %-12s %-15s %-10s%n",
-                    app.getApplicationID(),
-                    app.getStudentId(),
-                    app.getInternshipId(),
-                    app.getStatus(),
-                    app.getAcceptedByStudent());
+
+                    System.out.printf("%-5d %-10s %-12s %-12s %-15s %-12s%n",
+                              index,
+                              app.getApplicationID(),
+                              app.getStudentId(),
+                              app.getInternshipId(),
+                              app.getStatus(),
+                              app.getAcceptedByStudent()
+                    );
+
+                    indexedApps.put(index, app);
+                    index++;
                }
 
-          }
+                    System.out.println();
+
+                    return indexedApps;
      }
+
 
      /** 
       * @param app

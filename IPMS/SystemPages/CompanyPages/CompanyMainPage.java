@@ -29,13 +29,12 @@ public class CompanyMainPage implements Page{
             System.out.println("Welcome, " + obj.getName() + " from " + obj.getCompanyName());
         }
         System.out.println();
-        System.out.println("[1] Manage Internships (Create/Edit/Delete/Toggle Visibility)");
-        System.out.println("[2] View Internships Created");
-        System.out.println("[3] Manage Applications (View/Approve/Reject)");
-        System.out.println("[4] Change Password");
-        System.out.println("[5] Logout\n");
+        System.out.println("[1] Manage Internships (View/Create/Edit/Delete/Toggle Visibility)");
+        System.out.println("[2] Manage Applications (View/Approve/Reject)");
+        System.out.println("[3] Change Password");
+        System.out.println("[4] Logout\n");
 
-        System.out.print("Enter an option (1-5): ");
+        System.out.print("Enter an option (1-4): ");
     }
 
     /** 
@@ -48,11 +47,10 @@ public class CompanyMainPage implements Page{
         int opt = UniversalFunctions.readIntInRange(1, 5);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new ManageInternshipsPage(obj));
-            case 2 -> PageAction.push(new SharedInternshipPage(obj));
-            case 3 -> PageAction.push(new ManageApplicationsPage(obj));
-            case 4 -> PageAction.push(new PasswordChangePage(obj));
-            case 5 -> {
+            case 1 -> PageAction.push(new SharedInternshipPage(obj));
+            case 2 -> PageAction.push(new ManageApplicationsPage(obj));
+            case 3 -> PageAction.push(new PasswordChangePage(obj));
+            case 4 -> {
                 obj.logout();
                 yield PageAction.exit();
             }

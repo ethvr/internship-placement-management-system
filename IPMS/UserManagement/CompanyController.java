@@ -7,6 +7,7 @@ import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.Enums.*;
 import IPMS.ObjectClasses.*;
 import IPMS.System.*;
+import IPMS.SystemPages.PageUtilities.PageAction;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -297,122 +298,70 @@ public class CompanyController {
         System.out.println();
     }
 
+    public PageAction handleApplication(HashMap <Integer, Application> indexMap, CompanyRepresentative compRep) {
+
+        int index = indexMap.size() + 1;
+
+        System.out.printf("[%d] Cancel%n%n", index);
+        System.out.println("Select an application to Approve/Reject or Cancel: ");
+        int choice = UniversalFunctions.readIntInRange(1, index);
+
+        if (choice == index) return PageAction.pop();
+
+        Application selectedApp = indexMap.get(choice);
+        System.out.println();
+        System.out.println("SELECTED STUDENTStudent ID: " + selectedApp.getStudentId() + 
+                                 " - Status: " + selectedApp.getStatus());
+        System.out.println();
+        System.out.println("[1] Approve Application");
+        System.out.println("[2] Reject Application");
+        System.out.println("[3] Cancel");
+        System.out.println("Enter an option: ");
+        int actionOpt = UniversalFunctions.readIntInRange(1, 3);
+
+        return switch (actionOpt) {
+            case 1 -> handleApproveApplication(selectedApp, compRep);
+            case 2 -> handleRejectApplication(selectedApp, compRep);
+            case 3 -> PageAction.pop();
+            default -> PageAction.pop();
+        };
+
+
+    }
+
     /**
      * Handle approving a student application
      */
-    public void handleApproveApplication(CompanyRepresentative compRep) {
-        System.out.println("\n=== APPROVE APPLICATION ===");
+    public PageAction handleApproveApplication(Application app, CompanyRepresentative compRep) {
         
-        // Select internship
-        Internship selectedInternship = selectInternship(compRep);
-        if (selectedInternship == null) return;
-        
-        // Get applications for this internship
-        List<Application> applications = selectedInternship.getApplications();
-        
-        if (applications.isEmpty()) {
-            System.out.println("No applications for this internship.\n");
-            return;
-        }
-
-        // Show pending applications only
-        List<Application> pendingApps = new ArrayList<>();
-        System.out.println("Pending Applications:");
-        
-        int index = 1;
-        for (Application app : applications) {
-            if (app.getStatus() == ApplicationStatus.PENDING) {
-                System.out.println("[" + index + "] Student ID: " + app.getStudentId() + 
-                                 " - Status: " + app.getStatus());
-                pendingApps.add(app);
-                index++;
-            }
-        }
-        
-        if (pendingApps.isEmpty()) {
-            System.out.println("No pending applications.\n");
-            return;
-        }
-        
-        System.out.println("[0] Cancel\n");
-        System.out.print("Select application to approve: ");
-        int choice = UniversalFunctions.readIntInRange(0, pendingApps.size());
-        
-        if (choice == 0) return;
-
-        Application selectedApp = pendingApps.get(choice - 1);
-        
-        // Confirm
-        System.out.print("Approve application from Student " + selectedApp.getStudentId() + "? (yes/no): ");
+        System.out.print("Approve application from Student " + app.getStudentId() + "? (yes/no): ");
         String confirm = scanner.nextLine().trim().toLowerCase();
         
         if (confirm.equals("yes") || confirm.equals("y")) {
-            compRep.approveApplication(selectedApp);
+            compRep.approveApplication(app);
             System.out.println("Application approved successfully!\n");
+            return PageAction.pop();
         } else {
             System.out.println("Approval cancelled.\n");
+            return PageAction.pop();
         }
     }
 
     /**
      * Handle rejecting a student application
      */
-    public void handleRejectApplication(CompanyRepresentative compRep) {
-        System.out.println("\n=== REJECT APPLICATION ===");
-        
-        // Select internship
-        Internship selectedInternship = selectInternship(compRep);
-        if (selectedInternship == null) return;
-        
-        // Get applications for this internship
-        List<Application> applicationList = selectedInternship.getApplications();
-        
-        if (applicationList.isEmpty()) {
-            System.out.println("No applications for this internship.\n");
-            return;
-        }
+    public PageAction handleRejectApplication(Application app, CompanyRepresentative compRep) {
 
-        // Show pending applications only
-        List<Application> pendingApps = new ArrayList<>();
-        System.out.println("Pending Applications:");
-        
-
-        int index = 1;
-        HashMap<Integer, Application> indexMap = new HashMap<>();
-
-        for (Application a : applicationList) {
-            System.out.printf("[%d] Student ID: %s%n    Status: %s%n%n",
-                index,
-                a.getStudentId(),
-                a.getStatus()
-            );
-            pendingApps.add(a);
-            indexMap.put(index, a);
-            index++;
-        }
-        
-        if (pendingApps.isEmpty()) {
-            System.out.println("No pending applications.\n");
-            return;
-        }
-        
-        System.out.printf("[%d] Cancel%n%n", index);
-        System.out.print("Select application to reject: ");
-        int choice = UniversalFunctions.readIntInRange(1, index);
-        
-        if (choice == index) return;
-
-        Application selectedApp = indexMap.get(choice);
-        
-        // Confirm
-        System.out.print("Reject application from Student " + selectedApp.getStudentId() + "? (yes/no): ");
+        System.out.print("Reject application from Student " + app.getStudentId() + "? (yes/no): ");
         String confirm = scanner.nextLine().trim().toLowerCase();
         
         if (confirm.equals("yes") || confirm.equals("y")) {
-            compRep.rejectApplication(selectedApp);
+            compRep.rejectApplication(app);
             System.out.println("Application rejected.\n");
+            return PageAction.pop();
         } else {
             System.out.println("Rejection cancelled.\n");
+            return PageAction.pop();
         }
     }
 

@@ -1,33 +1,53 @@
 package IPMS.SystemPages.CompanyPages;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import IPMS.Enums.ApplicationStatus;
-import IPMS.ObjectClasses.CompanyRepresentative;
 import IPMS.System.SystemData;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import IPMS.ObjectClasses.*;
+import IPMS.System.Filters;
 import IPMS.UserManagement.*;
+import java.util.ArrayList;
 
 public class ManageApplicationsPage implements Page {
     private final CompanyRepresentative obj;
+    private List<Internship> filteredList;
+    private HashMap <Integer, Internship> IindexMap;
+    private HashMap <Integer, Application> AindexMap;
+    private int lastindex;
     private CompanyController controller;
 
     public ManageApplicationsPage(CompanyRepresentative obj) {
         this.obj = obj;
+        this.filteredList = new ArrayList<>();
+        this.IindexMap = new HashMap<>(); 
+        this.controller = new CompanyController(new Scanner(System.in));
+    }
+
+    public ManageApplicationsPage(CompanyRepresentative obj, List<Internship> filteredList) {
+        this.obj = obj;
+        this.filteredList = filteredList;
+        this.IindexMap = new HashMap<>(); 
         this.controller = new CompanyController(new Scanner(System.in));
     }
 
     @Override
     public void showMenu() {
-        System.out.println("======= MANAGE APPLICATIONS =======");
-        System.out.println("[1] View Applications for an Internship");
-        System.out.println("[2] Approve Application");
-        System.out.println("[3] Reject Application");
-        System.out.println("[4] Back\n");
-        System.out.print("Enter an option (1-4): ");
+
+        filteredList = Filters.filterByCompanyName(obj.getCompanyName());
+
+        IindexMap = UniversalFunctions.printInternshipListwithIndex(filteredList);
+
+        lastindex = Collections.max(IindexMap.keySet());
+
+        System.out.printf("[%d] Back", lastindex + 1);
+        System.out.println("\nSelect an Internship to View Applications or go back:");
+
     }
 
     /** 
@@ -35,33 +55,18 @@ public class ManageApplicationsPage implements Page {
      */
     @Override
     public PageAction next() {
-        int opt = UniversalFunctions.readIntInRange(1, 4);
-        
-        if (obj == null) {
-            System.out.println("Error: Company representative not found.\n");
+        int opt = UniversalFunctions.readIntInRange(1, lastindex + 1);
+
+        Internship selectedInternship = IindexMap.get(opt);
+
+        AindexMap = obj.viewApplications(selectedInternship);
+
+        if (opt == lastindex + 1) {
             return PageAction.pop();
         }
-
-        switch (opt) {
-            case 1 -> {
-                System.out.println(SystemData.ALMinternship);
-                controller.handleViewApplications(obj);
-                return PageAction.push(this);
-            }
-            case 2 -> {
-                controller.handleApproveApplication(obj);
-                return PageAction.push(this);
-            }
-            case 3 -> {
-                controller.handleRejectApplication(obj);
-                return PageAction.push(this);
-            }
-            case 4 -> {
-                return PageAction.pop();
-            }
-            default -> {
-                return PageAction.pop();
-            }
+        else {
+            return controller.handleApplication(AindexMap, obj);
         }
+
     }
 }
