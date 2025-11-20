@@ -12,6 +12,7 @@ import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.SystemPages.StaffPages.ViewInternshipRequestPage;
 import IPMS.SystemPages.StudentPages.ApplyToInternshipPage;
 
 
@@ -43,10 +44,22 @@ public class FilteredInternshipsPage implements Page {
                 default -> PageAction.pop();
             };
         }
-        System.out.println("Enter [1] to return: ");
-            int opt = UniversalFunctions.readIntInRange(1, 1);
+        System.out.println("Enter [0] to return: ");
+            int opt = UniversalFunctions.readIntInRange(0, 0);
             return switch (opt) {
                     case 1 -> PageAction.pop();
+                    default -> PageAction.pop();
+                };
+    }
+
+    private PageAction ForCareerStaff(User Obj) {
+        System.out.println("[1] Proceed To Approve/Reject Internships");
+        System.out.println("[2] Back");
+        System.out.println("Enter an option: ");
+            int opt = UniversalFunctions.readIntInRange(1, 2);
+            return switch (opt) {
+                    case 1 -> PageAction.push(ViewInternshipRequestPage(obj, list));
+                    case 2 -> PageAction.pop();
                     default -> PageAction.pop();
                 };
     }

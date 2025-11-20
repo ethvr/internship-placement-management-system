@@ -44,13 +44,23 @@ public class CompanyController {
         };
 
         System.out.print("Enter Preferred Major (e.g., CSC, EEE, MAE): ");
-        String preferredMajor = scanner.nextLine().trim();
+        String preferredMajor = UniversalFunctions.readString();
 
-        LocalDate openDateinput = UniversalFunctions.readValidDate("Enter Opening Date (YYYY-MM-DD): ");
-        LocalDate openDate = openDateinput;
+        System.out.print("Enter Opening Date (YYYY-MM-DD): ");
+        LocalDate openDate = UniversalFunctions.readValidDate();
+        while (openDate.isBefore(LocalDate.now())) {
+            System.out.println("Opening date cannot be in the past. Please enter a valid date.");
+            System.out.print("Enter Opening Date (YYYY-MM-DD): ");
+            openDate = UniversalFunctions.readValidDate();
+        }
 
-        LocalDate closeDateinput = UniversalFunctions.readValidDate("Enter Closing Date (YYYY-MM-DD): ");
-        LocalDate closeDate = closeDateinput;
+        System.out.print("Enter Closing Date (YYYY-MM-DD): ");
+        LocalDate closeDate = UniversalFunctions.readValidDate();
+        while (closeDate.isBefore(openDate)) {
+            System.out.println("Closing date cannot be before the opening date. Please enter a valid date.");
+            System.out.print("Enter Closing Date (YYYY-MM-DD): ");
+            closeDate = UniversalFunctions.readValidDate();
+        }
 
         System.out.print("Enter Number of Slots (max 10): ");
         int slots = UniversalFunctions.readIntInRange(1, 10);

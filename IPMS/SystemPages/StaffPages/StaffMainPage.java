@@ -49,8 +49,8 @@ public class StaffMainPage implements Page{
         int opt = UniversalFunctions.readIntInRange(1, 8);
 
         return switch (opt) {
-            case 1 -> PageAction.push(new ViewAccountRequestPage(staffObj));
-            case 2 -> PageAction.push(new ViewInternshipRequestPage(staffObj));
+            case 1 -> PageAction.push(new AccountApprovalRejectPage(staffObj));
+            case 2 -> PageAction.push(new SharedInternshipPage(staffObj));
             case 3 -> PageAction.push(new ViewWithdrawalRequestsPage(staffObj));
             case 4 -> PageAction.push(new ViewGenerateReportsPage(staffObj));
             case 5 -> PageAction.push(new SharedInternshipPage(staffObj));

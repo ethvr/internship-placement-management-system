@@ -1,4 +1,4 @@
-package IPMS.SystemPages.StaffPages;
+package zzzzzzz;
 
 import IPMS.SystemPages.StudentPages.*;
 import IPMS.SystemPages.StudentPages.*;
@@ -12,6 +12,7 @@ import IPMS.SystemPages.CompanyPages.CompanyMainPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
+import IPMS.SystemPages.StaffPages.AccountApprovalRejectPage;
 
 public class ViewAccountRequestPage implements Page{
 
@@ -26,12 +27,12 @@ public class ViewAccountRequestPage implements Page{
     public void showMenu() {
         System.out.println("===== VIEW ACCOUNT CREATION REQUESTS =====");
         System.out.println("[1] View all pending account creation requests");
-        System.out.println("[2] Approve account creation request");
-        System.out.println("[3] Reject account creation request");
-        System.out.println("[4] Back");
-        System.out.println("[5] Logout\n");
+        /*(System.out.println("[2] Approve account creation request");
+        System.out.println("[3] Reject account creation request");*/
+        System.out.println("[2] Back");
+        System.out.println("[3] Logout\n");
 
-        System.out.print("Enter an option (1-5): ");
+        System.out.print("Enter an option (1-3): ");
     }
 
     /** 
@@ -40,11 +41,11 @@ public class ViewAccountRequestPage implements Page{
     @SuppressWarnings("unchecked")
     @Override
     public PageAction next() {
-          int opt = UniversalFunctions.readIntInRange(1, 5);
+          int opt = UniversalFunctions.readIntInRange(1, 3);
             
           return switch (opt) {
                     case 1 -> {
-                        //pending = CareerCenter.viewPendingCompanyReps();
+                        /*//pending = CareerCenter.viewPendingCompanyReps();
                         //print list of pending companies
                         List<CompanyRepresentative> pending = CareerCenter.getPendingCompanies();
                         if (pending.isEmpty()){
@@ -58,7 +59,8 @@ public class ViewAccountRequestPage implements Page{
                             }
                         }
                         //exit printing
-                        yield PageAction.pop();
+                        yield PageAction.pop();*/
+                        yield PageAction.push(new AccountApprovalRejectPage(staffObj));
                     }
                      
                     case 2 -> {

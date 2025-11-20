@@ -81,15 +81,15 @@ public class UniversalFunctions {
     }
  
 
-    public static LocalDate readValidDate(String prompt) {
+    public static LocalDate readValidDate() {
         while (true) {
-            System.out.print(prompt);
 
-            String input = sc.nextLine();   // <-- No extra nextLine() before
+            String input = sc.nextLine();
 
             // 1. Validate basic YYYY-MM-DD structure
             if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 System.out.println("Invalid format! Use YYYY-MM-DD (e.g., 2025-03-21).\n");
+                System.out.print("Please enter date again: ");
                 continue;
             }
 
@@ -102,12 +102,14 @@ public class UniversalFunctions {
             // 3. Year range check
             if (year < 1900 || year > 2100) {
                 System.out.println("Year must be between 1900 and 2100.\n");
+                System.out.print("Please enter date again: ");
                 continue;
             }
 
             // 4. Month check
             if (month < 1 || month > 12) {
                 System.out.println("Invalid month! Must be 01–12.\n");
+                System.out.print("Please enter date again: ");
                 continue;
             }
 
@@ -121,7 +123,7 @@ public class UniversalFunctions {
 
             // 6. Day check
             if (day < 1 || day > maxDay) {
-                System.out.println("Invalid day! " + month + "/" + year + " has " + maxDay + " days.\n");
+                System.out.println("Invalid day! Month/Year: " + month + "/" + year + " only has " + maxDay + " days.\n");
                 continue;
             }
 
