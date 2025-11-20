@@ -27,7 +27,6 @@ public class CareerCenter extends User {
         this.role = role;
         this.staffDepartment = staffDepartment;
         pendingCompanies = new ArrayList<>();
-        pendingCompanies
     }
 
     
@@ -52,6 +51,8 @@ public class CareerCenter extends User {
     //         System.out.println();
     //     }
     // }
+
+    
 
     //add pending company
     public void addPendingCompany(CompanyRepresentative companyRep){

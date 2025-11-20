@@ -10,7 +10,6 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import IPMS.Enums.*;
 import IPMS.System.SystemDataEntities.*; // change for final 
@@ -162,7 +161,7 @@ public class SystemData {
                                 value = raw.isEmpty() ? 0 : Integer.parseInt(raw);
                             } else if (type == boolean.class) {
                                 value = raw.equalsIgnoreCase("true");
-                            } else if (type == LocalDateTime.class) {
+                            } else if (type == LocalDate.class) {
                                 value = raw.isEmpty() ? null : LocalDate.parse(raw);
                             } else if (type.isEnum()) {
                                 @SuppressWarnings("rawtypes")
@@ -328,9 +327,14 @@ public class SystemData {
         InternshipMap.clear();
         ApplicationMap.clear();
         WithdrawalMap.clear();
+        ILMcompany.clear();
+        ALMcompany.clear();
+        ALMstudent.clear();
+        ALMinternship.clear();
+        WLMstudent.clear();
+        UnapprovedRepList.clear();
 
         //COMPANY REPRESENTATIVES 
-
         for (CompanyCSVData data : RepresentativeCSVMap.values()) {
             CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
             String username = rep.getEmail().split("@")[0];
@@ -339,13 +343,14 @@ public class SystemData {
             }
         }
 
-        for (CompanyCSVData data : RepresentativeCSVMap.values()) {
-            CompanyRepresentative rep = SystemConverter.toCompanyRep(data);
+        // Unapproved company reps
+        for (CompanyRepresentative rep : RepresentativeMap.values()) {
             if (rep.isStatusPending()) {
-                
+                UnapprovedRepList.add(rep);
             }
         }
 
+        // STAFF csv to object
         for (StaffCSVData data : StaffCSVMap.values()) {
             CareerCenter s = SystemConverter.toCareerCenter(data);
             String username = s.getEmail().split("@")[0];
@@ -354,6 +359,7 @@ public class SystemData {
             }
         }
 
+        // STUDENTS csv to object
         for (StudentCSVData data : StudentCSVMap.values()) {
             Student s = SystemConverter.toStudent(data);
             String username = s.getEmail().split("@")[0];
@@ -370,6 +376,12 @@ public class SystemData {
             }
         }
 
+        // Internships by company rep
+        for (Internship i : InternshipMap.values()) {
+            String compRepID = i.getCompRepID();
+            ILMcompany.computeIfAbsent(compRepID, k -> new ArrayList<>()).add(i);
+        }
+
         // Applications
         for (ApplicationData data : ApplicationCSVMap.values()) {
             Application a = SystemConverter.toApplication(data);
@@ -378,12 +390,29 @@ public class SystemData {
             }
         }
 
+        // Applications by company rep, student, internship
+        for (Application a : ApplicationMap.values()) {
+            Internship i = InternshipMap.get(a.getInternshipId());
+            if (i != null) {
+                String compRepID = i.getCompRepID();
+                ALMcompany.computeIfAbsent(compRepID, k -> new ArrayList<>()).add(a);
+            }
+            ALMstudent.computeIfAbsent(a.getStudentId(), k -> new ArrayList<>()).add(a);
+            ALMinternship.computeIfAbsent(a.getInternshipId(), k -> new ArrayList<>()).add(a);
+        }
+
+
         // Withdrawals
         for (WithdrawalData data : WithdrawalCSVMap.values()) {
             WithdrawalRequest wr = SystemConverter.toWithdrawal(data);
             if (wr != null) {
                 WithdrawalMap.put(wr.getId(), wr);
             }
+        }
+
+        // Withdrawals by student
+        for (WithdrawalRequest wr : WithdrawalMap.values()) {
+            WLMstudent.computeIfAbsent(wr.getStudentId(), k -> new ArrayList<>()).add(wr);
         }
     }
 

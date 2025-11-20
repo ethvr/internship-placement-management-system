@@ -47,6 +47,10 @@ public class CompanyRepresentative extends User {
           careerCenter.addPendingCompany(this);
      }*/
 
+     public boolean isStatusPending() {
+          return this.status == CompanyApprovalStatus.PENDING;
+     }
+
      public void createInternship(String title, String description, InternshipLevel level,
                                   String preferredMajor, LocalDate openDate, LocalDate closeDate, int slots) {
           if (!isApproved()) {
