@@ -6,11 +6,8 @@ import java.util.stream.Collectors;
 //import Companypackage.*;
 //import Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
-import IPMS.ObjectClasses.Internship;
 import IPMS.System.SystemData;
-import IPMS.System.SystemDataEntities.WithdrawalData;
 
-import javax.management.relation.Role;
 
 public class CareerCenter extends User {
 
@@ -28,30 +25,6 @@ public class CareerCenter extends User {
         this.staffDepartment = staffDepartment;
         pendingCompanies = new ArrayList<>();
     }
-
-    
-    //view pending company
-    // public void viewPendingCompanyReps(CareerCenter careerCenter) {
-    //     System.out.println("\n=== Pending Company Representative Requests ===\n");
-        
-    //     List<CompanyRepresentative> pendingReps = careerCenter.getPendingCompanies();
-        
-    //     if (pendingReps.isEmpty()) {
-    //         System.out.println("No pending requests.");
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < pendingReps.size(); i++) {
-    //         CompanyRepresentative rep = pendingReps.get(i);
-    //         System.out.println((i + 1) + ". " + rep.getName());
-    //         System.out.println("   Email: " + rep.getUserId());
-    //         System.out.println("   Company: " + rep.getCompanyName());
-    //         System.out.println("   Department: " + rep.getDepartment());
-    //         System.out.println("   Position: " + rep.getPosition());
-    //         System.out.println();
-    //     }
-    // }
-
     //add pending company
     public void addPendingCompany(CompanyRepresentative companyRep){
         if (!pendingCompanies.contains(companyRep)){

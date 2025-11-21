@@ -8,17 +8,12 @@ public abstract class User {
     private String userID;
     private String name;
     private String email;
-    //private String Username;
-    //private String password;
-    //private boolean Firsttimelogin = true; true --> not yet logged in for the first time 
 
     //public User(String userId, String name, String email)
     public User(String userID, String name, String email) {
         this.userID = userID;
         this.name = name;
         this.email = email;
-        //this.password = "password";
-        //this.Username = UsernameGenerator(email);
     }
 
 
