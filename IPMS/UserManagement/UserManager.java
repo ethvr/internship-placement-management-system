@@ -11,6 +11,7 @@ package IPMS.UserManagement;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -31,16 +32,19 @@ public class UserManager {
     // handles all 3 type files by looping and checking 
 
     public static void UsernameCSVGenerator() {
-        
-        File outputFile  = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder\\usernames_and_passwords.csv");
-        File inputFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
-        //File outputFile  = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PasswordCSVFolder/usernames_and_passwords.csv");
-        //File inputFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
+
+        //output file 
+        Path PasswordPath = UniversalFunctions.FindFolder("Password");
+        File PasswordFile = new File(PasswordPath.toFile(), "usernames_and_passwords.csv");
+
+        //input file folder
+        Path PeoplePath = UniversalFunctions.FindFolder("People");
+        File PeopleFolder = PeoplePath.toFile();
 
         // 1) Build set of existing usernames (if output exists)
         HashSet<String> existing = new HashSet<>();
-        if (outputFile.exists()) {
-            try (BufferedReader old = new BufferedReader(new FileReader(outputFile))) {
+        if (PasswordFile.exists()) {
+            try (BufferedReader old = new BufferedReader(new FileReader(PasswordFile))) {
                 String header = old.readLine(); // skip header
                 String line;
                 while ((line = old.readLine()) != null) {
@@ -53,23 +57,23 @@ public class UserManager {
         }
 
         // 2) Collect input CSV files
-        File[] csvFiles = inputFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
+        File[] csvFiles = PeopleFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
         if (csvFiles == null || csvFiles.length == 0) {
             System.out.println("No .csv files found in PeopleCSVFolder");
             return;
         }
 
         // 3) Decide writer mode and whether to write header
-        boolean needHeader = !outputFile.exists() || outputFile.length() == 0;
+        boolean needHeader = !PasswordFile.exists() || PasswordFile.length() == 0;
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, /* append */ true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(PasswordFile, /* append */ true))) {
             if (needHeader) {
                 bw.write("Username,Password,Firsttimelogin,Type");
                 bw.newLine();
-            } else if (outputFile.length() > 0) {
+            } else if (PasswordFile.length() > 0) {
                 // Ensure a newline before appending if file does not end with one
-                try (RandomAccessFile raf = new RandomAccessFile(outputFile, "r")) {
-                    raf.seek(outputFile.length() - 1);
+                try (RandomAccessFile raf = new RandomAccessFile(PasswordFile, "r")) {
+                    raf.seek(PasswordFile.length() - 1);
                     int lastChar = raf.read();
                     if (lastChar != '\n' && lastChar != '\r') {
                         bw.newLine();
@@ -343,19 +347,17 @@ public class UserManager {
 
     public static void CompanyStatusCheck() {
 
-        System.out.println(SystemData.RepresentativeMap);
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter your Email used for registration: ");
         String email;
 
         while (true) {
-        System.out.print("Enter your Email used for registration (or type EXIT to cancel): ");
-        email = sc.nextLine().trim();
+            System.out.print("Enter your Email used for registration (or type EXIT to cancel): ");
+            email = sc.nextLine().trim();
 
-        // ✅ Allow user to exit
+            // ✅ Allow user to exit
             if (email.equalsIgnoreCase("exit")) {
-            System.out.println("Returning to main menu...");
-            return;
+                System.out.println("Returning to main menu...");
+                return;
             }
 
             if (email.isEmpty()) {
@@ -379,6 +381,8 @@ public class UserManager {
 
         CompanyRepresentative data = SystemData.getCompanyValue(username);
 
+        boolean Firsttimelogin = SystemData.getFirsttimelogin(username);
+
         CompanyApprovalStatus status;
 
         if (data == null) {
@@ -390,10 +394,16 @@ public class UserManager {
         status = SystemData.getCompanyStatus(username);
         System.out.println("Account Approval Status: " + status);
 
-        if (status == CompanyApprovalStatus.APPROVED) {
+        if (status == CompanyApprovalStatus.APPROVED && Firsttimelogin) {
             System.out.println("\n====== LOGIN DETAILS ======");
             System.out.println("Your Username is: " + username);
             System.out.println("Your Password is: password");
+        }
+
+        else {
+            System.out.println("\n====== LOGIN DETAILS ======");
+            System.out.println("Your Username is: " + username);
+            System.out.println("Your Password is: *you have already changed your password*");
         }
 
 

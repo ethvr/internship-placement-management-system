@@ -1,2 +1,4 @@
 CompanyRepID,Name,CompanyName,Department,Position,Email,Status
 ltang@gmail.com,luther,TANGS,IT,boss,ltang@gmail.com,APPROVED
+john@gmail.com,john,TracTors,farming,CEO,john@gmail.com,PENDING
+thomas@gmail.com,thomas,Computerzz,tech,finance,thomas@gmail.com,REJECTED

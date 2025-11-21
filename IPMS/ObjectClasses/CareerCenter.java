@@ -179,7 +179,7 @@ public class CareerCenter extends User {
      */
 
     public static List<CompanyRepresentative> getPendingCompanies(){
-        return SystemData.UnapprovedRepList;
+        return SystemData.getUnapprovedRepList();
     }
 
 }

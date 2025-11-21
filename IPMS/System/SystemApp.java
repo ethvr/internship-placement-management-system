@@ -3,10 +3,10 @@
 // include login and logout functions to dictate current user 
 package IPMS.System;
 
-import java.util.*;
 import IPMS.SystemPages.CommonPages.MainPage;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
+import java.util.Stack;
 import IPMS.UserManagement.UserManager;
 
 
@@ -15,6 +15,7 @@ public class SystemApp {
     public static String currentUser = null;
 
     public static void main(String[] args) {
+
 
         // things to run before the start of the code 
         UserManager.UsernameCSVGenerator();

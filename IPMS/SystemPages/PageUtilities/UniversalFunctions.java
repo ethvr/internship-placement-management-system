@@ -1,9 +1,15 @@
 package IPMS.SystemPages.PageUtilities;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
+
 import IPMS.ObjectClasses.*;
 
 public class UniversalFunctions {
@@ -225,8 +231,25 @@ public class UniversalFunctions {
         return indexedMap;
     }
 
+    public static Path FindFolder(String folderName) {
+        Path root = Paths.get(".");
 
-    
+        try (Stream<Path> walk = Files.walk(root)) {
+
+            return walk
+                .filter(Files::isDirectory)
+                .filter(p -> !p.toString().contains("out"))  // avoid compiled output folder
+                .filter(p -> !p.toString().contains("bin"))
+                .filter(p -> p.getFileName().toString().contains(folderName))
+                .findFirst()            // get first match
+                .orElse(null);          // return null if none found
+
+        } catch (IOException e) {
+            System.err.println("Failed to walk file tree: " + e.getMessage());
+            return null;
+        }
+    }
+
 
 
 

@@ -29,10 +29,6 @@ public class CompanyStatusPage implements Page{
             }
             case 2 -> PageAction.pop();  // Back to main menu
             case 3 -> {
-                // Save and exit
-                System.out.println("\nSaving data...");
-                SystemData.saveAll();
-                System.out.println("Data saved. Goodbye!");
                 yield PageAction.exit();
             }
             default -> PageAction.pop();

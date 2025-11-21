@@ -9,6 +9,7 @@ package IPMS.System;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.time.LocalDate;
 
 import IPMS.Enums.*;
@@ -17,6 +18,7 @@ import IPMS.ObjectClasses.*;
 //import Companypackage.*;
 //import Companypackage.CompanyRepresentative;
 import IPMS.SystemPages.MainSubPages.CompanyRegisterPage;
+import IPMS.SystemPages.PageUtilities.UniversalFunctions;
 import com.sun.source.tree.Tree;
 import javax.print.attribute.standard.Compression;
 
@@ -30,45 +32,45 @@ public class SystemData {
     // changed student and staff to hashmap for faster lookup when instantiating
     
     // Key --> student ID --> change to username?
-    public static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
-    public static HashMap<String, Student> StudentMap = new HashMap<>();
+    private static HashMap<String, StudentCSVData> StudentCSVMap = new HashMap<>();
+    private static HashMap<String, Student> StudentMap = new HashMap<>();
     
     // Key --> staff ID --> change to username?
-    public static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
-    public static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
+    private static HashMap<String, StaffCSVData> StaffCSVMap = new HashMap<>();
+    private static HashMap<String, CareerCenter> StaffMap = new HashMap<>();
     
     // Key --> Comp rep ID --> change to username?
-    public static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
-    public static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
-    public static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
+    private static HashMap<String, CompanyCSVData> RepresentativeCSVMap = new HashMap<>();
+    private static HashMap<String, CompanyRepresentative> RepresentativeMap = new HashMap<>();
+    private static List<CompanyRepresentative> UnapprovedRepList = new ArrayList<>();
     
     // Key --> comp rep id 
-    public static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
+    private static HashMap<String, InternshipData> InternshipCSVMap = new HashMap<>();
     // key --> internshipID?
-    public static HashMap<String, Internship> InternshipMap = new HashMap<>();
+    private static HashMap<String, Internship> InternshipMap = new HashMap<>();
     // comp rep id key
-    public static HashMap<String, List<Internship>> ILMcompany = new HashMap<>();
+    private static HashMap<String, List<Internship>> ILMcompany = new HashMap<>();
     
     // Key --> ID generator
-    public static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
+    private static HashMap<String, ApplicationData> ApplicationCSVMap = new HashMap<>();
     // key --> application ID
-    public static HashMap<String, Application> ApplicationMap = new HashMap<>();
+    private static HashMap<String, Application> ApplicationMap = new HashMap<>();
     // KEY --> CompRepID
-    public static HashMap<String, List<Application>> ALMcompany = new HashMap<>();
+    private static HashMap<String, List<Application>> ALMcompany = new HashMap<>();
     // key --> StudentID
-    public static HashMap<String, List<Application>> ALMstudent = new HashMap<>();
+    private static HashMap<String, List<Application>> ALMstudent = new HashMap<>();
     // key --> intenrshipID
-    public static HashMap<String, List<Application>> ALMinternship = new HashMap<>();
+    private static HashMap<String, List<Application>> ALMinternship = new HashMap<>();
 
     // Key --> ID generator
-    public static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
+    private static HashMap<String, WithdrawalData> WithdrawalCSVMap = new HashMap<>();
     // key --> application ID
-    public static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
+    private static HashMap<String, WithdrawalRequest> WithdrawalMap = new HashMap<>();
     // key --> studentID
-    public static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
+    private static HashMap<String, List<WithdrawalRequest>> WLMstudent = new HashMap<>();
 
     // Key --> Username --> string before @ of email 
-    public static HashMap<String, Credentials> LoginMap = new HashMap<>();
+    private static HashMap<String, Credentials> LoginMap = new HashMap<>();
 
    
 
@@ -91,9 +93,13 @@ public class SystemData {
 
 
         // file path for laptop
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        //File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
+        //File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
+        //File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+
+        File PasswordFolder = UniversalFunctions.FindFolder("Password").toFile();
+        File OtherFolder = UniversalFunctions.FindFolder("Other").toFile();
+        File PeopleFolder = UniversalFunctions.FindFolder("People").toFile();
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -238,9 +244,13 @@ public class SystemData {
         //File PeopleFolder = new File("/Users/jiashun/hopefullyfinalfolderforthisgitrepo/internship-placement-management-system/IPMS/PeopleCSVFolder");
 
         // Luther path
-        File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
-        File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
-        File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+        //File PasswordFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PasswordCSVFolder");
+        //File OtherFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\OtherCSVFolder");
+        //File PeopleFolder = new File("C:\\Users\\luther tang\\Desktop\\VSC files\\Java\\IPMS MAIN2\\IPMS\\PeopleCSVFolder");
+
+        File PasswordFolder = UniversalFunctions.FindFolder("Password").toFile();
+        File OtherFolder = UniversalFunctions.FindFolder("Other").toFile();
+        File PeopleFolder = UniversalFunctions.FindFolder("People").toFile();
 
         File folder = switch (filename.toLowerCase()) {
             case "student", "staff", "company" -> PeopleFolder;
@@ -552,16 +562,6 @@ public class SystemData {
 
     }
 
-    public static void MainPageOnlyload() {
-        loadIntoMap("password", Credentials.class);
-        loadIntoMap("company", CompanyCSVData.class);
-    }
-
-    public static void MainPageOnlySave() {
-        writeBackCSV("password", LoginMap);
-        writeBackCSV("company", RepresentativeCSVMap);
-    }
-
     // gets password and firsttime login based on suername 
     /*public static SystemDataEntities.Credentials getCredentials(String username) {
         SystemDataEntities.Credentials c = LoginMap.get(username); 
@@ -581,25 +581,8 @@ public class SystemData {
 
     }
 
-    public static boolean getFirsttimelogin(String username) {
-        Credentials c = LoginMap.get(username);
-        return c.Firsttimelogin;
-    }
 
-    // changes the password based on new input passwrod and matches via username
-    public static void setPassword(String Password, String username) {
-        LoginMap.get(username).Password = Password;
-    }
-
-    // checks for first time login, match with username 
-    public static void setFirsttimelogin(boolean flag, String username) {
-        LoginMap.get(username).Firsttimelogin = flag;
-    }
-
-    public static String getCredentialsType(String username) {
-        String type = LoginMap.get(username).Type;
-        return type;
-    }
+    
 
     // SETTERS FOR THE MAPS --> SHOULD ONLY BE FOR THOSE THAT ARE CREATED DURING RUNTIME
     public static void CompRepCreation(CompanyRepresentative obj) {
@@ -616,6 +599,19 @@ public class SystemData {
         }
         else return false;
     }
+
+
+    // changes the password based on new input passwrod and matches via username
+    public static void setPassword(String Password, String username) {
+        LoginMap.get(username).Password = Password;
+    }
+
+    // checks for first time login, match with username 
+    public static void setFirsttimelogin(boolean flag, String username) {
+        LoginMap.get(username).Firsttimelogin = flag;
+    }
+
+    
 
     //WHAT IS FIRST KEY??
     public static void InternshipCreation(Internship obj) {
@@ -704,6 +700,16 @@ public class SystemData {
     //===========================================
     // GETTERS 
     //===========================================
+    public static boolean getFirsttimelogin(String username) {
+        Credentials c = LoginMap.get(username);
+        return c.Firsttimelogin;
+    }
+    public static String getCredentialsType(String username) {
+        String type = LoginMap.get(username).Type;
+        return type;
+    }
+
+
     public static Student getStudentObj(String username) {
         return StudentMap.get(username);
     }
@@ -799,6 +805,12 @@ public class SystemData {
     public static Map<String, Credentials> getLoginMap(){
         
         return Collections.unmodifiableMap(LoginMap);
+
+    }
+
+    public static List<CompanyRepresentative> getUnapprovedRepList() {
+
+        return Collections.unmodifiableList(UnapprovedRepList);
 
     }
     // ==========================================

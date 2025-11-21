@@ -133,8 +133,7 @@ public abstract class User {
             //if (!oldPW.equals(SystemData.getCredentials(username).Password))
             if (!SystemData.checkPassword(username,oldPW)) {
                 System.out.println("Wrong password, please try again.");
-                numberoftries++;
-                continue;
+                numberoftries--;
             } else {
 
                 while (pending) {
