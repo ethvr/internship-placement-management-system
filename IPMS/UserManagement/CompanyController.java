@@ -298,6 +298,16 @@ public class CompanyController {
 
     public PageAction handleApplication(HashMap <Integer, Application> indexMap, CompanyRepresentative compRep) {
 
+        if (indexMap.isEmpty()) {
+            System.out.println("\nNo applications at this time.\n");
+            System.out.print("Enter [0] to return: ");
+            int opt = UniversalFunctions.readIntInRange(0, 0);
+            return switch (opt) {
+                    case 0 -> PageAction.stay();
+                    default -> PageAction.stay();
+                };
+        }
+
         int index = indexMap.size() + 1;
 
         System.out.printf("[%d] Cancel%n%n", index);
@@ -307,8 +317,20 @@ public class CompanyController {
         if (choice == index) return PageAction.pop();
 
         Application selectedApp = indexMap.get(choice);
+        
+        if (selectedApp.getAcceptedByStudent() != AcceptedByStudentStatus.PENDING || selectedApp.getStatus() == ApplicationStatus.WITHDRAWN) {
+
+            if (selectedApp.getStatus() == ApplicationStatus.WITHDRAWN) {
+                System.out.printf("Cannot take action: Application has been WITHDRAWN by student.\n");
+            }
+            else
+            System.out.printf("Cannot take action: Application has already been %s by student.\n", selectedApp.getAcceptedByStudent());
+            return PageAction.pop();
+        }
+
         System.out.println();
-        System.out.println("SELECTED STUDENTStudent ID: " + selectedApp.getStudentId() + 
+        System.out.println("\n====== SELECTED STUDENT======\n");
+        System.out.println("Student ID: " + selectedApp.getStudentId() + 
                                  " - Status: " + selectedApp.getStatus());
         System.out.println();
         System.out.println("[1] Approve Application");

@@ -85,11 +85,6 @@ public class FilteredInternshipsPage implements Page {
                 };
     }
 
-    private void InternshipReturnForApplication() {
-
-
-    }
-
     @Override
     public void showMenu() {
         System.out.println("\n===== FILTERED INTERNSHIPS =====");
@@ -111,6 +106,7 @@ public class FilteredInternshipsPage implements Page {
         return switch (filter) {
 
             case "none" -> {
+                System.out.println("======= NO FILTER APPLIED =======");
                 if (YearOfStudy <= 2 && YearOfStudy > 0) {
                     System.out.println("You can only view BASIC Internships");
                     UniversalFunctions.printInternshipList(list);
@@ -123,6 +119,7 @@ public class FilteredInternshipsPage implements Page {
 
             }
             case "level" -> {
+                System.out.println("======= FILTERED BY LEVEL =======");
                 if (YearOfStudy <= 2 && YearOfStudy > 0) {
                     System.out.println("You can only view BASIC Internships");
                     UniversalFunctions.printInternshipList(list);
@@ -154,25 +151,10 @@ public class FilteredInternshipsPage implements Page {
 
             /* ------------------ Filter by DATE ------------------ */
             case "date" -> {
-                LocalDate date;
-                while (true) {
-                    try {
-                        System.out.print("Enter year: ");
-                        int y = UniversalFunctions.readIntInRange(2024, 9999);
-
-                        System.out.print("Enter month: ");
-                        int m = UniversalFunctions.readIntInRange(1, 12);
-
-                        System.out.print("Enter day: ");
-                        int d = UniversalFunctions.readIntInRange(1, 31);
-
-                        date = LocalDate.of(y, m, d);
-                        break;
-                    } catch (DateTimeException e) {
-                        System.out.println("Invalid date. Try again.\n");
-                    }
-                }
+                System.out.print("Enter closing date to filter by:");
+                LocalDate date = UniversalFunctions.readValidDate();
                 InternshipList2 = Filters.filterByClosingDate(date);
+                System.out.println("======= FILTERED BY CLOSING DATE =======");
                 UniversalFunctions.printInternshipList(InternshipList2);
                 yield UserIdentifier(obj, InternshipList2);
             }
@@ -182,6 +164,7 @@ public class FilteredInternshipsPage implements Page {
                 System.out.print("Enter company name: ");
                 String name = UniversalFunctions.readString();
                 InternshipList2 = Filters.filterByCompanyName(name);
+                System.out.println("======= FILTERED BY COMPANY NAME =======");
                 UniversalFunctions.printInternshipList(InternshipList2);
                 yield UserIdentifier(obj, InternshipList2);
                 
@@ -192,6 +175,7 @@ public class FilteredInternshipsPage implements Page {
                 System.out.print("Enter the number of slots left: ");
                 int slots = UniversalFunctions.readIntInRange(1, 10);
                 InternshipList2 = Filters.filterBySlotsLeft(slots);
+                System.out.println("======= FILTERED BY NUMBER OF SLOTS =======");
                 UniversalFunctions.printInternshipList(InternshipList2);
                 yield UserIdentifier(obj, InternshipList2);
             }
@@ -201,6 +185,7 @@ public class FilteredInternshipsPage implements Page {
                 System.out.print("Enter keyword: ");
                 String word = UniversalFunctions.readString();
                 InternshipList2 = Filters.filterByKeyword(word);
+                System.out.println("======= FILTERED BY KEYWORD =======");
                 UniversalFunctions.printInternshipList(InternshipList2);
                 yield UserIdentifier(obj, InternshipList2);
             }

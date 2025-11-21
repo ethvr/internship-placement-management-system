@@ -750,6 +750,18 @@ public class SystemData {
     public static WithdrawalRequest getWithdrawalValue(String appID) {
         return WithdrawalMap.get(appID);
     }
+    public static List<WithdrawalRequest> getAllWithdrawalList() {
+        return new ArrayList<>(WithdrawalMap.values());
+    }
+    public static List<WithdrawalRequest> getPendingWithdrawalList() {
+        List<WithdrawalRequest> pendingList = new ArrayList<>();
+        for (WithdrawalRequest wr : WithdrawalMap.values()) {
+            if (wr.getStatus() == WithdrawalStatus.PENDING) {
+                pendingList.add(wr);
+            }
+        }
+        return pendingList;
+    }
     public static List<WithdrawalRequest> getWLMstudent(String studentID) {
         return WLMstudent.getOrDefault(studentID, new ArrayList<>());
     }

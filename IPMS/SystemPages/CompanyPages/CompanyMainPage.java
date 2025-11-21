@@ -24,7 +24,7 @@ public class CompanyMainPage implements Page{
         // Get the company rep to display personalized greeting
         CompanyRepresentative obj = SystemData.getCompanyValue(username);
         
-        System.out.println("======= COMPANY REPRESENTATIVE MENU =======");
+        System.out.println("\n======= COMPANY REPRESENTATIVE MENU =======");
         if (obj != null) {
             System.out.println("Welcome, " + obj.getName() + " from " + obj.getCompanyName());
         }

@@ -12,7 +12,7 @@ public class AccountLoginPage implements Page{
 
     @Override
     public void showMenu() {
-        System.out.println("===== LOGIN =====");
+        System.out.println("\n====== LOGIN ======");
         
     }
 

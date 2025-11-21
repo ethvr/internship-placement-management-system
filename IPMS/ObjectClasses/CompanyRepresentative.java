@@ -110,8 +110,7 @@ public class CompanyRepresentative extends User {
           List<Application> appList = SystemData.getALMinternship(internshipId);
 
           // Return empty map if no applications
-          if (appList == null || appList.isEmpty()) {
-               System.out.println("No applications at this time.\n");
+          if (appList == null || appList.isEmpty()) {;
                return new HashMap<>();
           }
 

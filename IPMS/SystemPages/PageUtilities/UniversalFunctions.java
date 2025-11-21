@@ -174,8 +174,6 @@ public class UniversalFunctions {
             return;
         }
 
-        System.out.println("\n======= AVAILABLE INTERNSHIPS =======\n");
-
         int index = 1;
         for (Internship i : list) {
 
@@ -185,11 +183,14 @@ public class UniversalFunctions {
                 i.getLevel()
             );
 
-            System.out.printf("  Company         : %s%n", i.getCompanyName());
-            System.out.printf("  Preferred Major : %s%n", i.getPreferredMajor());
-            System.out.printf("  Slots Available : %d%n", i.getSlots());
-            System.out.printf("  Closing Date    : %s%n", i.getCloseDate());
-            System.out.printf("  Description     : %s%n", i.getDescription());
+            System.out.printf("  Title              : %s%n", i.getInternshipTitle());
+            System.out.printf("  Company            : %s%n", i.getCompanyName());
+            System.out.printf("  Preferred Major    : %s%n", i.getPreferredMajor());
+            System.out.printf("  Slots Available    : %d%n", i.getSlots());
+            System.out.printf("  Closing Date       : %s%n", i.getCloseDate());
+            System.out.printf("  Description        : %s%n", i.getDescription());
+            System.out.printf("  Status             : %s%n", i.getStatus());
+            System.out.printf("  Student Visibility : %s%n", i.getVisibility() ? "Visible" : "Hidden");
 
             System.out.println();
 
@@ -205,8 +206,6 @@ public class UniversalFunctions {
             return indexedMap; // return empty map
         }
 
-        System.out.println("\n======= AVAILABLE INTERNSHIPS =======\n");
-
         int index = 1;
         for (Internship i : list) {
 
@@ -218,13 +217,15 @@ public class UniversalFunctions {
                 i.getLevel()
             );
 
-            System.out.printf("  Company         : %s%n", i.getCompanyName());
-            System.out.printf("  Preferred Major : %s%n", i.getPreferredMajor());
-            System.out.printf("  Slots Available : %d%n", i.getSlots());
-            System.out.printf("  Closing Date    : %s%n", i.getCloseDate());
-            System.out.printf("  Description     : %s%n", i.getDescription());
+            System.out.printf("  Title              : %s%n", i.getInternshipTitle());
+            System.out.printf("  Company            : %s%n", i.getCompanyName());
+            System.out.printf("  Preferred Major    : %s%n", i.getPreferredMajor());
+            System.out.printf("  Slots Available    : %d%n", i.getSlots());
+            System.out.printf("  Closing Date       : %s%n", i.getCloseDate());
+            System.out.printf("  Description        : %s%n", i.getDescription());
+            System.out.printf("  Status             : %s%n", i.getStatus());
+            System.out.printf("  Student Visibility : %s%n", i.getVisibility() ? "Visible" : "Hidden");
             System.out.println();
-
             index++;
         }
 
@@ -250,6 +251,45 @@ public class UniversalFunctions {
         }
     }
 
+    public static HashMap<Integer, WithdrawalRequest> printWithdrawalrequest(List<WithdrawalRequest> list) {
+        HashMap<Integer, WithdrawalRequest> indexedMap = new HashMap<>();
+
+        if (list == null || list.isEmpty()) {
+            System.out.println("\nNo internships found.\n");
+            return indexedMap; // return empty map
+        }
+
+        int index = 1;
+        for (WithdrawalRequest w : list) {
+
+            indexedMap.put(index, w);   // store mapping
+
+            System.out.printf("[%d] %s %n",
+                index,
+                w.getApplicationId()
+            );
+
+            System.out.printf(
+                "  %-20s : %s%n" +
+                "  %-20s : %s%n" +
+                "  %-20s : %s%n" +
+                "  %-20s : %s%n" +
+                "  %-20s : %s%n",
+                "Withdrawal ID",  w.getId(),
+                "Student ID",     w.getStudentId(),
+                "Requested Date", w.getRequestDate(),
+                "Withdrawal Status",         w.getStatus(),
+                "Remarks",        w.getRemarks()
+            );
+
+
+            System.out.println();
+
+            index++;
+        }
+
+        return indexedMap;
+    }
 
 
 

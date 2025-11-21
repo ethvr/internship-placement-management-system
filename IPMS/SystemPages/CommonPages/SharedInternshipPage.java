@@ -18,7 +18,7 @@ public class SharedInternshipPage implements Page {
 
     @Override
     public void showMenu() {
-        System.out.println("======= INTERNSHIPS VIEWER =======");
+        System.out.println("\n======= INTERNSHIPS VIEWER =======");
 
         if (InternshipExists(Obj)){
             System.out.println("Filter internships by: ");
@@ -43,7 +43,7 @@ public class SharedInternshipPage implements Page {
             System.out.println("There are currently no Internships applicable to you");
             if (!InternshipExists(Obj)) {
                 System.out.println("[1] Back");
-                System.out.println("[2] Logout");
+                System.out.println("[2] Logout\n");
                 System.out.print("Enter an option: ");
             }
         }
@@ -73,12 +73,16 @@ public class SharedInternshipPage implements Page {
         }
 
         if (Obj instanceof Student s) {
+            // returns a list --> visible and filtered by year
             InternshipList = Filters.filterByYearOfStudy(s.getYearOfStudy());
         }
         else if (Obj instanceof CompanyRepresentative cr) {
+            //returns a list --> visible or hiddden and filtered by company name
             InternshipList = Filters.filterByCompanyName(cr.getCompanyName());
         }
-        else InternshipList = Filters.getAllInternships();    
+        else
+            // returns a list --> all internships no matter the conditions  
+            InternshipList = Filters.getAllInternships();    
 
         int opt = isRep
                 ? UniversalFunctions.readIntInRange(1, 7)     // CompanyRep menu

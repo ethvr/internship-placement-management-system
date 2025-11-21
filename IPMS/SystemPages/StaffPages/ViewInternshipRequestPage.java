@@ -7,6 +7,7 @@ import IPMS.ObjectClasses.*;
 import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,26 +21,37 @@ import java.util.HashMap;
 public class ViewInternshipRequestPage implements Page{
 
     private CareerCenter staffObj ;
-    private List<Internship> pendingInternships;
+    private List<Internship> internshipList;
     private int opt;
     private int index;
     private HashMap<Integer, Internship> indexMap;
-    //final Map<String, Internship> internshipmap = SystemData.getInternshipMap();
 
-    public ViewInternshipRequestPage(CareerCenter obj, List<Internship> pendingInternships){
+    public ViewInternshipRequestPage(CareerCenter obj, List<Internship> internshipList){
         this.staffObj = obj;
-        this.pendingInternships = pendingInternships;
+        this.internshipList = internshipList;
         indexMap = new HashMap<>();
     }
 
     @Override
     public void showMenu() {
-        if (pendingInternships.isEmpty()) {
-            System.out.println("\nNo pending internship requests.");
-        } else {
-            System.out.println("\nPending Internship Requests:");
+        List<Internship> pendingList = new ArrayList<>();
+
+        for (Internship internship : internshipList) {
+            if (internship.getStatus() == InternshipStatus.PENDING) {
+                pendingList.add(internship);
+            }
+        }
+        System.out.println("\n====== PENDING INTERNSHIPS ======");
+
+
+        if (pendingList.isEmpty()) {
             index = 1;
-            for (Internship i : pendingInternships) {
+            System.out.println("\nNo pending internship requests at this time.\n");
+            System.out.printf("[%d] Cancel\n", index);
+            System.out.print("Select an option: ");
+        } else {
+            index = 1;
+            for (Internship i : pendingList) {
                 System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n",
                     index,
                     i.getInternshipId(),
@@ -51,9 +63,9 @@ public class ViewInternshipRequestPage implements Page{
                 indexMap.put(index, i);
                 index++;
             }
+            System.out.printf("[%d] Cancel\n", index);
+            System.out.print("Select an Internshgip to Approve/Reject: ");
         }
-        System.out.printf("[%d] Cancel\n", index+1);
-        System.out.print("Select an Internshgip to Approve/Reject: ");
     }
 
     /** 
@@ -61,120 +73,66 @@ public class ViewInternshipRequestPage implements Page{
      */
     @Override
     public PageAction next() {
-          int opt = UniversalFunctions.readIntInRange(1, index+1);
+        opt = UniversalFunctions.readIntInRange(1, index);
 
-          if (opt == index + 1) {
-              return PageAction.pop(); // Cancel option
-          }
-            
-          return switch (opt) {
-                    case 1 -> {
-                                    // ✅ View all pending internships across ALL companies
-                        List<Internship> pendingInternships = new ArrayList<>();
+        if (opt == index) {
+            return PageAction.pop(); // Cancel option
+        }
 
-                        for (Internship internship : SystemData.getInternshipMap().values()) {
-                            if (internship.getStatus() == InternshipStatus.PENDING) {
-                                pendingInternships.add(internship);
-                            }
-                        }
+        Internship selectedInternship = indexMap.get(opt);
 
-                        if (pendingInternships.isEmpty()) {
-                            System.out.println("\nNo pending internship requests.");
-                        } else {
-                            System.out.println("\nPending Internship Requests:");
-                            int index = 1;
-                            for (Internship i : pendingInternships) {
-                                System.out.printf("[%d] ID: %s | Title: %s | Company: %s | Slots: %d\n",
-                                    index++,
-                                    i.getInternshipId(),
-                                    i.getInternshipTitle(),
-                                    i.getCompanyName(),
-                                    i.getSlots()
-                                );
-                            }
-                        }
-                        yield PageAction.stay();  // Stay on the page
-                    }
-                     
-                    case 2 -> {
-                        Internship internship = null;
+        System.out.println("\n====== INTERNSHIP APPROVAL/REJECTION ======");
 
-                        while (true) {
-                            System.out.print("Enter internship ID to approve (leave blank to cancel): ");
-                            String internIDString = UniversalFunctions.readStringAllowEmpty();
+        long totalDays = ChronoUnit.DAYS.between(
+            selectedInternship.getOpenDate(),
+            selectedInternship.getCloseDate()
+        );
 
-                            // Cancel
-                            if (internIDString == null || internIDString.trim().isEmpty()) {
-                                System.out.println("Operation cancelled.");
-                                yield PageAction.pop();
-                            }
-
-                            internship = SystemData.getInternshipValue(internIDString.trim());
-
-                            if (internship == null) {
-                                System.out.println("Invalid internship ID. Please try again.");
-                                continue;
-                            }
-
-                            if (internship.getStatus() != InternshipStatus.PENDING) {
-                                System.out.println("This internship request is not pending. Please choose another.");
-                                continue;
-                            }
-
-                            break;
-                        }
-
-                        staffObj.approveInternship(internship);
-                        System.out.printf("%s - %s internship has been approved\n",
-                                internship.getInternshipId(),
-                                internship.getInternshipTitle());
-
-                        yield PageAction.pop();
-                    }
-
-                    case 3 -> {
-                        //reject internship
-                        Internship internship = null;
-
-                        while (true) {
-                            System.out.print("Enter internship ID to reject (leave blank to cancel): ");
-                            String internIDString = UniversalFunctions.readStringAllowEmpty();
-
-                            // Cancel
-                            if (internIDString == null || internIDString.trim().isEmpty()) {
-                                System.out.println("Operation cancelled.");
-                                yield PageAction.pop();
-                            }
-
-                            internship = SystemData.getInternshipValue(internIDString.trim());
-
-                            if (internship == null) {
-                                System.out.println("Invalid internship ID. Please try again.");
-                                continue;
-                            }
-
-                            if (internship.getStatus() != InternshipStatus.PENDING) {
-                                System.out.println("This internship request is not pending. Please choose another.");
-                                continue;
-                            }
-
-                            break;
-                        }
-
-                        staffObj.rejectInternship(internship);
-                        System.out.printf("%s - %s internship has been rejected\n",
-                                internship.getInternshipId(),
-                                internship.getInternshipTitle());
-
-                        yield PageAction.pop();
-                    }
+        System.out.printf(
+            "  ID:                %s\n" +
+            "  Title:             %s\n" +
+            "  Company:           %s\n" +
+            "  Level:             %s\n" +
+            "  Preferred Major:   %s\n" +
+            "  Application Window: %d days\n" +
+            "  Slots:             %d\n" +
+            "  Visible:           %s\n",
+            selectedInternship.getInternshipId(),
+            selectedInternship.getInternshipTitle(),
+            selectedInternship.getCompanyName(),
+            selectedInternship.getLevel(),
+            selectedInternship.getPreferredMajor(),
+            totalDays,
+            selectedInternship.getSlots(),
+            selectedInternship.getVisibility() ? "Yes" : "No"
+        );
 
 
-                        case 4 -> PageAction.pop(); 
-                        
-                        case 5 -> { staffObj.logout(); yield PageAction.pop(); } default -> PageAction.pop(); };
 
+        System.out.println("===================================");
+        System.out.println("\n[1] Approve Internship");
+        System.out.println("[2] Reject Internship");
+        System.out.println("[3] Back");
 
+        opt = UniversalFunctions.readIntInRange(1, 3);
+
+        return switch (opt) {
+            case 1 -> {
+                staffObj.approveInternship(selectedInternship);
+                System.out.printf("%s - %s internship has been approved\n",
+                selectedInternship.getInternshipId(),
+                selectedInternship.getInternshipTitle());
+                yield PageAction.pop();
+            }
+            case 2 -> {
+                staffObj.rejectInternship(selectedInternship);
+                System.out.printf("%s - %s internship has been rejected\n",
+                selectedInternship.getInternshipId(),
+                selectedInternship.getInternshipTitle());
+                yield PageAction.pop();
+            }
+            default -> PageAction.pop();
+        };
     }
 
 }

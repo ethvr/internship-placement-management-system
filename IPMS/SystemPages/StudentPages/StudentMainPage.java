@@ -19,7 +19,7 @@ public class StudentMainPage implements Page {
 
     @Override
     public void showMenu() {
-        System.out.println("======= STUDENT =======");
+        System.out.println("\n======= STUDENT =======");
         System.out.println("[1] View all available Internships");
         System.out.println("[2] View your Internship Applications");
         System.out.println("[3] View your Withdrawal Applications");

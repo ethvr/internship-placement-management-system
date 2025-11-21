@@ -37,7 +37,7 @@ public class AccountApprovalRejectPage implements Page{
         }
 
         System.out.printf("[%d] Cancel\n", size+1);
-        System.out.print("\nSelect a company representative to approve/reject (1-" + size + "): ");
+        System.out.printf("\nSelect a company representative to approve/reject (1-%d): ", size+1);
         
     }
 
@@ -51,7 +51,7 @@ public class AccountApprovalRejectPage implements Page{
         if (size == 0) {
             return PageAction.pop(); // No pending requests, go back
         }
-        else if (opt == size + 1) {
+        else if (opt == size+1) {
             return PageAction.pop(); // Cancel option
         }
 
@@ -91,7 +91,6 @@ public class AccountApprovalRejectPage implements Page{
         System.out.printf(
             """
             \n==== COMPANY REP DETAILS ====
-            %-20s: %s
             %-20s: %s
             %-20s: %s
             %-20s: %s

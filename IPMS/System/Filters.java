@@ -11,6 +11,7 @@ public class Filters {
     /** 
      * @return List<Internship>
      */
+    // final
     public static List<Internship> getAllInternships() {
         List<Internship> list = new ArrayList<>();
         list.addAll(SystemData.getInternshipMap().values());
@@ -18,33 +19,22 @@ public class Filters {
     }
 
     /** 
-     * @param word
-     * @return List<Internship>
-     */
-    public static List<Internship> filterByKeyword(String word) {
-        List<Internship> results = new ArrayList<>();
-
-        for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getDescription().contains(word) && i.getVisibility() == true) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-    /** 
      * @param companyName
      * @return List<Internship>
      */
-    //Returns a internship list filtered to a specific company
+    // Returns a internship list filtered to a specific company
     // used for students
+    // final version
     public static List<Internship> filterByCompanyName(String companyName) {
+
         List<Internship> results = new ArrayList<>();
 
         for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getCompanyName().equalsIgnoreCase(companyName) && i.getVisibility() == true) {
+            if (i.getCompanyName().equalsIgnoreCase(companyName)) {
                 results.add(i);
             }
         }
+        
         return results;
     }
 
@@ -52,27 +42,48 @@ public class Filters {
      * @param year
      * @return List<Internship>
      */
-    public static List<Internship> filterByYearOfStudy(int year) {
+    // final
+    public static List<Internship> filterByYearOfStudy(int studentYear) {
         List<Internship> results = new ArrayList<>();
 
         for (Internship i : SystemData.getInternshipMap().values()) {
 
-            if (!i.getVisibility() == true) continue;
+            // student only sees visible internships
+            if (!i.getVisibility()) continue;
 
-            InternshipLevel level = i.getLevel();
-
-            if (year <= 2 && year > 0) {
-                if (level == InternshipLevel.BASIC) {
+            // year 1–2 → BASIC only
+            if (studentYear <= 2) {
+                if (i.getLevel() == InternshipLevel.BASIC) {
                     results.add(i);
                 }
-            } else {
-                results.add(i);
+                continue;
+            }
+
+            // year 3–4 → NON-BASIC (Intermediate / Advanced)
+            if (studentYear >= 3) {
+                if (i.getLevel() != InternshipLevel.BASIC) {
+                    results.add(i);
+                }
             }
         }
 
         return results;
     }
 
+
+    /** 
+     * @param word
+     * @return List<Internship>
+     */
+    public static List<Internship> filterByKeyword(String word) {
+        List<Internship> results = new ArrayList<>();
+        for (Internship i : SystemData.getInternshipMap().values()) {
+            if (i.getDescription().equalsIgnoreCase(word)) {
+                results.add(i);
+            }
+        }
+        return results;
+    }
 
     /** 
      * @param major
@@ -80,26 +91,8 @@ public class Filters {
      */
     public static List<Internship> filterByMajor(String major) {
         List<Internship> results = new ArrayList<>();
-
         for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getPreferredMajor().equalsIgnoreCase(major) && i.getVisibility() == true) {
-                results.add(i);
-            }
-        }
-        return results;
-    }
-
-
-    /** 
-     * @param level
-     * @return List<Internship>
-     */
-    // used for students
-    public static List<Internship> filterByInternshipLevel(InternshipLevel level) {
-        List<Internship> results = new ArrayList<>();
-
-        for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getLevel() == level && i.getVisibility() == true) {
+            if (i.getPreferredMajor().equalsIgnoreCase(major)) {
                 results.add(i);
             }
         }
@@ -113,12 +106,11 @@ public class Filters {
      */
     public static List<Internship> filterByInternshipLevel(InternshipLevel level, List<Internship> list) {
         List<Internship> results = new ArrayList<>();
-
         for (Internship i : list) {
-            if (i.getLevel() == level && i.getVisibility() == true) {
+            if (i.getLevel() == level) {
                 results.add(i);
             }
-        }
+        } 
         return results;
     }
 
@@ -129,9 +121,8 @@ public class Filters {
     // used for students
     public static List<Internship> filterByClosingDate(LocalDate date) {
         List<Internship> results = new ArrayList<>();
-
         for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getCloseDate().isBefore(date) && i.getVisibility() == true) {
+            if (i.getCloseDate().isBefore(date)) {
                 results.add(i);
             }
         }
@@ -145,9 +136,8 @@ public class Filters {
     // used for students
     public static List<Internship> filterBySlotsLeft(int slots) {
         List<Internship> results = new ArrayList<>();
-
         for (Internship i : SystemData.getInternshipMap().values()) {
-            if (i.getSlots() == slots && i.getVisibility() == true) {
+            if (i.getSlots() == slots) {
                 results.add(i);
             }
         }

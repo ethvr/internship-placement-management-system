@@ -1,11 +1,9 @@
 package IPMS.SystemPages.CompanyPages;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
-import IPMS.Enums.ApplicationStatus;
-import IPMS.System.SystemData;
 import IPMS.SystemPages.PageUtilities.Page;
 import IPMS.SystemPages.PageUtilities.PageAction;
 import IPMS.SystemPages.PageUtilities.UniversalFunctions;
@@ -46,7 +44,7 @@ public class ManageApplicationsPage implements Page {
         lastindex = Collections.max(IindexMap.keySet());
 
         System.out.printf("[%d] Back", lastindex + 1);
-        System.out.println("\nSelect an Internship to View Applications or go back:");
+        System.out.printf("\nSelect an Internship to View Applications or go back (1-%d): ", lastindex + 1);
 
     }
 
@@ -57,14 +55,14 @@ public class ManageApplicationsPage implements Page {
     public PageAction next() {
         int opt = UniversalFunctions.readIntInRange(1, lastindex + 1);
 
-        Internship selectedInternship = IindexMap.get(opt);
-
-        AindexMap = obj.viewApplications(selectedInternship);
+        
 
         if (opt == lastindex + 1) {
             return PageAction.pop();
         }
         else {
+            Internship selectedInternship = IindexMap.get(opt);
+            AindexMap = obj.viewApplications(selectedInternship);
             return controller.handleApplication(AindexMap, obj);
         }
 
