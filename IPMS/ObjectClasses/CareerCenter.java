@@ -1,8 +1,6 @@
 package IPMS.ObjectClasses;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 //import Companypackage.*;
 //import Companypackage.CompanyApprovalStatus;
 import IPMS.Enums.*;
@@ -14,9 +12,9 @@ public class CareerCenter extends User {
     private String role;
     private String staffDepartment;
     public static List<CompanyRepresentative> pendingCompanies; 
-    static Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
-    static Map<String, Application> applicationmap = SystemData.getApplicationMap();
-    static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
+    //static Map<String, WithdrawalRequest> withdrawalmap = SystemData.getWithdrawalMap();
+    //static Map<String, Application> applicationmap = SystemData.getApplicationMap();
+    //static Map<String, Internship> internshipmap = SystemData.getInternshipMap();
 
 
     public CareerCenter(String staffId, String name, String email, String staffDepartment, String role) {

@@ -244,7 +244,7 @@ public class CompanyController {
         
         if (choice == index) return;
 
-        Internship selectedInternship = internshipList.get(choice);
+        Internship selectedInternship = indexMap.get(choice);
         boolean currentVisibility = selectedInternship.getVisibility();
         
         // Toggle visibility

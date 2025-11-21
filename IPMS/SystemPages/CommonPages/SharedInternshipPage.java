@@ -1,8 +1,6 @@
 package IPMS.SystemPages.CommonPages;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import IPMS.ObjectClasses.*;
 import IPMS.System.Filters;
 import IPMS.System.SystemData;

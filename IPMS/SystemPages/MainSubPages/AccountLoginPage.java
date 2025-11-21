@@ -1,6 +1,5 @@
 package IPMS.SystemPages.MainSubPages;
 
-import IPMS.System.SystemDataEntities.*;
 import IPMS.System.SystemData;
 import IPMS.ObjectClasses.*;
 import IPMS.SystemPages.StudentPages.*;
